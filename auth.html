@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anybe Night - Sign In</title>
+<meta name="description" content="Sign in or register for Anybe Night - An immersive theater experience in Los Angeles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0c0b0a;
+  --bg-leather: #141210;
+  --bg-card: #1a1816;
+  --bg-card-hover: #211f1b;
+  --silver: #c4bfb3;
+  --silver-light: #ddd8cc;
+  --silver-dim: #6e6a61;
+  --gold: #b5a48a;
+  --cream: #ece6d8;
+  --parchment: #d4c9b0;
+  --text-primary: #ddd8cc;
+  --text-secondary: #8a857a;
+  --border: #2e2a24;
+  --border-light: #3d3830;
+  --success: #6b8f6b;
+  --error: #8f5050;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(30, 27, 22, 0.5) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(20, 18, 14, 0.8) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Logo */
+.logo-area {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.logo-svg { display: inline-block; margin-bottom: 8px; }
+.logo-svg svg { width: 56px; height: 56px; opacity: 0.85; }
+
+.logo-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--cream);
+  letter-spacing: 2px;
+  text-shadow: 0 1px 16px rgba(180, 170, 150, 0.08);
+}
+
+.logo-divider {
+  text-align: center;
+  color: var(--silver-dim);
+  font-size: 14px;
+  margin: 12px 0 8px;
+  letter-spacing: 4px;
+  opacity: 0.6;
+}
+
+/* Step indicators */
+.step-dots {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.step-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-light);
+  transition: all 0.4s ease;
+}
+
+.step-dot.active {
+  background: var(--gold);
+  box-shadow: 0 0 8px rgba(181, 164, 138, 0.4);
+}
+
+.step-dot.completed {
+  background: var(--gold);
+  opacity: 0.5;
+}
+
+/* Book frame */
+.book-frame {
+  position: relative;
+  padding: 48px 36px 40px;
+  border: 1px solid var(--border);
+  background: linear-gradient(160deg, rgba(26,24,20,0.6), rgba(14,12,10,0.8));
+}
+
+.book-frame .cn {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  opacity: 0.4;
+}
+.book-frame .cn svg { width: 100%; height: 100%; }
+.cn-tl { top: 8px; left: 8px; }
+.cn-tr { top: 8px; right: 8px; transform: scaleX(-1); }
+.cn-bl { bottom: 8px; left: 8px; transform: scaleY(-1); }
+.cn-br { bottom: 8px; right: 8px; transform: scale(-1); }
+
+.book-frame::before,
+.book-frame::after {
+  content: '·  ✦  ·';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--silver-dim);
+  opacity: 0.6;
+}
+.book-frame::before { top: -8px; background: var(--bg-deep); padding: 0 12px; }
+.book-frame::after { bottom: -8px; background: var(--bg-deep); padding: 0 12px; }
+
+/* Steps */
+.step {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.step.active {
+  display: block;
+  opacity: 1;
+}
+
+.step-heading {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.step-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--cream);
+  text-align: center;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+}
+
+.step-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+/* Form inputs */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+  margin-bottom: 8px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(12, 11, 10, 0.6);
+  border: 1px solid var(--border-light);
+  color: var(--cream);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 18px;
+  transition: border-color 0.3s;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--gold);
+}
+
+.form-input::placeholder {
+  color: var(--silver-dim);
+  opacity: 0.6;
+}
+
+/* Phone input row */
+.phone-row {
+  display: flex;
+  gap: 10px;
+}
+
+.country-select {
+  width: 110px;
+  flex-shrink: 0;
+  padding: 14px 10px;
+  background: rgba(12, 11, 10, 0.6);
+  border: 1px solid var(--border-light);
+  color: var(--cream);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 16px;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236e6a61' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.country-select:focus {
+  border-color: var(--gold);
+}
+
+.country-select option {
+  background: var(--bg-card);
+  color: var(--cream);
+}
+
+.phone-input {
+  flex: 1;
+}
+
+/* OTP code boxes */
+.otp-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.otp-box {
+  width: 48px;
+  height: 56px;
+  text-align: center;
+  background: rgba(12, 11, 10, 0.6);
+  border: 1px solid var(--border-light);
+  color: var(--cream);
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  outline: none;
+  transition: border-color 0.3s;
+  caret-color: var(--gold);
+}
+
+.otp-box:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 12px rgba(181, 164, 138, 0.15);
+}
+
+/* Buttons */
+.cta-btn {
+  display: block;
+  width: 100%;
+  padding: 16px 32px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s;
+  margin-top: 8px;
+}
+
+.cta-btn:hover:not(:disabled) {
+  background: rgba(181, 164, 138, 0.08);
+  box-shadow: 0 0 32px rgba(181, 164, 138, 0.1);
+  transform: translateY(-1px);
+}
+
+.cta-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.cta-btn.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Links */
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.3s;
+  padding: 0;
+}
+
+.link-btn:hover {
+  color: var(--silver-light);
+}
+
+/* Resend row */
+.resend-row {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Terms */
+.terms {
+  text-align: center;
+  font-size: 13px;
+  color: var(--silver-dim);
+  font-style: italic;
+  margin-top: 24px;
+  line-height: 1.6;
+}
+
+/* Error */
+.error-msg {
+  background: rgba(143, 80, 80, 0.15);
+  border: 1px solid rgba(143, 80, 80, 0.3);
+  color: #d4a0a0;
+  padding: 12px 16px;
+  font-size: 15px;
+  text-align: center;
+  margin-bottom: 20px;
+  display: none;
+  line-height: 1.5;
+}
+
+.error-msg.visible {
+  display: block;
+}
+
+/* Success step */
+.welcome-name {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 22px;
+  color: var(--cream);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.profile-info {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.profile-item {
+  font-size: 16px;
+  color: var(--silver);
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.profile-item span {
+  color: var(--cream);
+}
+
+.btn-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cta-btn.secondary {
+  border-color: var(--border-light);
+  color: var(--silver-dim);
+}
+
+.cta-btn.secondary:hover {
+  border-color: var(--silver);
+  color: var(--silver);
+  background: rgba(196, 191, 179, 0.04);
+}
+
+/* Footer */
+.foot {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.foot-brand {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+}
+
+.foot-brand a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+/* Date input styling */
+input[type="date"] {
+  color-scheme: dark;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6) sepia(0.3) hue-rotate(10deg);
+  cursor: pointer;
+}
+
+/* Fade animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeUp 0.8s ease forwards;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .page { padding: 28px 16px 48px; }
+  .book-frame { padding: 36px 20px 28px; }
+  .logo-title { font-size: 26px; }
+  .step-title { font-size: 20px; }
+  .otp-box { width: 42px; height: 50px; font-size: 20px; }
+  .otp-container { gap: 8px; }
+  .country-select { width: 100px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Logo -->
+  <div class="logo-area fade-in">
+    <div class="logo-svg">
+      <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#c4bfb3">
+          <rect x="28" y="2" width="44" height="24" rx="12" fill="none" stroke="#c4bfb3" stroke-width="2.5"/>
+          <circle cx="60" cy="14" r="7" fill="#c4bfb3"/>
+          <circle cx="36" cy="42" r="8" fill="none" stroke="#c4bfb3" stroke-width="2.5"/>
+          <path d="M36 50 L36 70 M28 58 L44 58 M36 70 L28 80 M36 70 L44 80" stroke="#c4bfb3" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <circle cx="64" cy="42" r="8" fill="none" stroke="#c4bfb3" stroke-width="2.5"/>
+          <path d="M64 50 L64 70 M56 58 L72 58 M64 70 L56 80 M64 70 L72 80" stroke="#c4bfb3" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        </g>
+      </svg>
+    </div>
+    <div class="logo-title">Anybe Night</div>
+    <div class="logo-divider">- ✦ -</div>
+  </div>
+
+  <!-- Step Dots -->
+  <div class="step-dots" id="stepDots">
+    <div class="step-dot active" data-step="1"></div>
+    <div class="step-dot" data-step="2"></div>
+    <div class="step-dot" data-step="3"></div>
+  </div>
+
+  <!-- Book Frame -->
+  <div class="book-frame fade-in">
+    <div class="cn cn-tl"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+    <div class="cn cn-tr"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+    <div class="cn cn-bl"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+    <div class="cn cn-br"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+
+    <!-- Error message (shared) -->
+    <div class="error-msg" id="errorMsg"></div>
+
+    <!-- STEP 1: Phone Number -->
+    <div class="step active" id="step1">
+      <div class="step-heading">Step One</div>
+      <div class="step-title">Sign In or Register</div>
+      <div class="step-subtitle">Enter your phone number to begin</div>
+
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <div class="phone-row">
+          <select class="country-select" id="countryCode">
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+49">🇩🇪 +49</option>
+            <option value="+61">🇦🇺 +61</option>
+            <option value="+81">🇯🇵 +81</option>
+            <option value="+86">🇨🇳 +86</option>
+            <option value="+91">🇮🇳 +91</option>
+            <option value="+52">🇲🇽 +52</option>
+            <option value="+55">🇧🇷 +55</option>
+            <option value="+82">🇰🇷 +82</option>
+            <option value="+39">🇮🇹 +39</option>
+            <option value="+34">🇪🇸 +34</option>
+            <option value="+7">🇷🇺 +7</option>
+            <option value="+31">🇳🇱 +31</option>
+            <option value="+46">🇸🇪 +46</option>
+            <option value="+47">🇳🇴 +47</option>
+            <option value="+972">🇮🇱 +972</option>
+            <option value="+971">🇦🇪 +971</option>
+            <option value="+66">🇹🇭 +66</option>
+            <option value="+63">🇵🇭 +63</option>
+            <option value="+234">🇳🇬 +234</option>
+            <option value="+27">🇿🇦 +27</option>
+            <option value="+353">🇮🇪 +353</option>
+            <option value="+65">🇸🇬 +65</option>
+          </select>
+          <input type="tel" class="form-input phone-input" id="phoneInput" placeholder="(555) 123-4567" autocomplete="tel" inputmode="numeric">
+        </div>
+      </div>
+
+      <button class="cta-btn" id="sendCodeBtn" disabled onclick="sendCode()">Next</button>
+
+      <p class="terms">By continuing, you agree to receive SMS verification from Anybe Night.</p>
+    </div>
+
+    <!-- STEP 2: Verification Code -->
+    <div class="step" id="step2">
+      <div class="step-heading">Step Two</div>
+      <div class="step-title">Enter Code</div>
+      <div class="step-subtitle" id="codeSentText">Verification code sent to +1XXXXXXXXXX</div>
+
+      <div class="otp-container" id="otpContainer">
+        <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code">
+        <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]">
+        <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]">
+        <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]">
+        <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]">
+        <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]">
+      </div>
+
+      <button class="cta-btn" id="verifyBtn" disabled onclick="verifyCode()">Verify</button>
+
+      <div class="resend-row">
+        <button class="link-btn" id="resendBtn" onclick="resendCode()">Resend code</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Profile -->
+    <div class="step" id="step3">
+      <div class="step-heading">Step Three</div>
+      <div class="step-title">We Want to Know You</div>
+      <div class="step-subtitle">Tell us a little about yourself</div>
+
+      <div class="form-group">
+        <label class="form-label">First Name</label>
+        <input type="text" class="form-input" id="firstName" placeholder="Your first name" autocomplete="given-name">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Last Name</label>
+        <input type="text" class="form-input" id="lastName" placeholder="Your last name" autocomplete="family-name">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Date of Birth</label>
+        <input type="date" class="form-input" id="dob" autocomplete="bday">
+      </div>
+
+      <button class="cta-btn" id="completeBtn" disabled onclick="completeProfile()">Complete</button>
+    </div>
+
+    <!-- STEP 4: Success -->
+    <div class="step" id="step4">
+      <div class="step-heading">You Have Arrived</div>
+      <div class="welcome-name" id="welcomeName">Welcome</div>
+      <div class="step-subtitle" style="margin-bottom: 20px;">Your crossing awaits.</div>
+
+      <div class="profile-info" id="profileInfo"></div>
+
+      <div class="btn-row">
+        <a href="index.html" class="cta-btn" style="text-align:center;text-decoration:none;">View Events</a>
+        <button class="cta-btn secondary" onclick="logOut()">Log Out</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="foot">
+    <div class="foot-brand">
+      <a href="index.html">Anybe Night</a> · Los Angeles
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ─── Supabase Init ───
+const SUPABASE_URL = 'https://ekdxtohgrlzugluzmqpb.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_xv6I19Lwp2U0OtMGkkFp_A_xzDHisPt';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ─── State ───
+let currentStep = 1;
+let fullPhone = '';
+
+// ─── DOM Refs ───
+const phoneInput = document.getElementById('phoneInput');
+const countryCode = document.getElementById('countryCode');
+const sendCodeBtn = document.getElementById('sendCodeBtn');
+const verifyBtn = document.getElementById('verifyBtn');
+const completeBtn = document.getElementById('completeBtn');
+const errorMsg = document.getElementById('errorMsg');
+const otpBoxes = document.querySelectorAll('.otp-box');
+const firstName = document.getElementById('firstName');
+const lastName = document.getElementById('lastName');
+const dob = document.getElementById('dob');
+
+// ─── Phone Input Formatting ───
+phoneInput.addEventListener('input', () => {
+  let digits = phoneInput.value.replace(/\D/g, '');
+  if (digits.length > 10) digits = digits.slice(0, 10);
+
+  // Format as (XXX) XXX-XXXX for US
+  let formatted = digits;
+  if (digits.length > 6) {
+    formatted = `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+  } else if (digits.length > 3) {
+    formatted = `(${digits.slice(0,3)}) ${digits.slice(3)}`;
+  } else if (digits.length > 0) {
+    formatted = `(${digits}`;
+  }
+  phoneInput.value = formatted;
+  sendCodeBtn.disabled = digits.length < 10;
+});
+
+phoneInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !sendCodeBtn.disabled) sendCode();
+});
+
+// ─── OTP Input Logic ───
+otpBoxes.forEach((box, i) => {
+  box.addEventListener('input', (e) => {
+    const val = e.target.value.replace(/\D/g, '');
+    e.target.value = val.slice(0, 1);
+    if (val && i < otpBoxes.length - 1) {
+      otpBoxes[i + 1].focus();
+    }
+    checkOtpComplete();
+  });
+
+  box.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && !e.target.value && i > 0) {
+      otpBoxes[i - 1].focus();
+      otpBoxes[i - 1].value = '';
+    }
+    if (e.key === 'Enter' && !verifyBtn.disabled) verifyCode();
+  });
+
+  // Handle paste
+  box.addEventListener('paste', (e) => {
+    e.preventDefault();
+    const pasted = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 6);
+    pasted.split('').forEach((char, idx) => {
+      if (otpBoxes[i + idx]) otpBoxes[i + idx].value = char;
+    });
+    const focusIdx = Math.min(i + pasted.length, otpBoxes.length - 1);
+    otpBoxes[focusIdx].focus();
+    checkOtpComplete();
+  });
+});
+
+function checkOtpComplete() {
+  const code = Array.from(otpBoxes).map(b => b.value).join('');
+  verifyBtn.disabled = code.length < 6;
+}
+
+// ─── Profile Form Validation ───
+[firstName, lastName, dob].forEach(el => {
+  el.addEventListener('input', () => {
+    completeBtn.disabled = !(firstName.value.trim() && lastName.value.trim() && dob.value);
+  });
+});
+
+// ─── Step Navigation ───
+function goToStep(step) {
+  hideError();
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById('step' + step);
+  
+  // Brief delay for fade effect
+  setTimeout(() => {
+    target.classList.add('active');
+  }, 50);
+
+  // Update dots
+  document.querySelectorAll('.step-dot').forEach((dot, i) => {
+    dot.classList.remove('active', 'completed');
+    if (i + 1 === step) dot.classList.add('active');
+    else if (i + 1 < step) dot.classList.add('completed');
+  });
+
+  // Hide dots on success step
+  document.getElementById('stepDots').style.display = step === 4 ? 'none' : 'flex';
+
+  currentStep = step;
+}
+
+// ─── Error Handling ───
+function showError(msg) {
+  errorMsg.textContent = msg;
+  errorMsg.classList.add('visible');
+}
+
+function hideError() {
+  errorMsg.textContent = '';
+  errorMsg.classList.remove('visible');
+}
+
+// ─── Button Loading State ───
+function setLoading(btn, loading, loadingText) {
+  if (loading) {
+    btn.dataset.origText = btn.textContent;
+    btn.textContent = loadingText || 'Loading...';
+    btn.classList.add('loading');
+    btn.disabled = true;
+  } else {
+    btn.textContent = btn.dataset.origText || 'Next';
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+
+// ─── Step 1: Send OTP ───
+async function sendCode() {
+  hideError();
+  const digits = phoneInput.value.replace(/\D/g, '');
+  fullPhone = countryCode.value + digits;
+
+  setLoading(sendCodeBtn, true, 'Sending...');
+
+  try {
+    const { error } = await sb.auth.signInWithOtp({ phone: fullPhone });
+    if (error) throw error;
+
+    document.getElementById('codeSentText').textContent = `Verification code sent to ${fullPhone}`;
+    goToStep(2);
+    setTimeout(() => otpBoxes[0].focus(), 200);
+  } catch (err) {
+    showError(err.message || 'Failed to send verification code. Please try again.');
+    setLoading(sendCodeBtn, false);
+  }
+}
+
+// ─── Step 2: Verify OTP ───
+async function verifyCode() {
+  hideError();
+  const token = Array.from(otpBoxes).map(b => b.value).join('');
+
+  setLoading(verifyBtn, true, 'Verifying...');
+
+  try {
+    const { data, error } = await sb.auth.verifyOtp({
+      phone: fullPhone,
+      token: token,
+      type: 'sms'
+    });
+    if (error) throw error;
+
+    // Check if user already has profile info
+    const meta = data?.user?.user_metadata;
+    if (meta && meta.first_name) {
+      // Existing user - skip to success
+      showSuccess(meta.first_name, meta.last_name, meta.dob);
+    } else {
+      // New user - collect profile
+      goToStep(3);
+      setTimeout(() => firstName.focus(), 200);
+    }
+  } catch (err) {
+    showError(err.message || 'Invalid code. Please try again.');
+    setLoading(verifyBtn, false);
+    // Clear OTP boxes
+    otpBoxes.forEach(b => b.value = '');
+    otpBoxes[0].focus();
+  }
+}
+
+// ─── Step 2b: Resend Code ───
+async function resendCode() {
+  hideError();
+  const resendBtn = document.getElementById('resendBtn');
+  resendBtn.textContent = 'Sending...';
+  resendBtn.disabled = true;
+
+  try {
+    const { error } = await sb.auth.signInWithOtp({ phone: fullPhone });
+    if (error) throw error;
+    resendBtn.textContent = 'Code sent!';
+    setTimeout(() => {
+      resendBtn.textContent = 'Resend code';
+      resendBtn.disabled = false;
+    }, 3000);
+  } catch (err) {
+    showError(err.message || 'Failed to resend code.');
+    resendBtn.textContent = 'Resend code';
+    resendBtn.disabled = false;
+  }
+}
+
+// ─── Step 3: Complete Profile ───
+async function completeProfile() {
+  hideError();
+  const fn = firstName.value.trim();
+  const ln = lastName.value.trim();
+  const dobVal = dob.value;
+
+  setLoading(completeBtn, true, 'Saving...');
+
+  try {
+    // Update user metadata
+    const { error: updateErr } = await sb.auth.updateUser({
+      data: { first_name: fn, last_name: ln, dob: dobVal }
+    });
+    if (updateErr) throw updateErr;
+
+    // Insert into guests table
+    const { error: insertErr } = await sb.from('guests').insert({
+      phone: fullPhone,
+      first_name: fn,
+      last_name: ln,
+      dob: dobVal
+    });
+    // Don't throw on insert error - table might not exist yet or have constraints
+    if (insertErr) console.warn('Guest insert:', insertErr.message);
+
+    showSuccess(fn, ln, dobVal);
+  } catch (err) {
+    showError(err.message || 'Failed to save profile. Please try again.');
+    setLoading(completeBtn, false);
+  }
+}
+
+// ─── Step 4: Success ───
+function showSuccess(fn, ln, dobVal) {
+  const isReturning = currentStep === 2;
+  document.getElementById('welcomeName').textContent = isReturning
+    ? `Welcome back, ${fn}`
+    : `Welcome, ${fn}`;
+
+  let infoHtml = '';
+  infoHtml += `<div class="profile-item"><span>${fn} ${ln || ''}</span></div>`;
+  infoHtml += `<div class="profile-item">${fullPhone}</div>`;
+  if (dobVal) {
+    const d = new Date(dobVal + 'T00:00:00');
+    const formatted = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    infoHtml += `<div class="profile-item">${formatted}</div>`;
+  }
+  document.getElementById('profileInfo').innerHTML = infoHtml;
+
+  goToStep(4);
+}
+
+// ─── Log Out ───
+async function logOut() {
+  await sb.auth.signOut();
+  // Reset everything
+  phoneInput.value = '';
+  sendCodeBtn.disabled = true;
+  otpBoxes.forEach(b => b.value = '');
+  verifyBtn.disabled = true;
+  firstName.value = '';
+  lastName.value = '';
+  dob.value = '';
+  completeBtn.disabled = true;
+  fullPhone = '';
+  goToStep(1);
+}
+
+// ─── Check Existing Session ───
+(async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session?.user) {
+    const meta = session.user.user_metadata;
+    fullPhone = session.user.phone || '';
+    if (meta && meta.first_name) {
+      showSuccess(meta.first_name, meta.last_name, meta.dob);
+    }
+  }
+})();
+</script>
+
+</body>
+</html>
