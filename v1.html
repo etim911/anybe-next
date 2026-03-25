@@ -522,7 +522,7 @@ body::after {
     <p class="tagline" style="margin-bottom: 0;">
       <em>This is not a performance. It is a crossing.</em>
     </p>
-    <div class="brand-sub" style="margin-top: 18px;">Hosted by Antalina</div>
+    
   </div>
 
 
@@ -562,44 +562,43 @@ body::after {
     <div class="cn cn-bl"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
     <div class="cn cn-br"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
 
-    <div class="sec-label">Chapter Two</div>
+    <div class="sec-label">The Next Crossing</div>
     <div class="card-title">July 17, 2026</div>
-    <div class="card-subtitle">The Next Chapter</div>
+    <div class="card-subtitle" style="margin-bottom: 20px;">Secure Location · Los Angeles</div>
 
-    <div class="event-frame" style="margin-bottom: 28px;">
-      <div class="cn cn-tl"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
-      <div class="cn cn-tr"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
-      <div class="cn cn-bl"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
-      <div class="cn cn-br"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+    <!-- COUNTDOWN TIMER -->
+    <div style="text-align:center;margin-bottom:24px;padding:16px;border:1px solid var(--gold);background:rgba(181,164,138,0.06);">
+      <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Early Bird Ends In</div>
+      <div id="countdown" style="font-family:'Cinzel Decorative',serif;font-size:28px;color:var(--cream);letter-spacing:2px;">--d --h --m --s</div>
+    </div>
 
-      <div class="event-grid">
-        <div class="event-item">
-          <div class="event-label">Date</div>
-          <div class="event-val">July 17, 2026</div>
+    <div class="event-grid" style="margin-bottom: 24px;">
+      <div class="event-item">
+        <div class="event-label">Date</div>
+        <div class="event-val">July 17, 2026</div>
+      </div>
+      <div class="event-item">
+        <div class="event-label">Location</div>
+        <div class="event-val">Los Angeles</div>
+      </div>
+      <div class="event-item">
+        <div class="event-label">Capacity</div>
+        <div class="event-val">100 Guests</div>
+      </div>
+      <div class="event-item">
+        <div class="event-label">Experience</div>
+        <div class="event-val gold">Immersive Theater</div>
+      </div>
+      <div class="price-row">
+        <div class="price-item">
+          <div class="price-label">Early Bird</div>
+          <div class="price-val" style="color:var(--gold)">$77</div>
+          <div class="price-note">Until April 1</div>
         </div>
-        <div class="event-item">
-          <div class="event-label">Location</div>
-          <div class="event-val">Los Angeles</div>
-        </div>
-        <div class="event-item">
-          <div class="event-label">Capacity</div>
-          <div class="event-val">100 Guests</div>
-        </div>
-        <div class="event-item">
-          <div class="event-label">Host</div>
-          <div class="event-val gold">Antalina</div>
-        </div>
-        <div class="price-row">
-          <div class="price-item">
-            <div class="price-label">Early Bird</div>
-            <div class="price-val">$77</div>
-            <div class="price-note">Until April 1</div>
-          </div>
-          <div class="price-item">
-            <div class="price-label">General Admission</div>
-            <div class="price-val">$177</div>
-            <div class="price-note">&nbsp;</div>
-          </div>
+        <div class="price-item">
+          <div class="price-label">After April 1</div>
+          <div class="price-val">$127</div>
+          <div class="price-note">&nbsp;</div>
         </div>
       </div>
     </div>
@@ -647,6 +646,24 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.1 });
+
+// Countdown timer to April 1, 2026
+function updateCountdown() {
+  const deadline = new Date('2026-04-01T00:00:00-07:00').getTime();
+  const now = new Date().getTime();
+  const diff = deadline - now;
+  if (diff <= 0) {
+    document.getElementById('countdown').textContent = 'EARLY BIRD ENDED';
+    return;
+  }
+  const d = Math.floor(diff / (1000*60*60*24));
+  const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+  const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+  const s = Math.floor((diff % (1000*60)) / 1000);
+  document.getElementById('countdown').textContent = d + 'd ' + h + 'h ' + m + 'm ' + s + 's';
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
 
 document.querySelectorAll('.section, .book-frame').forEach(el => {
   if (!el.classList.contains('fade-in')) {
