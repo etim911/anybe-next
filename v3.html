@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anybe Night - An Immersive Crossing</title>
+<meta name="description" content="Anybe Night - An immersive theater experience in Los Angeles. July 17, 2026. Only 100 guests. This is not a performance. It is a crossing.">
+<meta property="og:title" content="Anybe Night - An Immersive Crossing">
+<meta property="og:description" content="What you experienced was not a performance - it was a crossing. A threshold into something truer. July 17, 2026. Los Angeles. 100 guests only.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://night.anybe.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0c0b0a;
+  --bg-leather: #141210;
+  --bg-card: #1a1816;
+  --bg-card-hover: #211f1b;
+  --silver: #c4bfb3;
+  --silver-light: #ddd8cc;
+  --silver-dim: #6e6a61;
+  --gold: #b5a48a;
+  --cream: #ece6d8;
+  --parchment: #d4c9b0;
+  --text-primary: #ddd8cc;
+  --text-secondary: #8a857a;
+  --border: #2e2a24;
+  --border-light: #3d3830;
+  --success: #6b8f6b;
+  --error: #8f5050;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(30, 27, 22, 0.5) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(20, 18, 14, 0.8) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px 24px 64px;
+  min-height: 100vh;
+}
+
+.logo-area {
+  text-align: center;
+  margin-bottom: 36px;
+  padding-top: 12px;
+}
+
+.logo-svg {
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.logo-svg svg {
+  width: 64px;
+  height: 64px;
+  opacity: 0.85;
+}
+
+.book-frame {
+  position: relative;
+  padding: 52px 36px 44px;
+  margin-bottom: 48px;
+  border: 1px solid var(--border);
+  background: linear-gradient(160deg, rgba(26,24,20,0.6), rgba(14,12,10,0.8));
+}
+
+.book-frame .cn {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  opacity: 0.4;
+}
+
+.book-frame .cn svg { width: 100%; height: 100%; }
+.cn-tl { top: 8px; left: 8px; }
+.cn-tr { top: 8px; right: 8px; transform: scaleX(-1); }
+.cn-bl { bottom: 8px; left: 8px; transform: scaleY(-1); }
+.cn-br { bottom: 8px; right: 8px; transform: scale(-1); }
+
+.book-frame::before,
+.book-frame::after {
+  content: '·  ✦  ·';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--silver-dim);
+  opacity: 0.6;
+}
+.book-frame::before { top: -8px; background: var(--bg-deep); padding: 0 12px; }
+.book-frame::after { bottom: -8px; background: var(--bg-deep); padding: 0 12px; }
+
+.hero-title {
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.t-main {
+  display: block;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 38px;
+  font-weight: 400;
+  color: var(--cream);
+  letter-spacing: 2px;
+  line-height: 1.2;
+  text-shadow: 0 1px 16px rgba(180, 170, 150, 0.08);
+}
+
+.divider {
+  text-align: center;
+  color: var(--silver-dim);
+  font-size: 14px;
+  margin: 18px 0;
+  letter-spacing: 4px;
+  opacity: 0.6;
+}
+
+.brand-sub {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.tagline {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.tagline em {
+  color: var(--silver-light);
+  font-style: normal;
+}
+
+.section {
+  margin-bottom: 56px;
+}
+
+.sec-label {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.sec-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--cream);
+  text-align: center;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.event-frame {
+  position: relative;
+  border: 1px solid var(--border);
+  padding: 40px 32px;
+  background: linear-gradient(160deg, rgba(26,24,20,0.4), rgba(14,12,10,0.6));
+}
+
+.event-frame .cn {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  opacity: 0.35;
+}
+.event-frame .cn svg { width: 100%; height: 100%; }
+.event-frame .cn-tl { top: 6px; left: 6px; }
+.event-frame .cn-tr { top: 6px; right: 6px; transform: scaleX(-1); }
+.event-frame .cn-bl { bottom: 6px; left: 6px; transform: scaleY(-1); }
+.event-frame .cn-br { bottom: 6px; right: 6px; transform: scale(-1); }
+
+.event-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.event-item {
+  text-align: center;
+}
+
+.event-label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+  margin-bottom: 6px;
+}
+
+.event-val {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  color: var(--cream);
+  letter-spacing: 0.5px;
+}
+
+.event-val.gold {
+  color: var(--gold);
+}
+
+.price-row {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  grid-column: 1 / -1;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.price-item {
+  text-align: center;
+}
+
+.price-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+  margin-bottom: 4px;
+}
+
+.price-val {
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  color: var(--cream);
+  letter-spacing: 1px;
+}
+
+.price-note {
+  font-size: 11px;
+  color: var(--silver-dim);
+  font-style: italic;
+  margin-top: 2px;
+}
+
+.cta-section {
+  text-align: center;
+  margin-top: 32px;
+}
+
+.cta {
+  display: inline-block;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  padding: 18px 48px;
+  cursor: pointer;
+  transition: all 0.4s;
+  text-decoration: none;
+}
+
+.cta:hover {
+  background: rgba(181,164,138,0.08);
+  box-shadow: 0 0 32px rgba(181,164,138,0.1);
+  transform: translateY(-1px);
+}
+
+.cta-note {
+  font-size: 13px;
+  color: var(--silver-dim);
+  font-style: italic;
+  margin-top: 14px;
+}
+
+.gallery-placeholder {
+  text-align: center;
+  padding: 48px 24px;
+  border: 1px solid var(--border);
+  background: linear-gradient(160deg, rgba(26,24,20,0.3), rgba(14,12,10,0.4));
+}
+
+.gallery-icon {
+  font-size: 32px;
+  color: var(--silver-dim);
+  opacity: 0.5;
+  margin-bottom: 16px;
+}
+
+.gallery-text {
+  font-size: 16px;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.foot {
+  text-align: center;
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.foot-logo {
+  margin-bottom: 12px;
+}
+
+.foot-logo svg {
+  width: 36px;
+  height: 36px;
+  opacity: 0.5;
+}
+
+.foot-brand {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+  margin-bottom: 6px;
+}
+
+.foot-brand a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.foot-contact {
+  font-size: 13px;
+  color: var(--silver-dim);
+  letter-spacing: 1px;
+}
+
+.foot-contact a {
+  color: var(--silver-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.foot-contact a:hover { color: var(--silver); }
+
+.foot-copy {
+  margin-top: 16px;
+  font-size: 11px;
+  color: var(--silver-dim);
+  opacity: 0.5;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+.delay-3 { animation-delay: 0.6s; }
+.delay-4 { animation-delay: 0.8s; }
+
+/* v3 specific top ticker */
+.top-ticker {
+  background: var(--gold);
+  color: var(--bg-deep);
+  text-align: center;
+  padding: 10px 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.ticker-highlight {
+  font-weight: 900;
+}
+
+.hero-big-date {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 64px;
+  color: var(--cream);
+  text-align: center;
+  margin-bottom: 12px;
+  text-shadow: 0 4px 24px rgba(180, 170, 150, 0.15);
+  line-height: 1;
+}
+
+.hero-subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.nostalgia-section {
+  text-align: center;
+  padding: 48px 32px;
+  margin-top: 64px;
+  border-top: 1px solid var(--border);
+}
+
+.nostalgia-title {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  color: var(--silver-light);
+  margin-bottom: 16px;
+  font-style: italic;
+}
+
+@media (max-width: 480px) {
+  .page { padding: 48px 16px 48px; }
+  .book-frame { padding: 36px 20px 32px; }
+  .t-main { font-size: 28px; }
+  .event-grid { grid-template-columns: 1fr 1fr; gap: 18px; }
+  .price-row { gap: 24px; }
+  .cta { padding: 16px 32px; font-size: 11px; letter-spacing: 4px; }
+  .hero-big-date { font-size: 48px; }
+  .hero-subtitle { font-size: 12px; letter-spacing: 5px; }
+  .top-ticker { font-size: 10px; padding: 8px 12px; letter-spacing: 2px; }
+}
+
+@media (min-width: 768px) {
+  .page { padding: 72px 32px 80px; }
+  .t-main { font-size: 44px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ TOP TICKER ═══════════ -->
+<div class="top-ticker fade-in">
+  EARLY BIRD: $77 <span class="ticker-highlight">— ONLY UNTIL APRIL 1</span>
+</div>
+
+<div class="page" style="padding-top: 64px;">
+
+  <!-- ═══════════ HERO: TICKETS FORWARD ═══════════ -->
+  <div class="logo-area fade-in">
+    <div class="logo-svg" style="margin-bottom: 24px;">
+      <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#c4bfb3">
+          <rect x="28" y="2" width="44" height="24" rx="12" fill="none" stroke="#c4bfb3" stroke-width="2.5"/>
+          <circle cx="60" cy="14" r="7" fill="#c4bfb3"/>
+          <circle cx="36" cy="42" r="8" fill="none" stroke="#c4bfb3" stroke-width="2.5"/>
+          <path d="M36 50 L36 70 M28 58 L44 58 M36 70 L28 80 M36 70 L44 80" stroke="#c4bfb3" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <circle cx="64" cy="42" r="8" fill="none" stroke="#c4bfb3" stroke-width="2.5"/>
+          <path d="M64 50 L64 70 M56 58 L72 58 M64 70 L56 80 M64 70 L72 80" stroke="#c4bfb3" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        </g>
+      </svg>
+    </div>
+    
+    <div class="hero-big-date fade-in delay-1">JULY 17</div>
+    <div class="hero-subtitle fade-in delay-1">Anybe Night Returns</div>
+  </div>
+
+
+  <!-- ═══════════ EVENT DETAILS ═══════════ -->
+  <div class="book-frame fade-in delay-2">
+    <div class="cn cn-tl"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+    <div class="cn cn-tr"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+    <div class="cn cn-bl"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+    <div class="cn cn-br"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+
+    <div class="sec-label">The Crossing</div>
+    <div class="sec-title" style="font-size: 22px; margin-bottom: 24px;">Join The Next Chapter</div>
+
+    <div class="event-grid">
+      <div class="event-item">
+        <div class="event-label">Date</div>
+        <div class="event-val">July 17, 2026</div>
+      </div>
+      <div class="event-item">
+        <div class="event-label">Location</div>
+        <div class="event-val">Los Angeles</div>
+      </div>
+      <div class="event-item">
+        <div class="event-label">Capacity</div>
+        <div class="event-val">100 Guests</div>
+      </div>
+      <div class="event-item">
+        <div class="event-label">Host</div>
+        <div class="event-val gold">Antalina</div>
+      </div>
+      <div class="price-row">
+        <div class="price-item">
+          <div class="price-label">Early Bird</div>
+          <div class="price-val" style="color: var(--gold);">$77</div>
+          <div class="price-note">Ends April 1</div>
+        </div>
+        <div class="price-item">
+          <div class="price-label">General Admission</div>
+          <div class="price-val">$177</div>
+          <div class="price-note">Standard Rate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA inside frame -->
+    <div class="cta-section">
+      <a href="#" class="cta">Secure Your Place</a>
+      <p class="cta-note">Only 100 crossings available</p>
+    </div>
+  </div>
+
+
+  <!-- ═══════════ NOSTALGIA: WERE YOU THERE? ═══════════ -->
+  <div class="nostalgia-section fade-in delay-3">
+    <div class="gallery-icon" style="font-size: 24px; margin-bottom: 12px;">✦</div>
+    <div class="nostalgia-title">Were you at our last gathering?</div>
+    <p class="tagline" style="font-size: 15px; margin-bottom: 24px;">
+      The echoes from our March threshold remain.<br>
+      Relive the moments we became together.
+    </p>
+    <a href="https://drive.google.com/drive/folders/1qdsWc8DN_yCEacD7A5Is67gv-P51h36U" target="_blank" style="color: var(--silver); text-decoration: none; font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; border-bottom: 1px solid var(--silver-dim); padding-bottom: 4px; transition: color 0.3s;">
+      Download Photos
+    </a>
+  </div>
+
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <div class="foot">
+    <div class="foot-logo">
+      <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#6e6a61">
+          <rect x="28" y="2" width="44" height="24" rx="12" fill="none" stroke="#6e6a61" stroke-width="2.5"/>
+          <circle cx="60" cy="14" r="7" fill="#6e6a61"/>
+          <circle cx="36" cy="42" r="8" fill="none" stroke="#6e6a61" stroke-width="2.5"/>
+          <path d="M36 50 L36 70 M28 58 L44 58 M36 70 L28 80 M36 70 L44 80" stroke="#6e6a61" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <circle cx="64" cy="42" r="8" fill="none" stroke="#6e6a61" stroke-width="2.5"/>
+          <path d="M64 50 L64 70 M56 58 L72 58 M64 70 L56 80 M64 70 L72 80" stroke="#6e6a61" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        </g>
+      </svg>
+    </div>
+    <div class="foot-brand">
+      <a href="https://night.anybe.com">Anybe Night</a> · Los Angeles
+    </div>
+    <div class="foot-contact">
+      <a href="https://night.anybe.com">night.anybe.com</a> · <a href="tel:+12244227777">224 422 7777</a>
+    </div>
+    <div class="foot-copy">&copy; 2026 Anybe Night. All rights reserved.</div>
+  </div>
+
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.section, .book-frame, .nostalgia-section').forEach(el => {
+  if (!el.classList.contains('fade-in')) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    observer.observe(el);
+  }
+});
+</script>
+
+</body>
+</html>
