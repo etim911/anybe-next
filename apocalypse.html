@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>APOCALYPSE - Bombay Beach Biennale 2026</title>
-<meta name="description" content="You've been chosen. Receive your role at the Apocalypse - Bombay Beach Biennale 2026.">
+<title>ONLY PLAYERS LEFT ALIVE - Bombay Beach Biennale 2026</title>
+<meta name="description" content="Post-Apocalyptic Social Simulation. Receive your role at Bombay Beach Biennale 2026.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
@@ -145,6 +145,16 @@ body::after {
   margin-bottom: 6px;
 }
 
+.apoc-sub-subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+  text-align: center;
+  margin-bottom: 6px;
+}
+
 .apoc-tagline {
   font-size: 17px;
   color: var(--text-secondary);
@@ -152,6 +162,19 @@ body::after {
   font-style: italic;
   margin-bottom: 8px;
   line-height: 1.6;
+}
+
+.manifesto {
+  font-size: 15px;
+  color: var(--text-secondary);
+  text-align: center;
+  font-style: italic;
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+
+.manifesto p {
+  margin-bottom: 8px;
 }
 
 .step-heading {
@@ -391,9 +414,39 @@ body::after {
   font-size: 28px;
   color: var(--ember-glow);
   text-align: center;
-  margin: 16px 0 24px;
+  margin: 16px 0 8px;
   letter-spacing: 2px;
   text-shadow: 0 0 30px rgba(168, 90, 58, 0.4);
+}
+
+.role-desc {
+  font-size: 16px;
+  color: var(--silver);
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.mission-heading {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--ember);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.mission-text {
+  font-size: 17px;
+  color: var(--cream);
+  text-align: center;
+  line-height: 1.7;
+  margin-bottom: 24px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  background: rgba(168, 90, 58, 0.05);
 }
 
 .role-instruction {
@@ -411,6 +464,86 @@ body::after {
   text-align: center;
   line-height: 1.6;
   margin-bottom: 28px;
+}
+
+.choose-own {
+  display: block;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-style: italic;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.3s;
+  margin-top: 12px;
+  background: none;
+  border: none;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.choose-own:hover {
+  color: var(--silver-light);
+}
+
+/* Role picker grid */
+.role-picker {
+  display: none;
+  margin-top: 20px;
+}
+
+.role-picker.visible {
+  display: block;
+}
+
+.role-picker-title {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.role-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.role-option {
+  padding: 12px 10px;
+  background: rgba(10, 8, 7, 0.6);
+  border: 1px solid var(--border-light);
+  color: var(--silver);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.role-option:hover {
+  border-color: var(--ember);
+  color: var(--ember-glow);
+  background: rgba(168, 90, 58, 0.08);
+}
+
+.role-option .role-option-name {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 2px;
+  color: var(--cream);
+}
+
+.role-option .role-option-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.4;
 }
 
 .events-link {
@@ -494,6 +627,8 @@ body::after {
   .otp-container { gap: 8px; }
   .country-select { width: 100px; }
   .role-name { font-size: 24px; }
+  .role-grid { grid-template-columns: 1fr; }
+  .role-option { padding: 10px 8px; }
 }
 </style>
 </head>
@@ -513,10 +648,16 @@ body::after {
 
     <!-- STEP 1: Welcome + Phone -->
     <div class="step active" id="step1">
-      <div class="apoc-title">APOCALYPSE</div>
-      <div class="apoc-subtitle">Bombay Beach Biennale 2026</div>
+      <div class="apoc-title">ONLY PLAYERS LEFT ALIVE</div>
+      <div class="apoc-subtitle">Post-Apocalyptic Social Simulation</div>
+      <div class="apoc-sub-subtitle">Bombay Beach Biennale 2026</div>
       <div class="divider">- ✦ -</div>
-      <div class="apoc-tagline">Scan complete. You've been chosen.</div>
+
+      <div class="manifesto">
+        <p>"Who are you when all social systems collapse, and only something unbreakable remains - your essence?"</p>
+        <p>"You are entering a world where observation is no longer possible."</p>
+      </div>
+
       <div class="step-subtitle">Enter your number to receive your role.</div>
 
       <div class="form-group">
@@ -617,12 +758,23 @@ body::after {
       <div class="step-subtitle" style="margin-top:16px;margin-bottom:8px;">Your role has been assigned:</div>
 
       <div class="role-name pulse" id="roleName"></div>
+      <div class="role-desc" id="roleDesc"></div>
+
+      <div class="mission-heading">Your Mission</div>
+      <div class="mission-text" id="missionText"></div>
 
       <div class="role-instruction">
         Show this to your guide to receive your mark.
       </div>
 
-      <div class="role-fine-print">
+      <button class="choose-own" id="chooseOwnBtn" onclick="toggleRolePicker()">Not your style? Choose your own role &rarr;</button>
+
+      <div class="role-picker" id="rolePicker">
+        <div class="role-picker-title">Choose Your Role</div>
+        <div class="role-grid" id="roleGrid"></div>
+      </div>
+
+      <div class="role-fine-print" style="margin-top:24px;">
         You are now part of Anybe Night.<br>
         Future events will be revealed.
       </div>
@@ -650,8 +802,22 @@ const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ─── Roles ───
 const ROLES = [
-  'The Witness', 'The Wanderer', 'The Oracle', 'The Keeper',
-  'The Stranger', 'The Shadow', 'The Nomad', 'The Seeker'
+  { name: 'Hug Dealer', desc: 'Hugging people and whispering that everything will be alright', mission: 'Find 10 people and hug each for at least 10 seconds. After each, ask: "What changed?"' },
+  { name: 'Hack Dealer', desc: 'Actively sharing lifehacks how to survive', mission: 'Share concrete survival hacks with at least 7 people. At least 2 must apply them immediately.' },
+  { name: 'Walking Disclaimer', desc: 'Detached warning, informing about all risks', mission: 'Warn 10 people about the "risks" of their behavior. Make at least 3 predictions.' },
+  { name: 'Last Normal Person', desc: 'Trying to convince that they all are crazy here', mission: 'Convince 5 people that nothing has happened. At least 2 must start doubting reality.' },
+  { name: 'Silent Confessor', desc: "Can't talk, just listens", mission: 'Listen to 5 confessions. Do not speak. Only respond with a gesture or gaze at the end.' },
+  { name: 'Power Hunter', desc: 'Searching for control on others', mission: 'Gain control over at least 3 people. They must complete a task you give them.' },
+  { name: 'Blind Prophet', desc: 'With closed eyes telling people what he feels about them', mission: 'With closed eyes, "read" 7 people. At least 3 must agree you were accurate.' },
+  { name: 'Apocalypse Flirt', desc: 'Seducing everyone', mission: 'Engage at least 10 people in flirtation. At least 3 should come back to you again.' },
+  { name: 'Drama Dancer', desc: 'Embodying chaos with body', mission: 'Create 3 scenes using your body: tension, attraction, or chaos.' },
+  { name: 'Touch Broker', desc: 'Selling touching', mission: 'Complete at least 5 "transactions" through touch.' },
+  { name: 'Fashion Healer', desc: 'Convincing people that style is everything', mission: 'Transform at least 5 people through style or presence.' },
+  { name: 'Memory Keeper', desc: 'Collecting and memorizing human stories', mission: 'Collect 7 personal stories. At the end, pass one story to someone else as if it were their memory.' },
+  { name: 'Identity Thief', desc: 'Copying behavior and roles of others', mission: 'Copy the behavior of at least 3 people. One of them must notice.' },
+  { name: 'Shame Remover', desc: 'Convincing that everything is ok with them', mission: 'Free at least 5 people from shame. They must do something they were avoiding.' },
+  { name: 'Last Judge', desc: 'Judging all actions', mission: 'Deliver at least 5 verdicts. At least 2 people must follow them.' },
+  { name: 'System Rebuilder', desc: 'Organising new rules', mission: 'Introduce at least 2 new rules. At least 5 people must follow them.' }
 ];
 
 // ─── State ───
@@ -889,10 +1055,45 @@ async function completeProfile() {
 }
 
 // ─── Step 4: Role Assignment ───
-function showRole() {
-  const role = ROLES[Math.floor(Math.random() * ROLES.length)];
-  document.getElementById('roleName').textContent = role;
+function showRole(selectedIndex) {
+  const idx = (selectedIndex !== undefined) ? selectedIndex : Math.floor(Math.random() * ROLES.length);
+  const role = ROLES[idx];
+  document.getElementById('roleName').textContent = role.name;
+  document.getElementById('roleDesc').textContent = role.desc;
+  document.getElementById('missionText').textContent = role.mission;
+
+  // Build role picker grid
+  const grid = document.getElementById('roleGrid');
+  grid.innerHTML = '';
+  ROLES.forEach((r, i) => {
+    const opt = document.createElement('div');
+    opt.className = 'role-option';
+    opt.innerHTML = `<span class="role-option-name">${r.name}</span><span class="role-option-desc">${r.desc}</span>`;
+    opt.onclick = () => selectRole(i);
+    grid.appendChild(opt);
+  });
+
+  // Hide picker when showing a new role
+  document.getElementById('rolePicker').classList.remove('visible');
   goToStep(4);
+}
+
+function selectRole(index) {
+  const role = ROLES[index];
+  document.getElementById('roleName').textContent = role.name;
+  document.getElementById('roleDesc').textContent = role.desc;
+  document.getElementById('missionText').textContent = role.mission;
+  document.getElementById('rolePicker').classList.remove('visible');
+  // Scroll to top of step
+  document.getElementById('step4').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function toggleRolePicker() {
+  const picker = document.getElementById('rolePicker');
+  picker.classList.toggle('visible');
+  if (picker.classList.contains('visible')) {
+    picker.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 // ─── Check Existing Session ───
