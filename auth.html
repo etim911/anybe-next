@@ -601,7 +601,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
       <div class="form-group">
         <label class="form-label">Date of Birth</label>
-        <input type="date" class="form-input" id="dob" autocomplete="bday" max="2008-01-01" value="1995-01-01">
+        <input type="date" class="form-input" id="dob" autocomplete="bday" max="2008-12-31" style="font-size:18px;padding:16px;min-height:52px;">
       </div>
 
       <button class="cta-btn" id="completeBtn" disabled onclick="completeProfile()">Complete</button>
@@ -613,15 +613,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
       <div class="welcome-name" id="welcomeName">Welcome</div>
       <div class="step-subtitle" style="margin-bottom: 12px;">Your crossing awaits.</div>
 
-      <div style="text-align:center;font-size:17px;color:var(--text-secondary);line-height:1.75;font-style:italic;margin-bottom:24px;max-width:400px;margin-left:auto;margin-right:auto;">
-        You are now part of something rare.<br>
-        Anybe Night is not a show you watch -<br>
-        it is an experience you <span style="color:var(--cream);">become.</span><br><br>
-        <span style="font-size:14px;color:var(--silver-dim);">
-          Each event is intimate. Limited to 100 souls.<br>
-          No two nights are ever the same.<br>
-          Your journey begins now.
-        </span>
+      <div id="onboardingCopy" style="text-align:center;font-size:17px;color:var(--text-secondary);line-height:1.75;font-style:italic;margin-bottom:24px;max-width:400px;margin-left:auto;margin-right:auto;">
+        <!-- PLACEHOLDER - Tim will provide onboarding copy -->
       </div>
 
       <div class="profile-info" id="profileInfo"></div>
