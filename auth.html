@@ -790,6 +790,16 @@ async function sendCode() {
     document.getElementById('codeSentText').textContent = `Verification code sent to ${fullPhone}`;
     goToStep(2);
     setTimeout(() => otpBoxes[0].focus(), 200);
+    // Start 30s countdown on resend button
+    const rb = document.getElementById('resendBtn');
+    let cd = 30;
+    rb.disabled = true;
+    rb.textContent = `Resend in ${cd}s`;
+    const t = setInterval(() => {
+      cd--;
+      rb.textContent = `Resend in ${cd}s`;
+      if (cd <= 0) { clearInterval(t); rb.textContent = 'Resend code'; rb.disabled = false; }
+    }, 1000);
   } catch (err) {
     showError(err.message || 'Failed to send verification code. Please try again.');
     setLoading(sendCodeBtn, false);
@@ -841,10 +851,18 @@ async function resendCode() {
     const { error } = await sb.auth.signInWithOtp({ phone: fullPhone });
     if (error) throw error;
     resendBtn.textContent = 'Code sent!';
-    setTimeout(() => {
-      resendBtn.textContent = 'Resend code';
-      resendBtn.disabled = false;
-    }, 3000);
+    // 30s countdown
+    let countdown = 30;
+    resendBtn.disabled = true;
+    const timer = setInterval(() => {
+      countdown--;
+      resendBtn.textContent = `Resend in ${countdown}s`;
+      if (countdown <= 0) {
+        clearInterval(timer);
+        resendBtn.textContent = 'Resend code';
+        resendBtn.disabled = false;
+      }
+    }, 1000);
   } catch (err) {
     showError(err.message || 'Failed to resend code.');
     resendBtn.textContent = 'Resend code';
