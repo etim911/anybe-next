@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anybe Night - Events</title>
+<meta name="description" content="Anybe Night events dashboard - View upcoming and past immersive theater experiences.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0c0b0a;
+  --bg-leather: #141210;
+  --bg-card: #1a1816;
+  --bg-card-hover: #211f1b;
+  --silver: #c4bfb3;
+  --silver-light: #ddd8cc;
+  --silver-dim: #6e6a61;
+  --gold: #b5a48a;
+  --cream: #ece6d8;
+  --parchment: #d4c9b0;
+  --text-primary: #ddd8cc;
+  --text-secondary: #8a857a;
+  --border: #2e2a24;
+  --border-light: #3d3830;
+  --success: #6b8f6b;
+  --error: #8f5050;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(30, 27, 22, 0.5) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(20, 18, 14, 0.8) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Top Nav ─── */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: linear-gradient(180deg, rgba(12,11,10,0.95) 0%, rgba(12,11,10,0.7) 80%, transparent 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.nav-logo svg {
+  width: 32px;
+  height: 32px;
+  opacity: 0.85;
+}
+
+.nav-logo-text {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 16px;
+  color: var(--cream);
+  letter-spacing: 1px;
+}
+
+.user-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  background: rgba(181, 164, 138, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+
+.user-badge:hover {
+  background: rgba(181, 164, 138, 0.15);
+  box-shadow: 0 0 16px rgba(181, 164, 138, 0.12);
+}
+
+/* ─── Profile Slide-out ─── */
+.profile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.profile-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.profile-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 340px;
+  max-width: 90vw;
+  background: var(--bg-leather);
+  border-left: 1px solid var(--border);
+  z-index: 201;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-panel.open {
+  transform: translateX(0);
+}
+
+.profile-header {
+  padding: 32px 28px 24px;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  background: rgba(181, 164, 138, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 22px;
+  color: var(--gold);
+}
+
+.profile-name {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  color: var(--cream);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.profile-member-since {
+  font-size: 13px;
+  color: var(--silver-dim);
+  font-style: italic;
+}
+
+.profile-form {
+  padding: 28px;
+  flex: 1;
+}
+
+.profile-form-title {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+  margin-bottom: 8px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(12, 11, 10, 0.6);
+  border: 1px solid var(--border-light);
+  color: var(--cream);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  transition: border-color 0.3s;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--gold);
+}
+
+.form-input::placeholder {
+  color: var(--silver-dim);
+  opacity: 0.6;
+}
+
+input[type="date"] {
+  color-scheme: dark;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6) sepia(0.3) hue-rotate(10deg);
+  cursor: pointer;
+}
+
+.profile-actions {
+  padding: 0 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 14px 24px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+.btn-primary:hover {
+  background: rgba(181, 164, 138, 0.08);
+  box-shadow: 0 0 24px rgba(181, 164, 138, 0.1);
+}
+
+.btn-secondary {
+  display: block;
+  width: 100%;
+  padding: 14px 24px;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  color: var(--silver-dim);
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--silver);
+  color: var(--silver);
+}
+
+.profile-msg {
+  text-align: center;
+  font-size: 14px;
+  padding: 10px 0;
+  display: none;
+}
+
+.profile-msg.success {
+  color: var(--success);
+  display: block;
+}
+
+.profile-msg.error {
+  color: #d4a0a0;
+  display: block;
+}
+
+.close-panel {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--silver-dim);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.3s;
+  line-height: 1;
+}
+
+.close-panel:hover {
+  color: var(--cream);
+}
+
+/* ─── Main Content ─── */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 88px 24px 64px;
+  min-height: 100vh;
+}
+
+.page-heading {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-heading-label {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+  margin-bottom: 8px;
+}
+
+.page-heading-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--cream);
+  letter-spacing: 2px;
+  text-shadow: 0 1px 16px rgba(180, 170, 150, 0.08);
+}
+
+.page-heading-divider {
+  text-align: center;
+  color: var(--silver-dim);
+  font-size: 14px;
+  margin-top: 12px;
+  letter-spacing: 4px;
+  opacity: 0.6;
+}
+
+/* ─── Event Cards ─── */
+.book-frame {
+  position: relative;
+  padding: 0;
+  margin-bottom: 48px;
+  border: 1px solid var(--border);
+  background: linear-gradient(160deg, rgba(26,24,20,0.6), rgba(14,12,10,0.8));
+  overflow: hidden;
+}
+
+.book-frame .cn {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  opacity: 0.4;
+  z-index: 2;
+}
+.book-frame .cn svg { width: 100%; height: 100%; }
+.cn-tl { top: 8px; left: 8px; }
+.cn-tr { top: 8px; right: 8px; transform: scaleX(-1); }
+.cn-bl { bottom: 8px; left: 8px; transform: scaleY(-1); }
+.cn-br { bottom: 8px; right: 8px; transform: scale(-1); }
+
+.book-frame::before,
+.book-frame::after {
+  content: '·  ✦  ·';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--silver-dim);
+  opacity: 0.6;
+  z-index: 2;
+}
+.book-frame::before { top: -8px; background: var(--bg-deep); padding: 0 12px; }
+.book-frame::after { bottom: -8px; background: var(--bg-deep); padding: 0 12px; }
+
+/* Event poster area */
+.event-poster {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(135deg, #151311, #1c1916, #121110);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.event-poster::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(181,164,138,0.04) 0%, transparent 70%);
+}
+
+.event-poster-symbol {
+  font-size: 48px;
+  color: var(--silver-dim);
+  opacity: 0.4;
+  position: relative;
+  z-index: 1;
+}
+
+.event-poster.past {
+  background: linear-gradient(135deg, #18150f, #1a1712, #141210);
+}
+
+.event-poster.past::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 60%, rgba(181,164,138,0.06) 0%, transparent 60%);
+}
+
+.event-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  z-index: 2;
+}
+
+.event-badge.upcoming {
+  background: rgba(181, 164, 138, 0.15);
+  border: 1px solid rgba(181, 164, 138, 0.3);
+  color: var(--gold);
+}
+
+.event-badge.past-badge {
+  background: rgba(110, 106, 97, 0.15);
+  border: 1px solid rgba(110, 106, 97, 0.3);
+  color: var(--silver-dim);
+}
+
+/* Event card content */
+.event-content {
+  padding: 32px 36px 36px;
+}
+
+.event-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--cream);
+  text-align: center;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.event-subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.event-date {
+  font-size: 16px;
+  color: var(--text-secondary);
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 24px;
+}
+
+.event-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.event-btn {
+  flex: 1;
+  display: block;
+  padding: 14px 16px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s;
+  text-decoration: none;
+  text-align: center;
+}
+
+.event-btn:hover {
+  background: rgba(181, 164, 138, 0.08);
+  box-shadow: 0 0 24px rgba(181, 164, 138, 0.1);
+  transform: translateY(-1px);
+}
+
+.event-btn.secondary {
+  border-color: var(--border-light);
+  color: var(--silver-dim);
+}
+
+.event-btn.secondary:hover {
+  border-color: var(--silver);
+  color: var(--silver);
+  background: rgba(196, 191, 179, 0.04);
+}
+
+/* ─── Footer ─── */
+.foot {
+  text-align: center;
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.foot-logo { margin-bottom: 12px; }
+.foot-logo svg { width: 36px; height: 36px; opacity: 0.5; }
+
+.foot-brand {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+  margin-bottom: 6px;
+}
+
+.foot-brand a { color: var(--gold); text-decoration: none; }
+
+.foot-contact {
+  font-size: 13px;
+  color: var(--silver-dim);
+  letter-spacing: 1px;
+}
+
+.foot-contact a {
+  color: var(--silver-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.foot-contact a:hover { color: var(--silver); }
+
+.foot-copy {
+  margin-top: 16px;
+  font-size: 11px;
+  color: var(--silver-dim);
+  opacity: 0.5;
+}
+
+/* ─── Animations ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.3s; }
+.delay-3 { animation-delay: 0.45s; }
+
+/* ─── Loading screen ─── */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: var(--bg-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s;
+}
+
+.loading-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-symbol {
+  font-size: 28px;
+  color: var(--silver-dim);
+  opacity: 0.5;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 480px) {
+  .page { padding: 76px 16px 48px; }
+  .top-nav { padding: 12px 16px; }
+  .nav-logo-text { font-size: 14px; }
+  .event-content { padding: 24px 20px 28px; }
+  .event-title { font-size: 19px; }
+  .event-poster { height: 180px; }
+  .event-buttons { flex-direction: column; gap: 10px; }
+  .page-heading-title { font-size: 24px; }
+  .profile-panel { width: 100%; max-width: 100%; }
+}
+
+@media (min-width: 768px) {
+  .page { padding: 100px 32px 80px; }
+  .event-poster { height: 260px; }
+  .event-title { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-symbol">✦</div>
+</div>
+
+<!-- Top Navigation -->
+<nav class="top-nav">
+  <a href="index.html" class="nav-logo">
+    <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+      <g fill="#c4bfb3">
+        <rect x="28" y="2" width="44" height="24" rx="12" fill="none" stroke="#c4bfb3" stroke-width="2.5"/>
+        <circle cx="60" cy="14" r="7" fill="#c4bfb3"/>
+        <circle cx="36" cy="42" r="8" fill="none" stroke="#c4bfb3" stroke-width="2.5"/>
+        <path d="M36 50 L36 70 M28 58 L44 58 M36 70 L28 80 M36 70 L44 80" stroke="#c4bfb3" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <circle cx="64" cy="42" r="8" fill="none" stroke="#c4bfb3" stroke-width="2.5"/>
+        <path d="M64 50 L64 70 M56 58 L72 58 M64 70 L56 80 M64 70 L72 80" stroke="#c4bfb3" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      </g>
+    </svg>
+    <span class="nav-logo-text">Anybe Night</span>
+  </a>
+  <div class="user-badge" id="userBadge" onclick="toggleProfile()">--</div>
+</nav>
+
+<!-- Profile Slide-out Overlay -->
+<div class="profile-overlay" id="profileOverlay" onclick="closeProfile()"></div>
+
+<!-- Profile Slide-out Panel -->
+<div class="profile-panel" id="profilePanel">
+  <button class="close-panel" onclick="closeProfile()">&times;</button>
+
+  <div class="profile-header">
+    <div class="profile-avatar" id="profileAvatar">--</div>
+    <div class="profile-name" id="profileName">-</div>
+    <div class="profile-member-since" id="profileMemberSince">Member since -</div>
+  </div>
+
+  <div class="profile-form">
+    <div class="profile-form-title">Edit Profile</div>
+
+    <div class="form-group">
+      <label class="form-label">First Name</label>
+      <input type="text" class="form-input" id="editFirstName" placeholder="First name">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Last Name</label>
+      <input type="text" class="form-input" id="editLastName" placeholder="Last name">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Date of Birth</label>
+      <input type="date" class="form-input" id="editDob">
+    </div>
+
+    <div class="profile-msg" id="profileMsg"></div>
+  </div>
+
+  <div class="profile-actions">
+    <button class="btn-primary" onclick="updateProfile()">Update Profile</button>
+    <button class="btn-secondary" onclick="logOut()">Log Out</button>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="page" id="mainContent" style="display:none;">
+
+  <div class="page-heading fade-in">
+    <div class="page-heading-label">Your Crossings</div>
+    <div class="page-heading-title">Events</div>
+    <div class="page-heading-divider">- ✦ -</div>
+  </div>
+
+  <!-- Card 1: Upcoming Event -->
+  <div class="book-frame fade-in delay-1">
+    <div class="cn cn-tl"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+    <div class="cn cn-tr"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+    <div class="cn cn-bl"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+    <div class="cn cn-br"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+
+    <div class="event-poster">
+      <div class="event-badge upcoming">Upcoming</div>
+      <div class="event-poster-symbol">✦</div>
+    </div>
+
+    <div class="event-content">
+      <div class="event-subtitle">The Next Crossing</div>
+      <div class="event-title">Anybe Night II</div>
+      <div class="event-date">July 17, 2026 · Los Angeles</div>
+
+      <div class="event-buttons">
+        <a href="index.html" class="event-btn secondary">View Event</a>
+        <a href="https://buy.stripe.com/28E3cveHudGO5ai0Ya83C00" target="_blank" class="event-btn">Get Passes</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2: Past Event -->
+  <div class="book-frame fade-in delay-2">
+    <div class="cn cn-tl"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+    <div class="cn cn-tr"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+    <div class="cn cn-bl"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+    <div class="cn cn-br"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" stroke-width="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg></div>
+
+    <div class="event-poster past">
+      <div class="event-badge past-badge">Past Event</div>
+      <div class="event-poster-symbol">✦</div>
+    </div>
+
+    <div class="event-content">
+      <div class="event-subtitle">A Night to Remember</div>
+      <div class="event-title">March 2026</div>
+      <div class="event-date">The echoes remain</div>
+
+      <div class="event-buttons">
+        <a href="https://drive.google.com/drive/folders/1qdsWc8DN_yCEacD7A5Is67gv-P51h36U" target="_blank" class="event-btn">View Photos</a>
+        <a href="#" class="event-btn secondary" onclick="event.preventDefault();">View My Passes</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="foot fade-in delay-3">
+    <div class="foot-logo">
+      <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#6e6a61">
+          <rect x="28" y="2" width="44" height="24" rx="12" fill="none" stroke="#6e6a61" stroke-width="2.5"/>
+          <circle cx="60" cy="14" r="7" fill="#6e6a61"/>
+          <circle cx="36" cy="42" r="8" fill="none" stroke="#6e6a61" stroke-width="2.5"/>
+          <path d="M36 50 L36 70 M28 58 L44 58 M36 70 L28 80 M36 70 L44 80" stroke="#6e6a61" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <circle cx="64" cy="42" r="8" fill="none" stroke="#6e6a61" stroke-width="2.5"/>
+          <path d="M64 50 L64 70 M56 58 L72 58 M64 70 L56 80 M64 70 L72 80" stroke="#6e6a61" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        </g>
+      </svg>
+    </div>
+    <div class="foot-brand">
+      <a href="https://night.anybe.com">Anybe Night</a> · Los Angeles
+    </div>
+    <div class="foot-contact">
+      <a href="https://night.anybe.com">night.anybe.com</a> · <a href="tel:+12244227777">224 422 7777</a>
+    </div>
+    <div class="foot-copy">&copy; 2026 Anybe Night. All rights reserved.</div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ─── Supabase Init ───
+const SUPABASE_URL = 'https://ekdxtohgrlzugluzmqpb.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_xv6I19Lwp2U0OtMGkkFp_A_xzDHisPt';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ─── State ───
+let currentUser = null;
+
+// ─── DOM Refs ───
+const loadingScreen = document.getElementById('loadingScreen');
+const mainContent = document.getElementById('mainContent');
+const userBadge = document.getElementById('userBadge');
+const profileOverlay = document.getElementById('profileOverlay');
+const profilePanel = document.getElementById('profilePanel');
+const profileAvatar = document.getElementById('profileAvatar');
+const profileName = document.getElementById('profileName');
+const profileMemberSince = document.getElementById('profileMemberSince');
+const editFirstName = document.getElementById('editFirstName');
+const editLastName = document.getElementById('editLastName');
+const editDob = document.getElementById('editDob');
+const profileMsg = document.getElementById('profileMsg');
+
+// ─── Auth Check ───
+(async () => {
+  const { data: { session } } = await sb.auth.getSession();
+
+  if (!session) {
+    window.location.href = 'auth.html';
+    return;
+  }
+
+  currentUser = session.user;
+  const meta = currentUser.user_metadata || {};
+  const fn = meta.first_name || '';
+  const ln = meta.last_name || '';
+
+  // Set initials
+  const initials = getInitials(fn, ln);
+  userBadge.textContent = initials;
+  profileAvatar.textContent = initials;
+
+  // Set profile info
+  profileName.textContent = [fn, ln].filter(Boolean).join(' ') || 'Guest';
+
+  // Member since
+  const created = new Date(currentUser.created_at);
+  profileMemberSince.textContent = 'Member since ' + created.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+  // Fill edit fields
+  editFirstName.value = fn;
+  editLastName.value = ln;
+  editDob.value = meta.dob || '';
+
+  // Show content
+  loadingScreen.classList.add('hidden');
+  mainContent.style.display = 'block';
+})();
+
+function getInitials(fn, ln) {
+  const f = (fn || '').charAt(0).toUpperCase();
+  const l = (ln || '').charAt(0).toUpperCase();
+  return (f + l) || '?';
+}
+
+// ─── Profile Panel ───
+function toggleProfile() {
+  const isOpen = profilePanel.classList.contains('open');
+  if (isOpen) {
+    closeProfile();
+  } else {
+    openProfile();
+  }
+}
+
+function openProfile() {
+  profileOverlay.classList.add('open');
+  profilePanel.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProfile() {
+  profileOverlay.classList.remove('open');
+  profilePanel.classList.remove('open');
+  document.body.style.overflow = '';
+  profileMsg.style.display = 'none';
+  profileMsg.className = 'profile-msg';
+}
+
+// ─── Update Profile ───
+async function updateProfile() {
+  const fn = editFirstName.value.trim();
+  const ln = editLastName.value.trim();
+  const dobVal = editDob.value;
+
+  if (!fn) {
+    showProfileMsg('First name is required.', 'error');
+    return;
+  }
+
+  try {
+    const { error } = await sb.auth.updateUser({
+      data: { first_name: fn, last_name: ln, dob: dobVal }
+    });
+
+    if (error) throw error;
+
+    // Update UI
+    const initials = getInitials(fn, ln);
+    userBadge.textContent = initials;
+    profileAvatar.textContent = initials;
+    profileName.textContent = [fn, ln].filter(Boolean).join(' ');
+
+    showProfileMsg('Profile updated.', 'success');
+  } catch (err) {
+    showProfileMsg(err.message || 'Failed to update profile.', 'error');
+  }
+}
+
+function showProfileMsg(msg, type) {
+  profileMsg.textContent = msg;
+  profileMsg.className = 'profile-msg ' + type;
+  setTimeout(() => {
+    profileMsg.style.display = 'none';
+    profileMsg.className = 'profile-msg';
+  }, 3000);
+}
+
+// ─── Log Out ───
+async function logOut() {
+  await sb.auth.signOut();
+  window.location.href = 'auth.html';
+}
+</script>
+
+</body>
+</html>
