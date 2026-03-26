@@ -826,7 +826,7 @@ const profileMsg = document.getElementById('profileMsg');
   const { data: { session } } = await sb.auth.getSession();
 
   if (!session) {
-    window.location.href = 'auth.html';
+    // window.location.href = 'auth.html'; // TEMP DISABLED
     return;
   }
 
@@ -929,7 +929,7 @@ function showProfileMsg(msg, type) {
 // ─── Log Out ───
 async function logOut() {
   await sb.auth.signOut();
-  window.location.href = 'auth.html';
+  // window.location.href = 'auth.html'; // TEMP DISABLED
 }
 </script>
 
