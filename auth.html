@@ -601,7 +601,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
       <div class="form-group">
         <label class="form-label">Date of Birth</label>
-        <input type="date" class="form-input" id="dob" autocomplete="bday" max="2008-12-31" style="font-size:18px;padding:16px;min-height:52px;">
+        <div style="display:flex;gap:10px;">
+          <input type="number" class="form-input" id="dobMonth" placeholder="MM" min="1" max="12" style="font-size:18px;padding:16px;min-height:52px;text-align:center;width:30%;">
+          <input type="number" class="form-input" id="dobDay" placeholder="DD" min="1" max="31" style="font-size:18px;padding:16px;min-height:52px;text-align:center;width:30%;">
+          <input type="number" class="form-input" id="dobYear" placeholder="YYYY" min="1940" max="2008" style="font-size:18px;padding:16px;min-height:52px;text-align:center;width:40%;">
+        </div>
       </div>
 
       <button class="cta-btn" id="completeBtn" disabled onclick="completeProfile()">Complete</button>
@@ -658,7 +662,15 @@ const errorMsg = document.getElementById('errorMsg');
 const otpBoxes = document.querySelectorAll('.otp-box');
 const firstName = document.getElementById('firstName');
 const lastName = document.getElementById('lastName');
-const dob = document.getElementById('dob');
+const dobMonth = document.getElementById('dobMonth');
+const dobDay = document.getElementById('dobDay');
+const dobYear = document.getElementById('dobYear');
+function getDobValue() {
+  const m = dobMonth.value.padStart(2,'0');
+  const d = dobDay.value.padStart(2,'0');
+  const y = dobYear.value;
+  return (m && d && y && y.length === 4) ? `${y}-${m}-${d}` : '';
+}
 
 // ─── Phone Input Formatting ───
 phoneInput.addEventListener('input', () => {
@@ -720,9 +732,9 @@ function checkOtpComplete() {
 }
 
 // ─── Profile Form Validation ───
-[firstName, lastName, dob].forEach(el => {
+[firstName, lastName, dobMonth, dobDay, dobYear].forEach(el => {
   el.addEventListener('input', () => {
-    completeBtn.disabled = !(firstName.value.trim() && lastName.value.trim() && dob.value);
+    completeBtn.disabled = !(firstName.value.trim() && lastName.value.trim() && getDobValue());
   });
 });
 
@@ -875,7 +887,7 @@ async function completeProfile() {
   hideError();
   const fn = firstName.value.trim();
   const ln = lastName.value.trim();
-  const dobVal = dob.value;
+  const dobVal = getDobValue();
 
   setLoading(completeBtn, true, 'Saving...');
 
@@ -910,15 +922,7 @@ function showSuccess(fn, ln, dobVal) {
     ? `Welcome back, ${fn}`
     : `Welcome, ${fn}`;
 
-  let infoHtml = '';
-  infoHtml += `<div class="profile-item"><span>${fn} ${ln || ''}</span></div>`;
-  infoHtml += `<div class="profile-item">${fullPhone}</div>`;
-  if (dobVal) {
-    const d = new Date(dobVal + 'T00:00:00');
-    const formatted = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-    infoHtml += `<div class="profile-item">${formatted}</div>`;
-  }
-  document.getElementById('profileInfo').innerHTML = infoHtml;
+  document.getElementById('profileInfo').innerHTML = '';
 
   goToStep(4);
 }
@@ -933,7 +937,7 @@ async function logOut() {
   verifyBtn.disabled = true;
   firstName.value = '';
   lastName.value = '';
-  dob.value = '';
+  dobMonth.value = ''; dobDay.value = ''; dobYear.value = '';
   completeBtn.disabled = true;
   fullPhone = '';
   goToStep(1);
