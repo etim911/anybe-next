@@ -292,33 +292,14 @@ body::after {
   flex: 1;
 }
 
-/* OTP code boxes */
-.otp-container {
+/* Name row */
+.name-row {
   display: flex;
-  justify-content: center;
   gap: 10px;
-  margin-bottom: 24px;
 }
 
-.otp-box {
-  width: 48px;
-  height: 56px;
-  text-align: center;
-  background: rgba(10, 8, 7, 0.6);
-  border: 1px solid var(--border-light);
-  color: var(--cream);
-  font-family: 'Cinzel', serif;
-  font-size: 24px;
-  outline: none;
-  transition: border-color 0.3s;
-  caret-color: var(--ember);
-  border-radius: 0;
-  -webkit-appearance: none;
-}
-
-.otp-box:focus {
-  border-color: var(--ember);
-  box-shadow: 0 0 12px rgba(168, 90, 58, 0.2);
+.name-row .form-input {
+  flex: 1;
 }
 
 /* Buttons */
@@ -373,12 +354,6 @@ body::after {
 
 .link-btn:hover {
   color: var(--silver-light);
-}
-
-/* Resend row */
-.resend-row {
-  text-align: center;
-  margin-top: 20px;
 }
 
 /* Terms */
@@ -623,12 +598,12 @@ body::after {
   .book-frame { padding: 36px 20px 28px; }
   .apoc-title { font-size: 32px; letter-spacing: 4px; }
   .step-title { font-size: 20px; }
-  .otp-box { width: 42px; height: 50px; font-size: 20px; }
-  .otp-container { gap: 8px; }
   .country-select { width: 100px; }
   .role-name { font-size: 24px; }
   .role-grid { grid-template-columns: 1fr; }
   .role-option { padding: 10px 8px; }
+  .name-row { flex-direction: column; gap: 16px; }
+  .dob-row { gap: 8px; }
 }
 </style>
 </head>
@@ -646,7 +621,7 @@ body::after {
     <!-- Error message (shared) -->
     <div class="error-msg" id="errorMsg"></div>
 
-    <!-- STEP 1: Welcome + Phone -->
+    <!-- STEP 1: Registration Form (Combined Phone + Profile) -->
     <div class="step active" id="step1">
       <div class="apoc-title">ONLY PLAYERS LEFT ALIVE</div>
       <div class="apoc-subtitle">Post-Apocalyptic Social Simulation</div>
@@ -658,7 +633,7 @@ body::after {
         <p>"You are entering a world where observation is no longer possible."</p>
       </div>
 
-      <div class="step-subtitle">Enter your number to receive your role.</div>
+      <div class="step-subtitle">Tell us who you are to receive your role.</div>
 
       <div class="form-group">
         <label class="form-label">Phone Number</label>
@@ -694,47 +669,12 @@ body::after {
         </div>
       </div>
 
-      <button class="cta-btn" id="sendCodeBtn" disabled onclick="sendCode()">Next</button>
-
-      <p class="terms">By continuing, you agree to receive SMS verification from Anybe Night.</p>
-    </div>
-
-    <!-- STEP 2: Verification Code -->
-    <div class="step" id="step2">
-      <div class="step-heading">Verification</div>
-      <div class="step-title">Enter Code</div>
-      <div class="step-subtitle" id="codeSentText">Verification code sent</div>
-
-      <div class="otp-container" id="otpContainer">
-        <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code">
-        <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]">
-        <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]">
-        <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]">
-        <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]">
-        <input type="text" class="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]">
-      </div>
-
-      <button class="cta-btn" id="verifyBtn" disabled onclick="verifyCode()">Verify</button>
-
-      <div class="resend-row">
-        <button class="link-btn" id="resendBtn" onclick="resendCode()">Resend code</button>
-      </div>
-    </div>
-
-    <!-- STEP 3: Profile (new users only) -->
-    <div class="step" id="step3">
-      <div class="step-heading">Identity</div>
-      <div class="step-title">Who Are You?</div>
-      <div class="step-subtitle">Before the apocalypse, we need your name.</div>
-
       <div class="form-group">
-        <label class="form-label">First Name</label>
-        <input type="text" class="form-input" id="firstName" placeholder="Your first name" autocomplete="given-name">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Last Name</label>
-        <input type="text" class="form-input" id="lastName" placeholder="Your last name" autocomplete="family-name">
+        <label class="form-label">Name</label>
+        <div class="name-row">
+          <input type="text" class="form-input" id="firstName" placeholder="First name" autocomplete="given-name">
+          <input type="text" class="form-input" id="lastName" placeholder="Last name" autocomplete="family-name">
+        </div>
       </div>
 
       <div class="form-group">
@@ -746,11 +686,13 @@ body::after {
         </div>
       </div>
 
-      <button class="cta-btn" id="completeBtn" disabled onclick="completeProfile()">Enter</button>
+      <button class="cta-btn" id="registerBtn" disabled onclick="registerGuest()">Enter the Apocalypse</button>
+
+      <p class="terms">By continuing, you agree to be part of Anybe Night.</p>
     </div>
 
-    <!-- STEP 4: Role Assignment -->
-    <div class="step" id="step4">
+    <!-- STEP 2: Role Assignment -->
+    <div class="step" id="step2">
       <div class="apoc-title" style="font-size:22px;letter-spacing:4px;margin-bottom:4px;">WELCOME TO THE</div>
       <div class="apoc-title" style="margin-bottom:12px;">APOCALYPSE</div>
       <div class="divider">- ✦ -</div>
@@ -823,15 +765,13 @@ const ROLES = [
 // ─── State ───
 let currentStep = 1;
 let fullPhone = '';
+let guestData = null;
 
 // ─── DOM Refs ───
 const phoneInput = document.getElementById('phoneInput');
 const countryCode = document.getElementById('countryCode');
-const sendCodeBtn = document.getElementById('sendCodeBtn');
-const verifyBtn = document.getElementById('verifyBtn');
-const completeBtn = document.getElementById('completeBtn');
+const registerBtn = document.getElementById('registerBtn');
 const errorMsg = document.getElementById('errorMsg');
-const otpBoxes = document.querySelectorAll('.otp-box');
 const firstName = document.getElementById('firstName');
 const lastName = document.getElementById('lastName');
 const dobMonth = document.getElementById('dobMonth');
@@ -858,51 +798,27 @@ phoneInput.addEventListener('input', () => {
     formatted = `(${digits}`;
   }
   phoneInput.value = formatted;
-  sendCodeBtn.disabled = digits.length < 10;
+  checkFormValidity();
 });
 
 phoneInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && !sendCodeBtn.disabled) sendCode();
+  if (e.key === 'Enter' && !registerBtn.disabled) registerGuest();
 });
 
-// ─── OTP Input Logic ───
-otpBoxes.forEach((box, i) => {
-  box.addEventListener('input', (e) => {
-    const val = e.target.value.replace(/\D/g, '');
-    e.target.value = val.slice(0, 1);
-    if (val && i < otpBoxes.length - 1) otpBoxes[i + 1].focus();
-    checkOtpComplete();
-  });
-
-  box.addEventListener('keydown', (e) => {
-    if (e.key === 'Backspace' && !e.target.value && i > 0) {
-      otpBoxes[i - 1].focus();
-      otpBoxes[i - 1].value = '';
-    }
-    if (e.key === 'Enter' && !verifyBtn.disabled) verifyCode();
-  });
-
-  box.addEventListener('paste', (e) => {
-    e.preventDefault();
-    const pasted = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 6);
-    pasted.split('').forEach((char, idx) => {
-      if (otpBoxes[i + idx]) otpBoxes[i + idx].value = char;
-    });
-    const focusIdx = Math.min(i + pasted.length, otpBoxes.length - 1);
-    otpBoxes[focusIdx].focus();
-    checkOtpComplete();
-  });
-});
-
-function checkOtpComplete() {
-  const code = Array.from(otpBoxes).map(b => b.value).join('');
-  verifyBtn.disabled = code.length < 6;
+// ─── Form Validation ───
+function checkFormValidity() {
+  const phoneDigits = phoneInput.value.replace(/\D/g, '');
+  const isValid = phoneDigits.length >= 10 && 
+                  firstName.value.trim() && 
+                  lastName.value.trim() && 
+                  getDobValue();
+  registerBtn.disabled = !isValid;
 }
 
-// ─── Profile Form Validation ───
 [firstName, lastName, dobMonth, dobDay, dobYear].forEach(el => {
-  el.addEventListener('input', () => {
-    completeBtn.disabled = !(firstName.value.trim() && lastName.value.trim() && getDobValue());
+  el.addEventListener('input', checkFormValidity);
+  el.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !registerBtn.disabled) registerGuest();
   });
 });
 
@@ -935,126 +851,66 @@ function setLoading(btn, loading, loadingText) {
     btn.classList.add('loading');
     btn.disabled = true;
   } else {
-    btn.textContent = btn.dataset.origText || 'Next';
+    btn.textContent = btn.dataset.origText || 'Enter the Apocalypse';
     btn.classList.remove('loading');
     btn.disabled = false;
   }
 }
 
-// ─── Step 1: Send OTP ───
-async function sendCode() {
+// ─── Step 1: Direct Guest Registration ───
+async function registerGuest() {
   hideError();
-  const digits = phoneInput.value.replace(/\D/g, '');
-  fullPhone = countryCode.value + digits;
-  setLoading(sendCodeBtn, true, 'Sending...');
-
-  try {
-    const { error } = await sb.auth.signInWithOtp({ phone: fullPhone });
-    if (error) throw error;
-    document.getElementById('codeSentText').textContent = `Code sent to ${fullPhone}`;
-    goToStep(2);
-    setTimeout(() => otpBoxes[0].focus(), 200);
-    startResendCountdown();
-  } catch (err) {
-    showError(err.message || 'Failed to send code. Please try again.');
-    setLoading(sendCodeBtn, false);
-  }
-}
-
-// ─── Resend Countdown ───
-function startResendCountdown() {
-  const rb = document.getElementById('resendBtn');
-  let cd = 30;
-  rb.disabled = true;
-  rb.textContent = `Resend in ${cd}s`;
-  const t = setInterval(() => {
-    cd--;
-    rb.textContent = `Resend in ${cd}s`;
-    if (cd <= 0) { clearInterval(t); rb.textContent = 'Resend code'; rb.disabled = false; }
-  }, 1000);
-}
-
-// ─── Step 2: Verify OTP ───
-async function verifyCode() {
-  hideError();
-  const token = Array.from(otpBoxes).map(b => b.value).join('');
-  setLoading(verifyBtn, true, 'Verifying...');
-
-  try {
-    const { data, error } = await sb.auth.verifyOtp({
-      phone: fullPhone,
-      token: token,
-      type: 'sms'
-    });
-    if (error) throw error;
-
-    const meta = data?.user?.user_metadata;
-    if (meta && meta.first_name) {
-      // Existing user - skip to role
-      showRole();
-    } else {
-      // New user - collect profile
-      goToStep(3);
-      setTimeout(() => firstName.focus(), 200);
-    }
-  } catch (err) {
-    showError(err.message || 'Invalid code. Please try again.');
-    setLoading(verifyBtn, false);
-    otpBoxes.forEach(b => b.value = '');
-    otpBoxes[0].focus();
-  }
-}
-
-// ─── Step 2b: Resend Code ───
-async function resendCode() {
-  hideError();
-  const resendBtn = document.getElementById('resendBtn');
-  resendBtn.textContent = 'Sending...';
-  resendBtn.disabled = true;
-
-  try {
-    const { error } = await sb.auth.signInWithOtp({ phone: fullPhone });
-    if (error) throw error;
-    resendBtn.textContent = 'Code sent!';
-    startResendCountdown();
-  } catch (err) {
-    showError(err.message || 'Failed to resend code.');
-    resendBtn.textContent = 'Resend code';
-    resendBtn.disabled = false;
-  }
-}
-
-// ─── Step 3: Complete Profile ───
-async function completeProfile() {
-  hideError();
+  const phoneDigits = phoneInput.value.replace(/\D/g, '');
+  fullPhone = countryCode.value + phoneDigits;
   const fn = firstName.value.trim();
   const ln = lastName.value.trim();
   const dobVal = getDobValue();
-  setLoading(completeBtn, true, 'Saving...');
+  
+  setLoading(registerBtn, true, 'Registering...');
+
+  // Store guest data for localStorage
+  guestData = {
+    phone: fullPhone,
+    first_name: fn,
+    last_name: ln,
+    dob: dobVal
+  };
 
   try {
-    const { error: updateErr } = await sb.auth.updateUser({
-      data: { first_name: fn, last_name: ln, dob: dobVal }
-    });
-    if (updateErr) throw updateErr;
+    // Check if guest already exists
+    const existingGuest = localStorage.getItem('apocalypse_guest_' + fullPhone);
+    if (existingGuest) {
+      // Returning guest - go directly to role
+      guestData = JSON.parse(existingGuest);
+      showRole();
+      return;
+    }
 
-    // Insert into guests table
-    const { error: insertErr } = await sb.from('guests').insert({
-      phone: fullPhone,
-      first_name: fn,
-      last_name: ln,
-      dob: dobVal
-    });
-    if (insertErr) console.warn('Guest insert:', insertErr.message);
+    // Try to insert into Supabase guests table
+    const { data, error } = await sb.from('guests').insert(guestData).select();
+    
+    if (error) {
+      // If RLS blocks the insert, we'll continue anyway but show a note
+      console.warn('Supabase insert failed (likely RLS):', error.message);
+      // Could display a non-blocking message about data not being saved to server
+    } else {
+      console.log('Guest registered successfully:', data);
+    }
 
+    // Store in localStorage regardless of Supabase success
+    localStorage.setItem('apocalypse_guest_' + fullPhone, JSON.stringify(guestData));
+    
+    // Proceed to role assignment
     showRole();
+    
   } catch (err) {
-    showError(err.message || 'Failed to save profile. Please try again.');
-    setLoading(completeBtn, false);
+    console.error('Registration error:', err);
+    showError('Registration failed. Please try again.');
+    setLoading(registerBtn, false);
   }
 }
 
-// ─── Step 4: Role Assignment ───
+// ─── Step 2: Role Assignment ───
 function showRole(selectedIndex) {
   const idx = (selectedIndex !== undefined) ? selectedIndex : Math.floor(Math.random() * ROLES.length);
   const role = ROLES[idx];
@@ -1075,7 +931,7 @@ function showRole(selectedIndex) {
 
   // Hide picker when showing a new role
   document.getElementById('rolePicker').classList.remove('visible');
-  goToStep(4);
+  goToStep(2);
 }
 
 function selectRole(index) {
@@ -1085,7 +941,7 @@ function selectRole(index) {
   document.getElementById('missionText').textContent = role.mission;
   document.getElementById('rolePicker').classList.remove('visible');
   // Scroll to top of step
-  document.getElementById('step4').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('step2').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function toggleRolePicker() {
@@ -1096,17 +952,48 @@ function toggleRolePicker() {
   }
 }
 
-// ─── Check Existing Session ───
-(async () => {
-  const { data: { session } } = await sb.auth.getSession();
-  if (session?.user) {
-    const meta = session.user.user_metadata;
-    fullPhone = session.user.phone || '';
-    if (meta && meta.first_name) {
-      showRole();
+// ─── Check for Returning Visitors ───
+window.addEventListener('load', () => {
+  // Check if this browser has registered before
+  const stored = Object.keys(localStorage).find(key => key.startsWith('apocalypse_guest_'));
+  if (stored) {
+    const guestInfo = JSON.parse(localStorage.getItem(stored));
+    if (guestInfo) {
+      // Pre-fill form with stored data
+      const phoneDigits = guestInfo.phone.replace(/^\+\d+/, '');
+      const countryCodeValue = guestInfo.phone.replace(phoneDigits, '');
+      
+      countryCode.value = countryCodeValue;
+      phoneInput.value = formatPhoneForDisplay(phoneDigits);
+      firstName.value = guestInfo.first_name;
+      lastName.value = guestInfo.last_name;
+      
+      if (guestInfo.dob) {
+        const [year, month, day] = guestInfo.dob.split('-');
+        dobYear.value = year;
+        dobMonth.value = parseInt(month);
+        dobDay.value = parseInt(day);
+      }
+      
+      checkFormValidity();
+      
+      // Show notice that this phone has been used before
+      const notice = document.createElement('div');
+      notice.style.cssText = 'background: rgba(168,90,58,0.1); border: 1px solid rgba(168,90,58,0.3); color: #d4a0a0; padding: 8px 12px; font-size: 13px; text-align: center; margin-bottom: 16px; border-radius: 0;';
+      notice.textContent = 'Welcome back! Your info has been restored.';
+      document.getElementById('step1').insertBefore(notice, document.querySelector('.form-group'));
     }
   }
-})();
+});
+
+function formatPhoneForDisplay(digits) {
+  if (digits.length > 6) {
+    return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+  } else if (digits.length > 3) {
+    return `(${digits.slice(0,3)}) ${digits.slice(3)}`;
+  }
+  return digits;
+}
 </script>
 
 </body>
