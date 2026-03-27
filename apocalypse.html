@@ -537,21 +537,10 @@ body::after {
   color: var(--ember-glow);
 }
 
-/* DOB row */
-.dob-row {
-  display: flex;
-  gap: 10px;
+/* DOB row (removed) */
 }
 
-.dob-row .form-input {
-  text-align: center;
-  font-size: 18px;
-  padding: 14px 8px;
-}
 
-.dob-row .dob-mm,
-.dob-row .dob-dd { width: 28%; }
-.dob-row .dob-yyyy { width: 44%; }
 
 /* Footer */
 .foot {
@@ -603,7 +592,6 @@ body::after {
   .role-grid { grid-template-columns: 1fr; }
   .role-option { padding: 10px 8px; }
   .name-row { flex-direction: column; gap: 16px; }
-  .dob-row { gap: 8px; }
 }
 </style>
 </head>
@@ -677,14 +665,7 @@ body::after {
         </div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label">Date of Birth</label>
-        <div class="dob-row">
-          <input type="number" class="form-input dob-mm" id="dobMonth" placeholder="MM" min="1" max="12" inputmode="numeric">
-          <input type="number" class="form-input dob-dd" id="dobDay" placeholder="DD" min="1" max="31" inputmode="numeric">
-          <input type="number" class="form-input dob-yyyy" id="dobYear" placeholder="YYYY" min="1940" max="2008" inputmode="numeric">
-        </div>
-      </div>
+
 
       <button class="cta-btn" id="registerBtn" disabled onclick="registerGuest()">Enter the Apocalypse</button>
 
@@ -774,16 +755,7 @@ const registerBtn = document.getElementById('registerBtn');
 const errorMsg = document.getElementById('errorMsg');
 const firstName = document.getElementById('firstName');
 const lastName = document.getElementById('lastName');
-const dobMonth = document.getElementById('dobMonth');
-const dobDay = document.getElementById('dobDay');
-const dobYear = document.getElementById('dobYear');
 
-function getDobValue() {
-  const m = (dobMonth.value || '').padStart(2, '0');
-  const d = (dobDay.value || '').padStart(2, '0');
-  const y = dobYear.value || '';
-  return (m && d && y && y.length === 4) ? `${y}-${m}-${d}` : '';
-}
 
 // ─── Phone Input Formatting ───
 phoneInput.addEventListener('input', () => {
@@ -810,12 +782,11 @@ function checkFormValidity() {
   const phoneDigits = phoneInput.value.replace(/\D/g, '');
   const isValid = phoneDigits.length >= 10 && 
                   firstName.value.trim() && 
-                  lastName.value.trim() && 
-                  getDobValue();
+                  lastName.value.trim();
   registerBtn.disabled = !isValid;
 }
 
-[firstName, lastName, dobMonth, dobDay, dobYear].forEach(el => {
+[firstName, lastName].forEach(el => {
   el.addEventListener('input', checkFormValidity);
   el.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !registerBtn.disabled) registerGuest();
@@ -864,7 +835,6 @@ async function registerGuest() {
   fullPhone = countryCode.value + phoneDigits;
   const fn = firstName.value.trim();
   const ln = lastName.value.trim();
-  const dobVal = getDobValue();
   
   setLoading(registerBtn, true, 'Registering...');
 
@@ -872,8 +842,7 @@ async function registerGuest() {
   guestData = {
     phone: fullPhone,
     first_name: fn,
-    last_name: ln,
-    dob: dobVal
+    last_name: ln
   };
 
   try {
@@ -967,13 +936,6 @@ window.addEventListener('load', () => {
       phoneInput.value = formatPhoneForDisplay(phoneDigits);
       firstName.value = guestInfo.first_name;
       lastName.value = guestInfo.last_name;
-      
-      if (guestInfo.dob) {
-        const [year, month, day] = guestInfo.dob.split('-');
-        dobYear.value = year;
-        dobMonth.value = parseInt(month);
-        dobDay.value = parseInt(day);
-      }
       
       checkFormValidity();
       
