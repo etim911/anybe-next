@@ -1,0 +1,45 @@
+You are tasked with migrating the static HTML pages to Next.js 14 App Router in the `nextjs-migration` branch.
+
+**DO NOT CHANGE THE `auth` FOLDER. IT IS HANDLED BY ANOTHER AGENT.**
+
+Please follow these exact instructions:
+1. `src/app/page.tsx` - Landing Page
+- Migrate ALL content from `index.html`.
+- Match the layout, CSS styles (translated to Tailwind or local CSS), and Framer Motion animations.
+- Hero section: Logo SVG, "Anybe Night" title in ornate book frame, tagline.
+- Add a Video section (placeholder Google Drive embed in 9:16 portrait container).
+- Add an About section: "Dear Initiated" letter from Antalina (add a mock letter if not found in HTML).
+- Next Event section: date, location, capacity, price.
+- Tickets CTA button.
+- Gallery section placeholder.
+- Keep ALL the atmospheric elements: noise texture, fade-in animations (Framer Motion), ornate flourishes.
+
+2. `src/app/events/page.tsx` - Events Dashboard
+- Migrate from `events.html`.
+- User profile display (phone, name).
+- My upcoming events / past events sections.
+- Fetch events from Supabase: `select * from events order by created_at desc`
+- Show event cards.
+- Sign out button.
+
+3. `src/app/terms/page.tsx` - Terms Page
+- Migrate ALL legal content from `terms.html` word for word. Strict TCPA-compliant copy. Do not change it.
+
+4. `src/app/events/[slug]/page.tsx` - Dynamic Event Page
+- Use `apocalypse.html` as the template/reference.
+- Fetch event data from Supabase by slug.
+- Show event title, description, date, location, capacity.
+- Registration CTA (links to auth if not logged in).
+- Generate static metadata for SEO.
+
+5. Update `src/app/layout.tsx`
+- Add Navigation component (import from components once Phase 2-components is done - for now use a placeholder).
+- Add Footer component.
+- Proper Open Graph meta tags.
+
+6. Use Framer Motion for scroll animations.
+7. Mobile-first CSS.
+8. TypeScript strict - no `any`.
+9. Ensure `npm run build` succeeds cleanly at the end.
+
+When done, write a report to `~/Documents/Reports/2026-03/nextjs-migration-phase2-pages.md`.

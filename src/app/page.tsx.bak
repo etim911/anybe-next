@@ -1,0 +1,180 @@
+'use client';
+
+import React from 'react';
+import { motion } from 'framer-motion';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+};
+
+export default function LandingPage() {
+  return (
+    <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-12 pb-16 min-h-screen">
+      
+      {/* ═══════════ HERO ═══════════ */}
+      <motion.div 
+        className="text-center mb-9 pt-3"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={fadeUp}
+      >
+        <div className="inline-block mb-2">
+          <svg viewBox="0 0 100 80" className="w-16 h-16 opacity-85" xmlns="http://www.w3.org/2000/svg">
+            <g fill="#c4bfb3">
+              <rect x="28" y="2" width="44" height="24" rx="12" fill="none" stroke="#c4bfb3" strokeWidth="2.5"/>
+              <circle cx="60" cy="14" r="7" fill="#c4bfb3"/>
+              <circle cx="36" cy="42" r="8" fill="none" stroke="#c4bfb3" strokeWidth="2.5"/>
+              <path d="M36 50 L36 70 M28 58 L44 58 M36 70 L28 80 M36 70 L44 80" stroke="#c4bfb3" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+              <circle cx="64" cy="42" r="8" fill="none" stroke="#c4bfb3" strokeWidth="2.5"/>
+              <path d="M64 50 L64 70 M56 58 L72 58 M64 70 L56 80 M64 70 L72 80" stroke="#c4bfb3" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+            </g>
+          </svg>
+        </div>
+        
+        <div className="text-center mb-1.5">
+          <span className="block font-decorative text-[38px] md:text-[44px] font-normal text-cream tracking-[2px] leading-tight drop-shadow-sm">
+            Anybe Night
+          </span>
+        </div>
+        
+        <div className="text-center text-text-muted text-sm my-4 tracking-[4px] opacity-60">
+          - ✦ -
+        </div>
+        
+        <p className="text-center text-lg italic text-text-secondary leading-relaxed max-w-[420px] mx-auto mb-0">
+          <em className="text-text-primary not-italic">This is not a performance. It is a crossing.</em>
+        </p>
+      </motion.div>
+
+      {/* ═══════════ VIDEO PLACEHOLDER ═══════════ */}
+      <motion.div 
+        className="relative border border-bg-tertiary p-2 mb-12 bg-gradient-to-br from-bg-tertiary/60 to-bg-secondary/80 flex justify-center aspect-[9/16] max-w-[320px] mx-auto"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={fadeUp}
+      >
+        <div className="w-full h-full bg-bg-primary/50 flex flex-col items-center justify-center border border-bg-tertiary/50">
+          <span className="font-display text-gold/60 text-xs tracking-widest uppercase mb-2">Crossing Preview</span>
+          <span className="text-text-muted italic text-sm">(Video Embed Placeholder)</span>
+        </div>
+      </motion.div>
+
+      {/* ═══════════ ABOUT (ANTALINA LETTER) ═══════════ */}
+      <motion.div 
+        className="mb-14 text-center"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={fadeUp}
+      >
+        <div className="font-display text-[10px] tracking-[5px] uppercase text-text-muted text-center mb-6">
+          The Invitation
+        </div>
+        <div className="font-decorative text-[26px] font-normal text-cream text-center mb-6 tracking-[1px]">
+          A Threshold
+        </div>
+        
+        <div className="text-[19px] md:text-[20px] font-normal text-text-secondary leading-[1.85] text-center max-w-[480px] mx-auto">
+          <p className="font-display text-sm tracking-[3px] uppercase text-gold mb-4">Dear Initiated,</p>
+          <p className="mb-5">
+            You are here because you seek something more than the waking world offers. 
+            A night where the boundaries of self begin to blur.
+          </p>
+          <p className="mb-5">
+            We invite you to cross over. To shed the skin of your daily existence and <span className="text-cream italic">step into the unknown</span>. 
+            There are no spectators here. Only participants.
+          </p>
+          <p className="italic text-gold text-xl mt-7 font-serif">
+            - Antalina
+          </p>
+        </div>
+      </motion.div>
+
+      {/* ═══════════ NEXT EVENT CARD ═══════════ */}
+      <motion.div 
+        className="relative py-12 px-6 sm:px-9 mb-12 border border-[#2e2a24] bg-gradient-to-br from-[#1a1814]/60 to-[#0e0c0a]/80"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={fadeUp}
+      >
+        {/* Corner flourishes */}
+        <div className="absolute w-7 h-7 opacity-40 top-2 left-2">
+          <svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg>
+        </div>
+        <div className="absolute w-7 h-7 opacity-40 top-2 right-2 scale-x-[-1]">
+          <svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg>
+        </div>
+        <div className="absolute w-7 h-7 opacity-40 bottom-2 left-2 scale-y-[-1]">
+          <svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg>
+        </div>
+        <div className="absolute w-7 h-7 opacity-40 bottom-2 right-2 scale-[-1]">
+          <svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg>
+        </div>
+
+        {/* Decorative dots top/bottom */}
+        <div className="absolute left-1/2 -translate-x-1/2 -top-2 text-[11px] tracking-[4px] text-[#6e6a61] opacity-60 bg-bg-primary px-3">·  ✦  ·</div>
+        <div className="absolute left-1/2 -translate-x-1/2 -bottom-2 text-[11px] tracking-[4px] text-[#6e6a61] opacity-60 bg-bg-primary px-3">·  ✦  ·</div>
+
+        <div className="font-display text-[10px] tracking-[5px] uppercase text-[#6e6a61] text-center mb-6">The Next Crossing</div>
+        <div className="font-display text-lg font-medium text-cream text-center mb-1.5 tracking-[1px]">July 17, 2026</div>
+        <div className="font-display text-[11px] tracking-[4px] uppercase text-gold text-center mb-6">Secure Location · Los Angeles</div>
+
+        <div className="grid grid-cols-2 gap-5 max-w-[400px] mx-auto mb-6">
+          <div className="text-center">
+            <div className="text-[9px] tracking-[3px] uppercase text-[#6e6a61] mb-1.5">Date</div>
+            <div className="font-display text-[15px] text-cream tracking-[0.5px]">July 17, 2026</div>
+          </div>
+          <div className="text-center">
+            <div className="text-[9px] tracking-[3px] uppercase text-[#6e6a61] mb-1.5">Location</div>
+            <div className="font-display text-[15px] text-cream tracking-[0.5px]">Los Angeles</div>
+          </div>
+          <div className="text-center">
+            <div className="text-[9px] tracking-[3px] uppercase text-[#6e6a61] mb-1.5">Capacity</div>
+            <div className="font-display text-[15px] text-cream tracking-[0.5px]">100 Guests</div>
+          </div>
+          <div className="text-center">
+            <div className="text-[9px] tracking-[3px] uppercase text-[#6e6a61] mb-1.5">Experience</div>
+            <div className="font-display text-[15px] text-gold tracking-[0.5px]">Immersive Theater</div>
+          </div>
+
+          <div className="col-span-2 flex justify-center gap-10 pt-4 border-t border-[#2e2a24]">
+            <div className="text-center">
+              <div className="text-[9px] tracking-[2px] uppercase text-[#6e6a61] mb-1">Early Bird</div>
+              <div className="font-display text-[22px] text-gold tracking-[1px]">$77</div>
+            </div>
+            <div className="text-center">
+              <div className="text-[9px] tracking-[2px] uppercase text-[#6e6a61] mb-1">Standard</div>
+              <div className="font-display text-[22px] text-cream tracking-[1px]">$127</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center">
+          <a href="/events/apocalypse" className="inline-block bg-transparent border border-gold text-gold font-display text-[11px] sm:text-[13px] tracking-[4px] sm:tracking-[5px] uppercase py-4 px-8 sm:px-12 transition-all duration-400 hover:bg-gold/10 hover:shadow-[0_0_32px_rgba(181,164,138,0.1)] hover:-translate-y-[1px]">
+            Secure Your Place
+          </a>
+          <p className="text-[13px] text-[#6e6a61] italic mt-3.5">Only 100 crossings available</p>
+        </div>
+      </motion.div>
+
+      {/* ═══════════ GALLERY PLACEHOLDER ═══════════ */}
+      <motion.div 
+        className="text-center py-12 px-6 border border-[#2e2a24] bg-gradient-to-br from-[#1a1814]/30 to-[#0e0c0a]/40"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={fadeUp}
+      >
+        <div className="text-3xl text-[#6e6a61] opacity-50 mb-4">✦</div>
+        <p className="text-base italic text-text-secondary leading-relaxed">
+          The echoes remain. Relive them in our gallery.
+        </p>
+      </motion.div>
+
+    </main>
+  );
+}
