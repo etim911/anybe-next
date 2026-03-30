@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { supabase } from '@/lib/supabase';
 import { EventCard } from '@/components/events/EventCard';
 import { Button } from '@/components/ui/Button';
+import { ProfileDrawer } from '@/components/profile/ProfileDrawer';
 
 interface Event {
   id: string;
@@ -47,7 +48,9 @@ export default function EventsDashboard() {
   }
 
   return (
-    <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-24 pb-16 min-h-screen">
+    <>
+      <ProfileDrawer />
+      <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-24 pb-16 min-h-screen">
       <motion.div
         className="text-center mb-10"
         initial={{ opacity: 0, y: 24 }}
@@ -81,5 +84,6 @@ export default function EventsDashboard() {
         </Button>
       </div>
     </main>
+    </>
   );
 }

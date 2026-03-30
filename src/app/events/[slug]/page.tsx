@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import { getStoredGuest } from '@/lib/auth';
 import { Button } from '@/components/ui/Button';
+import { ProfileDrawer } from '@/components/profile/ProfileDrawer';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -101,7 +102,9 @@ export default function EventPage({ params }: PageProps) {
   };
 
   return (
-    <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-24 pb-16 min-h-screen">
+    <>
+      <ProfileDrawer />
+      <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-24 pb-16 min-h-screen">
       <div className="relative border border-[#2e2a24] p-10 md:p-12 mb-12 bg-gradient-to-br from-[rgba(26,24,20,0.6)] to-[rgba(14,12,10,0.8)]">
         
         {/* Corner ornaments */}
@@ -155,5 +158,6 @@ export default function EventPage({ params }: PageProps) {
         </div>
       </div>
     </main>
+    </>
   );
 }

@@ -7,16 +7,16 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function POST(request: Request) {
   try {
-    const { phone, firstName, lastName, dob } = await request.json();
+    const { phone, firstName, lastName, dob, email } = await request.json();
     if (!phone || !firstName || !lastName || !dob) {
       return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
     }
 
-    const normalizedPhone = phone.startsWith('+') ? phone : '+' + phone.replace(/\\D/g, '');
+    const normalizedPhone = phone.startsWith('+') ? phone : '+' + phone.replace(/\D/g, '');
 
     const { data, error } = await supabase
       .from('guests')
-      .update({ first_name: firstName, last_name: lastName, dob })
+      .update({ first_name: firstName, last_name: lastName, dob, email: email || null })
       .eq('phone', normalizedPhone)
       .select()
       .single();
