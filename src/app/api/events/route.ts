@@ -18,6 +18,7 @@ export async function GET() {
       return NextResponse.json({ success: false, error: 'Failed to fetch events' }, { status: 500 });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const enhancedEvents = events.map((event: any) => {
       const registered = event.guestlists?.[0]?.count || 0;
       const capacity = event.capacity || 0;
@@ -30,8 +31,8 @@ export async function GET() {
     });
 
     return NextResponse.json({ success: true, events: enhancedEvents });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Events GET Error:', error);
-    return NextResponse.json({ success: false, error: error.message || 'Server error' }, { status: 500 });
+    return NextResponse.json({ success: false, error: error instanceof Error ? error.message : 'Server error' }, { status: 500 });
   }
 }

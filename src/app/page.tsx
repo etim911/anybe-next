@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { OrnateFrame } from '@/components/ui/OrnateFrame';
+import { Button } from '@/components/ui/Button';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -97,6 +99,7 @@ export default function LandingPage() {
         viewport={{ once: true, margin: "-50px" }}
         variants={fadeUp}
       >
+        <OrnateFrame>
         <div className="font-display text-[10px] tracking-[5px] uppercase text-text-muted text-center mb-6">
           The Invitation
         </div>
@@ -118,6 +121,7 @@ export default function LandingPage() {
             - Antalina
           </p>
         </div>
+        </OrnateFrame>
       </motion.div>
 
       {/* ═══════════ NEXT EVENT CARD ═══════════ */}
@@ -191,9 +195,7 @@ export default function LandingPage() {
         </div>
 
         <div className="text-center">
-          <a href="https://buy.stripe.com/28E3cveHudGO5ai0Ya83C00" target="_blank" rel="noopener noreferrer" className="inline-block bg-transparent border border-gold text-gold font-display text-[11px] sm:text-[13px] tracking-[4px] sm:tracking-[5px] uppercase py-4 px-8 sm:px-12 transition-all duration-400 hover:bg-gold/10 hover:shadow-[0_0_32px_rgba(181,164,138,0.1)] hover:-translate-y-[1px]">
-            Secure Your Place
-          </a>
+          <Button onClick={() => window.open('https://buy.stripe.com/28E3cveHudGO5ai0Ya83C00', '_blank')}>Secure Your Place</Button>
           <p className="text-[13px] text-[#6e6a61] italic mt-3.5">Only 100 crossings available</p>
         </div>
       </motion.div>
@@ -239,9 +241,7 @@ export default function LandingPage() {
         </p>
 
         <div className="text-center">
-          <a href="https://drive.google.com/drive/folders/1qdsWc8DN_yCEacD7A5Is67gv-P51h36U" target="_blank" rel="noopener noreferrer" className="inline-block bg-transparent border border-gold text-gold font-display text-[11px] sm:text-[13px] tracking-[4px] sm:tracking-[5px] uppercase py-4 px-8 sm:px-12 transition-all duration-400 hover:bg-gold/10 hover:shadow-[0_0_32px_rgba(181,164,138,0.1)] hover:-translate-y-[1px]">
-            View Photos
-          </a>
+          <Button onClick={() => window.open('https://drive.google.com/drive/folders/1qdsWc8DN_yCEacD7A5Is67gv-P51h36U', '_blank')}>View Photos</Button>
         </div>
       </motion.div>
 

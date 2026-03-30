@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { Metadata } from 'next';
 import './globals.css';
 
@@ -28,7 +29,7 @@ export default function RootLayout({
         
         {/* Navigation Placeholder */}
         <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between py-4 px-6 bg-gradient-to-b from-bg-primary/95 to-bg-primary/0 backdrop-blur-[4px]">
-          <a href="/" className="flex items-center gap-2.5 opacity-85 hover:opacity-100 transition-opacity">
+          <Link href="/" className="flex items-center gap-2.5 opacity-85 hover:opacity-100 transition-opacity">
             <svg viewBox="0 0 100 80" className="w-8 h-8" xmlns="http://www.w3.org/2000/svg">
               <g fill="#c4bfb3">
                 <rect x="28" y="2" width="44" height="24" rx="12" fill="none" stroke="#c4bfb3" strokeWidth="2.5"/>
@@ -40,10 +41,10 @@ export default function RootLayout({
               </g>
             </svg>
             <span className="font-decorative text-cream tracking-[1px] text-base hidden sm:inline-block">Anybe</span>
-          </a>
-          <a href="/events" className="font-display text-[11px] tracking-[4px] uppercase text-text-muted hover:text-gold transition-colors">
+          </Link>
+          <Link href="/events" className="font-display text-[11px] tracking-[4px] uppercase text-text-muted hover:text-gold transition-colors">
             Portal
-          </a>
+          </Link>
         </nav>
 
         {/* Main Content */}

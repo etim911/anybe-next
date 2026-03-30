@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 const html = fs.readFileSync('/tmp/anybe-next/terms.html', 'utf8');
 const bodyMatch = html.match(/<body>([\s\S]*?)<\/body>/i);

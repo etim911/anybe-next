@@ -1,113 +1,159 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { notFound, useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { notFound } from 'next/navigation';
-import { Metadata } from 'next';
 import Link from 'next/link';
+import { getStoredGuest } from '@/lib/auth';
+import { Button } from '@/components/ui/Button';
 
-export const revalidate = 60; // ISR cache every 60 seconds
-
-export async function generateStaticParams() {
-  const { data: events } = await supabase.from('events').select('slug');
-  return events?.map((event) => ({
-    slug: event.slug,
-  })) || [];
+interface PageProps {
+  params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const { slug } = await params;
-  const { data: event } = await supabase
-    .from('events')
-    .select('*')
-    .eq('slug', slug)
-    .single();
+interface Event {
+  id: string;
+  title: string;
+  slug: string;
+  description: string | null;
+  date: string;
+  location: string;
+  capacity: number | null;
+}
 
-  if (!event) {
-    return { title: 'Event Not Found | Anybe Night' };
+export default function EventPage({ params }: PageProps) {
+  const router = useRouter();
+  const [event, setEvent] = useState<Event | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  useEffect(() => {
+    // Check if guest exists in localStorage
+    const guest = getStoredGuest();
+    setIsAuthenticated(!!guest);
+
+    async function loadEvent() {
+      try {
+        const { slug } = await params;
+        const { data, error } = await supabase
+          .from('events')
+          .select('*')
+          .eq('slug', slug)
+          .single();
+
+        if (error || !data) {
+          notFound();
+        } else {
+          setEvent(data);
+        }
+      } catch (err) {
+        console.error(err);
+        notFound();
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadEvent();
+  }, [params]);
+
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 z-50 bg-bg-primary flex items-center justify-center">
+        <div className="text-[28px] text-[#6e6a61] opacity-50 animate-pulse">✦</div>
+      </div>
+    );
   }
 
-  return {
-    title: `${event.title} | Anybe Night`,
-    description: event.description,
-    openGraph: {
-      title: event.title,
-      description: event.description,
-      type: 'website',
-    },
+  if (!event) return null;
+
+  const eventDate = new Date(event.date);
+  const formattedDate = eventDate.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+  const handleRegister = async () => {
+    setIsRegistering(true);
+    setErrorMsg('');
+    const guest = getStoredGuest();
+    if (!guest) {
+      router.push(`/auth?redirect=/events/${event.slug}`);
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/events/${event.slug}/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ guestId: guest.id })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to register');
+      alert('Registration successful!');
+    } catch (err) {
+      setErrorMsg((err as Error).message);
+    } finally {
+      setIsRegistering(false);
+    }
   };
-}
-
-export default async function EventPage({ params }: { params: { slug: string } }) {
-  const { slug } = await params;
-  
-  const { data: event } = await supabase
-    .from('events')
-    .select('*')
-    .eq('slug', slug)
-    .single();
-
-  if (!event) {
-    notFound();
-  }
 
   return (
     <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-24 pb-16 min-h-screen">
-      
-      {/* ─── TITLE & HERO ─── */}
-      <div className="text-center mb-12 animate-fade-in">
-        <h1 className="font-decorative text-[32px] md:text-[40px] font-normal text-cream tracking-[2px] mb-4">
-          {event.title}
-        </h1>
-        <div className="flex justify-center items-center gap-3 text-[10px] tracking-[4px] uppercase text-text-muted mb-8">
-          <span>{new Date(event.date).toLocaleDateString()}</span>
-          <span className="opacity-50">•</span>
-          <span>{event.location}</span>
-        </div>
-      </div>
-
-      {/* ─── EVENT DETAILS CARD ─── */}
-      <div className="relative border border-bg-tertiary p-8 mb-12 bg-gradient-to-br from-bg-tertiary/60 to-bg-secondary/80 animate-fade-in delay-200">
+      <div className="relative border border-[#2e2a24] p-10 md:p-12 mb-12 bg-gradient-to-br from-[rgba(26,24,20,0.6)] to-[rgba(14,12,10,0.8)]">
         
-        {/* Corner flourishes */}
-        <div className="absolute w-7 h-7 opacity-40 top-2 left-2">
-          <svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg>
-        </div>
-        <div className="absolute w-7 h-7 opacity-40 top-2 right-2 scale-x-[-1]">
-          <svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg>
-        </div>
-        <div className="absolute w-7 h-7 opacity-40 bottom-2 left-2 scale-y-[-1]">
-          <svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg>
-        </div>
-        <div className="absolute w-7 h-7 opacity-40 bottom-2 right-2 scale-[-1]">
-          <svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg>
-        </div>
+        {/* Corner ornaments */}
+        <div className="absolute top-2 left-2 w-7 h-7 opacity-40"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3" /></svg></div>
+        <div className="absolute top-2 right-2 w-7 h-7 opacity-40 scale-x-[-1]"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3" /></svg></div>
+        <div className="absolute bottom-2 left-2 w-7 h-7 opacity-40 scale-y-[-1]"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3" /></svg></div>
+        <div className="absolute bottom-2 right-2 w-7 h-7 opacity-40 scale-[-1]"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3" /></svg></div>
 
-        <div className="text-center font-display text-[13px] tracking-[4px] text-gold uppercase mb-8 pb-4 border-b border-gold/20">
-          The Manifesto
-        </div>
-        
-        <div className="text-lg italic text-text-secondary leading-relaxed text-center mb-10 whitespace-pre-wrap">
-          {event.description || "The crossing is near. Only the initiated may proceed."}
-        </div>
+        <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-[#0c0b0a] px-3 text-[11px] tracking-[4px] text-[#6e6a61] opacity-60">·  ✦  ·</div>
+        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#0c0b0a] px-3 text-[11px] tracking-[4px] text-[#6e6a61] opacity-60">·  ✦  ·</div>
 
-        <div className="grid grid-cols-2 gap-6 max-w-[320px] mx-auto mb-8 border-t border-bg-tertiary pt-6">
+        <div className="font-display text-[10px] tracking-[5px] uppercase text-[#6e6a61] text-center mb-6">Anybe Event</div>
+        <h1 className="font-decorative text-[32px] md:text-[38px] font-normal text-[#ece6d8] text-center tracking-[2px] mb-4">{event.title}</h1>
+
+        {event.description && (
+          <p className="text-[17px] text-[#c4bfb3] leading-relaxed text-center mb-6 max-w-[480px] mx-auto">{event.description}</p>
+        )}
+
+        <div className="grid grid-cols-2 gap-6 max-w-[400px] mx-auto mb-8">
           <div className="text-center">
-            <div className="text-[9px] tracking-[3px] uppercase text-[#6e6a61] mb-1.5">Capacity</div>
-            <div className="font-display text-[15px] text-cream tracking-[0.5px]">{event.capacity || 100}</div>
+            <div className="text-[9px] tracking-[3px] uppercase text-[#6e6a61] mb-1.5">Date</div>
+            <div className="font-display text-[15px] text-[#ece6d8] tracking-wide">{formattedDate}</div>
           </div>
           <div className="text-center">
-            <div className="text-[9px] tracking-[3px] uppercase text-[#6e6a61] mb-1.5">Price</div>
-            <div className="font-display text-[15px] text-gold tracking-[0.5px]">${event.price || 'TBA'}</div>
+            <div className="text-[9px] tracking-[3px] uppercase text-[#6e6a61] mb-1.5">Location</div>
+            <div className="font-display text-[15px] text-[#ece6d8] tracking-wide">{event.location}</div>
           </div>
+          {event.capacity && (
+            <div className="text-center col-span-2">
+              <div className="text-[9px] tracking-[3px] uppercase text-[#6e6a61] mb-1.5">Capacity</div>
+              <div className="font-display text-[15px] text-[#ece6d8] tracking-wide">{event.capacity} Guests</div>
+            </div>
+          )}
         </div>
 
-        <div className="text-center mt-4">
-          <Link href="/auth" className="inline-block bg-transparent border border-gold text-gold font-display text-[12px] tracking-[4px] uppercase py-4 px-10 transition-all duration-400 hover:bg-gold/10 hover:-translate-y-[1px]">
-            Join the Crossing
-          </Link>
-          <p className="text-[11px] text-[#6e6a61] italic mt-3">Authentication Required</p>
+        {errorMsg && <div className="text-red-500 text-sm text-center mb-4">{errorMsg}</div>}
+
+        <div className="text-center">
+          {isAuthenticated ? (
+            <Button onClick={handleRegister} isLoading={isRegistering}>
+              Register Now
+            </Button>
+          ) : (
+            <Button onClick={() => router.push(`/auth?redirect=/events/${event.slug}`)}>
+              Sign In to Register
+            </Button>
+          )}
+          <p className="text-[13px] text-[#6e6a61] italic mt-3.5">
+            <Link href="/" className="text-[#6e6a61] hover:text-[#b5a48a] underline">Back to Home</Link>
+          </p>
         </div>
       </div>
-      
     </main>
   );
 }

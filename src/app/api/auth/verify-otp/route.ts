@@ -31,7 +31,7 @@ export async function POST(request: Request) {
       .create({ to: phone, code });
 
     if (verificationCheck.status === 'approved') {
-      const normalizedPhone = phone.startsWith('+') ? phone : '+' + phone.replace(/\D/g, '');
+      const normalizedPhone = phone.startsWith('+') ? phone : '+' + phone.replace(/\\D/g, '');
       
       const { data, error } = await supabase
         .from('guests')
@@ -48,8 +48,11 @@ export async function POST(request: Request) {
     } else {
       return NextResponse.json({ success: false, error: 'Invalid verification code' }, { status: 400 });
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Verify OTP Error:', error);
-    return NextResponse.json({ success: false, error: error.message || 'Failed to verify OTP' }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error instanceof Error ? error.message : "Server error" },
+      { status: 500 }
+    );
   }
 }

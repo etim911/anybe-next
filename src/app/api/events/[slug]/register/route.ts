@@ -7,19 +7,18 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function POST(
   request: Request,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   { params }: { params: Promise<{ slug: string }> } | { params: { slug: string } }
 ) {
   try {
     const { guestId, eventId } = await request.json();
     
-    // In Next 14, params is an object but we type it defensively 
-    // depending on the Next version used. We'll just extract what we need.
-
     if (!guestId || !eventId) {
       return NextResponse.json({ success: false, error: 'Guest ID and Event ID are required' }, { status: 400 });
     }
 
     // Attempt to insert into guestlist
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { data: registration, error: regError } = await supabase
       .from('guestlists')
       .insert({
@@ -52,8 +51,8 @@ export async function POST(
     }
 
     return NextResponse.json({ success: true, pass });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Registration Error:', error);
-    return NextResponse.json({ success: false, error: error.message || 'Server error' }, { status: 500 });
+    return NextResponse.json({ success: false, error: error instanceof Error ? error.message : 'Server error' }, { status: 500 });
   }
 }

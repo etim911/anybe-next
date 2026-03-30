@@ -8,6 +8,10 @@ const verifySid = 'VA2f4c5bc238c2d60ca104e10d466b0e10';
 export async function POST(request: Request) {
   try {
     const { phone } = await request.json();
+
+    // Normalize phone to E.164
+    const normalizedPhone = phone.startsWith('+') ? phone : `+1${phone.replace(/\\D/g, '')}`;
+
     if (!phone) {
       return NextResponse.json({ success: false, message: 'Phone is required' }, { status: 400 });
     }
@@ -20,11 +24,14 @@ export async function POST(request: Request) {
     const client = twilio(accountSid, authToken);
     const verification = await client.verify.v2.services(verifySid)
       .verifications
-      .create({ to: phone, channel: 'sms' });
+      .create({ to: normalizedPhone, channel: 'sms' });
 
     return NextResponse.json({ success: true, message: verification.status });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Send OTP Error:', error);
-    return NextResponse.json({ success: false, message: error.message || 'Failed to send OTP' }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: error instanceof Error ? error.message : "Server error" },
+      { status: 500 }
+    );
   }
 }

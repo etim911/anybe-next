@@ -15,40 +15,70 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
   onCountryCodeChange,
   error,
 }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let digits = e.target.value.replace(/\D/g, '');
+    if (digits.length > 10) digits = digits.slice(0, 10);
+    let formatted = digits;
+    if (digits.length > 6) {
+      formatted = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+    } else if (digits.length > 3) {
+      formatted = `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+    } else if (digits.length > 0) {
+      formatted = `(${digits}`;
+    }
+    onChange(formatted);
+  };
+
   return (
     <div className="flex flex-col mb-4">
-      <label className="text-sm font-cinzel text-cream mb-2 tracking-wide">
+      <label className="text-sm font-cinzel text-cream mb-2 tracking-wide text-left uppercase">
         Phone Number
       </label>
-      <div className="flex border border-gold/30 rounded-none bg-[#141210] focus-within:border-gold focus-within:ring-1 focus-within:ring-gold/50 transition-all duration-300">
-        <div className="flex items-center border-r border-gold/20 pl-2 pr-1">
+      <div className="flex border border-border-light bg-black/60 focus-within:border-gold transition-all duration-300">
+        <div className="flex items-center border-r border-border-light">
           <select
             value={countryCode}
             onChange={(e) => onCountryCodeChange(e.target.value)}
-            className="bg-transparent text-cream font-cinzel tracking-widest uppercase focus:outline-none appearance-none py-3 pr-4 pl-2 text-sm md:text-base"
+            className="bg-transparent text-cream font-serif focus:outline-none appearance-none py-3.5 pl-4 pr-6 text-lg cursor-pointer outline-none"
+            style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'8\'%3E%3Cpath d=\'M1 1l5 5 5-5\' stroke=\'%236e6a61\' stroke-width=\'1.5\' fill=\'none\'/%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}
           >
-            <option value="+1">US (+1)</option>
-            <option value="+44">UK (+44)</option>
-            <option value="+61">AU (+61)</option>
-            <option value="+91">IN (+91)</option>
-            {/* Add more as needed */}
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+1">🇨🇦 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+61">🇦🇺 +61</option>
+            <option value="+64">🇳🇿 +64</option>
+            <option value="+353">🇮🇪 +353</option>
+            <option value="+49">🇩🇪 +49</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+34">🇪🇸 +34</option>
+            <option value="+39">🇮🇹 +39</option>
+            <option value="+31">🇳🇱 +31</option>
+            <option value="+46">🇸🇪 +46</option>
+            <option value="+47">🇳🇴 +47</option>
+            <option value="+45">🇩🇰 +45</option>
+            <option value="+358">🇫🇮 +358</option>
+            <option value="+41">🇨🇭 +41</option>
+            <option value="+43">🇦🇹 +43</option>
+            <option value="+32">🇧🇪 +32</option>
+            <option value="+351">🇵🇹 +351</option>
+            <option value="+48">🇵🇱 +48</option>
+            <option value="+7">🇷🇺 +7</option>
+            <option value="+81">🇯🇵 +81</option>
+            <option value="+82">🇰🇷 +82</option>
+            <option value="+86">🇨🇳 +86</option>
+            <option value="+52">🇲🇽 +52</option>
           </select>
-          <div className="pointer-events-none -ml-4 mr-2 text-gold/60">
-            <svg className="w-3 h-3 fill-current" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
-          </div>
         </div>
         <input
           type="tel"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={handleChange}
           placeholder="(555) 000-0000"
-          className="w-full bg-transparent text-cream font-cormorant placeholder-cream/30 px-4 py-3 focus:outline-none text-lg tracking-wide"
+          className="w-full bg-transparent text-cream font-serif placeholder-silver-dim px-4 py-3.5 focus:outline-none text-lg outline-none"
         />
       </div>
       {error && (
-        <span className="text-red-500 text-xs mt-1 font-cormorant">{error}</span>
+        <span className="text-red-500 text-xs mt-1 font-serif text-left">{error}</span>
       )}
     </div>
   );

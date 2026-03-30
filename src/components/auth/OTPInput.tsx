@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 
 export interface OTPInputProps {
   length?: number;
@@ -8,27 +8,18 @@ export interface OTPInputProps {
 }
 
 export const OTPInput: React.FC<OTPInputProps> = ({ length = 6, value, onChange, error }) => {
-  const [otp, setOtp] = useState<string[]>(Array(length).fill(''));
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  useEffect(() => {
-    // Sync external value to internal array representation
-    const valArr = value.split('').slice(0, length);
-    const newOtp = [...valArr, ...Array(length - valArr.length).fill('')];
-    setOtp(newOtp);
-  }, [value, length]);
+  const otp = [...value.split('').slice(0, length), ...Array(length).fill('')].slice(0, length);
 
   const handleChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    if (isNaN(Number(val))) return; // only allow numbers
+    if (isNaN(Number(val))) return;
 
     const newOtp = [...otp];
-    // Take only the last character entered
     newOtp[index] = val.substring(val.length - 1);
-    setOtp(newOtp);
     onChange(newOtp.join(''));
 
-    // Move to next input if not empty
     if (val && index < length - 1 && inputRefs.current[index + 1]) {
       inputRefs.current[index + 1]?.focus();
     }
@@ -36,7 +27,6 @@ export const OTPInput: React.FC<OTPInputProps> = ({ length = 6, value, onChange,
 
   const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Backspace' && !otp[index] && index > 0 && inputRefs.current[index - 1]) {
-      // Move to previous input on backspace if current is empty
       inputRefs.current[index - 1]?.focus();
     }
   };
@@ -50,10 +40,8 @@ export const OTPInput: React.FC<OTPInputProps> = ({ length = 6, value, onChange,
     pastedData.split('').forEach((char, idx) => {
       newOtp[idx] = char;
     });
-    setOtp(newOtp);
     onChange(newOtp.join(''));
     
-    // Focus last filled input or end
     const targetIndex = Math.min(pastedData.length, length - 1);
     inputRefs.current[targetIndex]?.focus();
   };

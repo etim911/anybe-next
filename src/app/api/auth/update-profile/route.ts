@@ -7,16 +7,16 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function POST(request: Request) {
   try {
-    const { phone, firstName, lastName } = await request.json();
-    if (!phone || !firstName || !lastName) {
+    const { phone, firstName, lastName, dob } = await request.json();
+    if (!phone || !firstName || !lastName || !dob) {
       return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
     }
 
-    const normalizedPhone = phone.startsWith('+') ? phone : '+' + phone.replace(/\D/g, '');
+    const normalizedPhone = phone.startsWith('+') ? phone : '+' + phone.replace(/\\D/g, '');
 
     const { data, error } = await supabase
       .from('guests')
-      .update({ first_name: firstName, last_name: lastName })
+      .update({ first_name: firstName, last_name: lastName, dob })
       .eq('phone', normalizedPhone)
       .select()
       .single();
@@ -26,8 +26,11 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ success: true, guest: data });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Update Profile Error:', error);
-    return NextResponse.json({ success: false, error: error.message || 'Server error' }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error instanceof Error ? error.message : "Server error" },
+      { status: 500 }
+    );
   }
 }
