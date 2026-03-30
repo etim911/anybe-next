@@ -44,7 +44,14 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: false, error: 'Failed to save guest record' }, { status: 500 });
       }
 
-      return NextResponse.json({ success: true, guest: data });
+      const response = NextResponse.json({ success: true, guest: data });
+      response.cookies.set('guest-verified', 'true', {
+        httpOnly: false, // needs to be readable by client for UX
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 30 // 30 days
+      });
+      return response;
     } else {
       return NextResponse.json({ success: false, error: 'Invalid verification code' }, { status: 400 });
     }

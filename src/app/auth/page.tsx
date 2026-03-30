@@ -148,6 +148,7 @@ export default function AuthPage() {
       }
 
       setStoredGuest(data.guest);
+      document.cookie = 'guest-verified=true; path=/; max-age=' + (60 * 60 * 24 * 30);
       setCurrentStep(4);
     } catch (err) {
       setErrorMsg((err as Error).message);
@@ -189,6 +190,9 @@ export default function AuthPage() {
                 countryCode={countryCode} 
                 onCountryCodeChange={setCountryCode} 
               />
+              <div className="mt-3 text-[10px] text-silver-dim/60 text-center px-2">
+                By continuing, you agree to receive a one-time SMS verification code. Message and data rates may apply. Reply STOP to opt out. View our Terms of Service and Privacy Policy at <a href="https://night.anybe.com/terms" className="text-gold underline" target="_blank" rel="noopener noreferrer">night.anybe.com/terms</a>.
+              </div>
             </div>
 
             <div className="checkbox-row flex items-center justify-center gap-2 mb-6">
@@ -196,6 +200,7 @@ export default function AuthPage() {
               <label htmlFor="ageCheck" className="text-sm text-cream cursor-pointer">I confirm I am 21 years of age or older.</label>
             </div>
 
+            
             <Button 
               onClick={handleSendCode} 
               isLoading={isLoadingSend} 
@@ -204,6 +209,9 @@ export default function AuthPage() {
             >
               Next
             </Button>
+            <div className="mt-4 text-[10px] text-silver-dim/60 leading-relaxed text-center">
+              By clicking NEXT, you agree to our <a href="/terms.html" className="text-gold underline underline-offset-2">Terms and Privacy Policy</a>. You consent to receive recurring automated promotional and transactional text messages from Anybe and its affiliated event brands. Message frequency varies. Consent is not required as a condition of purchase. Msg &amp; data rates may apply. Reply STOP to opt out or HELP for help.
+            </div>
           </div>
         )}
 
