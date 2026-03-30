@@ -191,26 +191,94 @@ export default function LandingPage() {
         </div>
 
         <div className="text-center">
-          <a href="/events/apocalypse" className="inline-block bg-transparent border border-gold text-gold font-display text-[11px] sm:text-[13px] tracking-[4px] sm:tracking-[5px] uppercase py-4 px-8 sm:px-12 transition-all duration-400 hover:bg-gold/10 hover:shadow-[0_0_32px_rgba(181,164,138,0.1)] hover:-translate-y-[1px]">
+          <a href="https://buy.stripe.com/28E3cveHudGO5ai0Ya83C00" target="_blank" rel="noopener noreferrer" className="inline-block bg-transparent border border-gold text-gold font-display text-[11px] sm:text-[13px] tracking-[4px] sm:tracking-[5px] uppercase py-4 px-8 sm:px-12 transition-all duration-400 hover:bg-gold/10 hover:shadow-[0_0_32px_rgba(181,164,138,0.1)] hover:-translate-y-[1px]">
             Secure Your Place
           </a>
           <p className="text-[13px] text-[#6e6a61] italic mt-3.5">Only 100 crossings available</p>
         </div>
       </motion.div>
 
-      {/* ═══════════ GALLERY PLACEHOLDER ═══════════ */}
-      <motion.div 
-        className="text-center py-12 px-6 border border-[#2e2a24] bg-gradient-to-br from-[#1a1814]/30 to-[#0e0c0a]/40"
+      {/* ═══════════ PAST EVENT CARD ═══════════ */}
+      <motion.div
+        className="relative py-12 px-6 sm:px-9 mb-12 border border-[#2e2a24] bg-gradient-to-br from-[#1a1814]/60 to-[#0e0c0a]/80"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-50px" }}
         variants={fadeUp}
       >
-        <div className="text-3xl text-[#6e6a61] opacity-50 mb-4">✦</div>
-        <p className="text-base italic text-text-secondary leading-relaxed">
-          The echoes remain. Relive them in our gallery.
+        {/* Corner flourishes */}
+        <div className="absolute w-7 h-7 opacity-40 top-2 left-2">
+          <svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg>
+        </div>
+        <div className="absolute w-7 h-7 opacity-40 top-2 right-2 scale-x-[-1]">
+          <svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg>
+        </div>
+        <div className="absolute w-7 h-7 opacity-40 bottom-2 left-2 scale-y-[-1]">
+          <svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg>
+        </div>
+        <div className="absolute w-7 h-7 opacity-40 bottom-2 right-2 scale-[-1]">
+          <svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3"/></svg>
+        </div>
+
+        {/* Decorative dots top/bottom */}
+        <div className="absolute left-1/2 -translate-x-1/2 -top-2 text-[11px] tracking-[4px] text-[#6e6a61] opacity-60 bg-bg-primary px-3">·  ✦  ·</div>
+        <div className="absolute left-1/2 -translate-x-1/2 -bottom-2 text-[11px] tracking-[4px] text-[#6e6a61] opacity-60 bg-bg-primary px-3">·  ✦  ·</div>
+
+        <div className="font-display text-[10px] tracking-[5px] uppercase text-[#6e6a61] text-center mb-6">Chapter One</div>
+        <div className="font-display text-lg font-medium text-cream text-center mb-1.5 tracking-[1px]">March 2026</div>
+        <div className="font-display text-[11px] tracking-[4px] uppercase text-gold text-center mb-6">A Night to Remember</div>
+
+        <p className="text-[17px] text-[#c4bfb3] leading-relaxed text-center mb-6">
+          To the hundred souls who crossed the threshold - <em className="text-cream not-italic">thank you.</em>
+          {' '}What unfolded that evening was not something we created alone.
+          It was something we became, together.
         </p>
+
+        <p className="text-[15px] text-text-secondary italic text-center mb-6">
+          The echoes remain. Relive them.
+        </p>
+
+        <div className="text-center">
+          <a href="https://drive.google.com/drive/folders/1qdsWc8DN_yCEacD7A5Is67gv-P51h36U" target="_blank" rel="noopener noreferrer" className="inline-block bg-transparent border border-gold text-gold font-display text-[11px] sm:text-[13px] tracking-[4px] sm:tracking-[5px] uppercase py-4 px-8 sm:px-12 transition-all duration-400 hover:bg-gold/10 hover:shadow-[0_0_32px_rgba(181,164,138,0.1)] hover:-translate-y-[1px]">
+            View Photos
+          </a>
+        </div>
       </motion.div>
+
+      {/* ═══════════ FOOTER ═══════════ */}
+      <motion.footer
+        className="text-center mt-14 pt-6 border-t border-[#2e2a24]"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={fadeUp}
+      >
+        <div className="mb-3">
+          <div className="w-9 h-9 opacity-50 inline-block">
+            <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+              <g fill="#6e6a61">
+                <rect x="28" y="2" width="44" height="24" rx="12" fill="none" stroke="#6e6a61" strokeWidth="2.5"/>
+                <circle cx="60" cy="14" r="7" fill="#6e6a61"/>
+                <circle cx="36" cy="42" r="8" fill="none" stroke="#6e6a61" strokeWidth="2.5"/>
+                <path d="M36 50 L36 70 M28 58 L44 58 M36 70 L28 80 M36 70 L44 80" stroke="#6e6a61" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+                <circle cx="64" cy="42" r="8" fill="none" stroke="#6e6a61" strokeWidth="2.5"/>
+                <path d="M64 50 L64 70 M56 58 L72 58 M64 70 L56 80 M64 70 L72 80" stroke="#6e6a61" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div className="font-display text-[11px] tracking-[3px] uppercase text-[#6e6a61] mb-1.5">
+          <a href="https://night.anybe.com" className="text-gold no-underline">Anybe Night</a> · Los Angeles
+        </div>
+        <div className="text-[13px] text-[#6e6a61] tracking-wide mb-4">
+          <a href="https://night.anybe.com" className="text-[#6e6a61] no-underline transition-colors hover:text-[#c4bfb3]">night.anybe.com</a>
+          {' · '}
+          <a href="tel:+12244227777" className="text-[#6e6a61] no-underline transition-colors hover:text-[#c4bfb3]">224 422 7777</a>
+        </div>
+        <div className="text-[11px] text-[#6e6a61] opacity-50">
+          &copy; 2026 Anybe Night. All rights reserved.
+        </div>
+      </motion.footer>
 
     </main>
   );
