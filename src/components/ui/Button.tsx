@@ -27,18 +27,21 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const baseStyles = "inline-flex items-center justify-center font-cinzel tracking-widest uppercase transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gold/50 disabled:opacity-50 disabled:cursor-not-allowed";
+    const baseStyles = "inline-flex items-center justify-center font-display uppercase transition-all duration-400 focus:outline-none focus:ring-2 focus:ring-gold/50 disabled:opacity-50 disabled:cursor-not-allowed";
+    
+    // Original exact values
+    // padding: 18px 48px; font-size: 13px; letter-spacing: 5px;
     
     const variants = {
-      primary: "border border-gold text-gold hover:bg-gold/10 hover:shadow-[0_0_15px_rgba(181,164,138,0.3)] bg-transparent",
+      primary: "border border-gold text-gold bg-transparent hover:bg-gold/10 hover:shadow-[0_0_32px_rgba(181,164,138,0.1)] hover:-translate-y-[1px]",
       ghost: "text-cream hover:text-gold bg-transparent hover:bg-white/5 border border-transparent",
       danger: "border border-red-900/50 text-red-500 hover:bg-red-900/20 hover:border-red-500/50 bg-transparent",
     };
 
     const sizes = {
-      sm: "px-4 py-2 text-xs",
-      md: "px-6 py-3 text-sm",
-      lg: "px-8 py-4 text-base",
+      sm: "px-4 py-2 text-[11px] tracking-[4px]",
+      md: "px-[48px] py-[18px] text-[13px] tracking-[5px]",
+      lg: "px-[64px] py-[24px] text-[15px] tracking-[6px]",
     };
 
     return (
@@ -46,7 +49,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
         disabled={disabled || isLoading}
-        whileHover={{ scale: disabled || isLoading ? 1 : 1.02 }}
         whileTap={{ scale: disabled || isLoading ? 1 : 0.98 }}
         {...props}
       >

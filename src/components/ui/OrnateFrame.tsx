@@ -3,27 +3,36 @@ import React from 'react';
 export interface OrnateFrameProps {
   children: React.ReactNode;
   className?: string;
+  padding?: string;
 }
 
-export const OrnateFrame: React.FC<OrnateFrameProps> = ({ children, className = '' }) => {
+export const OrnateFrame: React.FC<OrnateFrameProps> = ({ children, className = '', padding = 'pt-[52px] px-[36px] pb-[44px]' }) => {
   return (
-    <div className={`relative p-8 border border-gold/30 ${className}`}>
+    <div className={`relative ${padding} mb-12 border border-border bg-gradient-to-br from-[#1a181499] to-[#0e0c0acc] ${className}`}>
+      {/* Top/bottom ornament lines simulated with absolute divs since pseudo elements with background clip are tricky */}
+      <div className="absolute top-[-8px] left-1/2 -translate-x-1/2 bg-bg-deep px-[12px] text-[11px] tracking-[4px] text-silver-dim opacity-60">
+        · ✦ ·
+      </div>
+      <div className="absolute bottom-[-8px] left-1/2 -translate-x-1/2 bg-bg-deep px-[12px] text-[11px] tracking-[4px] text-silver-dim opacity-60">
+        · ✦ ·
+      </div>
+
       {/* Top Left Corner */}
-      <svg className="absolute -top-[1px] -left-[1px] w-8 h-8 text-gold/60" viewBox="0 0 100 100" fill="currentColor">
-        <path d="M0,0 L100,0 C100,0 50,20 50,50 C50,80 0,100 0,100 Z" />
-      </svg>
+      <div className="absolute top-[8px] left-[8px] w-[28px] h-[28px] opacity-40">
+        <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3"/></svg>
+      </div>
       {/* Top Right Corner */}
-      <svg className="absolute -top-[1px] -right-[1px] w-8 h-8 text-gold/60 rotate-90" viewBox="0 0 100 100" fill="currentColor">
-        <path d="M0,0 L100,0 C100,0 50,20 50,50 C50,80 0,100 0,100 Z" />
-      </svg>
+      <div className="absolute top-[8px] right-[8px] w-[28px] h-[28px] opacity-40 scale-x-[-1]">
+        <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3"/></svg>
+      </div>
       {/* Bottom Left Corner */}
-      <svg className="absolute -bottom-[1px] -left-[1px] w-8 h-8 text-gold/60 -rotate-90" viewBox="0 0 100 100" fill="currentColor">
-        <path d="M0,0 L100,0 C100,0 50,20 50,50 C50,80 0,100 0,100 Z" />
-      </svg>
+      <div className="absolute bottom-[8px] left-[8px] w-[28px] h-[28px] opacity-40 scale-y-[-1]">
+        <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3"/></svg>
+      </div>
       {/* Bottom Right Corner */}
-      <svg className="absolute -bottom-[1px] -right-[1px] w-8 h-8 text-gold/60 rotate-180" viewBox="0 0 100 100" fill="currentColor">
-        <path d="M0,0 L100,0 C100,0 50,20 50,50 C50,80 0,100 0,100 Z" />
-      </svg>
+      <div className="absolute bottom-[8px] right-[8px] w-[28px] h-[28px] opacity-40 scale-x-[-1] scale-y-[-1]">
+        <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3"/></svg>
+      </div>
 
       <div className="relative z-10">
         {children}
@@ -34,10 +43,8 @@ export const OrnateFrame: React.FC<OrnateFrameProps> = ({ children, className = 
 
 export const Divider: React.FC<{ className?: string }> = ({ className = '' }) => {
   return (
-    <div className={`flex items-center justify-center space-x-4 opacity-70 my-8 ${className}`}>
-      <div className="h-[1px] w-12 bg-gold/50"></div>
-      <span className="text-gold/80 text-lg">✦</span>
-      <div className="h-[1px] w-12 bg-gold/50"></div>
+    <div className={`text-center text-silver-dim text-[14px] tracking-[4px] opacity-60 my-[18px] ${className}`}>
+      - ✦ -
     </div>
   );
 };

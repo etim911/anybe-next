@@ -10,27 +10,38 @@ const config: Config = {
     extend: {
       colors: {
         bg: {
-          primary: '#0c0b0a',
-          secondary: '#141210',
-          tertiary: '#1a1814',
-          card: 'rgba(20, 18, 16, 0.95)',
+          deep: 'var(--bg-deep)',
+          leather: 'var(--bg-leather)',
+          card: 'var(--bg-card)',
+          'card-hover': 'var(--bg-card-hover)',
+        },
+        silver: {
+          DEFAULT: 'var(--silver)',
+          light: 'var(--silver-light)',
+          dim: 'var(--silver-dim)',
         },
         gold: {
-          DEFAULT: '#b5a48a',
-          light: '#c9b99f',
-          dark: '#9a8a72',
-          bright: '#d4c4a0',
+          DEFAULT: 'var(--gold)',
         },
         cream: {
-          DEFAULT: '#ece6d8',
-          muted: '#c4bfb3',
-          dark: '#a09890',
+          DEFAULT: 'var(--cream)',
         },
-        ember: '#e8572a',
+        parchment: {
+          DEFAULT: 'var(--parchment)',
+        },
         text: {
-          primary: '#ece6d8',
-          secondary: '#c4bfb3',
-          muted: '#a09890',
+          primary: 'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+        },
+        border: {
+          DEFAULT: 'var(--border)',
+          light: 'var(--border-light)',
+        },
+        success: {
+          DEFAULT: 'var(--success)',
+        },
+        error: {
+          DEFAULT: 'var(--error)',
         }
       },
       fontFamily: {
