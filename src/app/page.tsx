@@ -180,10 +180,12 @@ export default function LandingPage() {
             <div className="text-center">
               <div className="text-[9px] tracking-[2px] uppercase text-[#6e6a61] mb-1">Early Bird</div>
               <div className="font-display text-[22px] text-gold tracking-[1px]">$77</div>
+              <div className="text-[11px] text-[#6e6a61] italic mt-0.5">Until April 1</div>
             </div>
             <div className="text-center">
-              <div className="text-[9px] tracking-[2px] uppercase text-[#6e6a61] mb-1">Standard</div>
+              <div className="text-[9px] tracking-[2px] uppercase text-[#6e6a61] mb-1">After April 1</div>
               <div className="font-display text-[22px] text-cream tracking-[1px]">$127</div>
+              <div className="text-[11px] text-[#6e6a61] italic mt-0.5 invisible">.</div>
             </div>
           </div>
         </div>
