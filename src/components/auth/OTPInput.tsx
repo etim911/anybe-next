@@ -67,7 +67,7 @@ export const OTPInput: React.FC<OTPInputProps> = ({ length = 6, value, onChange,
             className={`
               w-10 h-12 md:w-14 md:h-16 text-center text-xl md:text-3xl font-cinzel text-gold bg-[#141210] 
               border-b-2 ${error ? 'border-red-500' : 'border-gold/30'}
-              focus:outline-none focus:border-gold focus:bg-gold/5 transition-all duration-300
+              focus:outline-none focus:border-gold focus:bg-gold/5 focus:shadow-[0_0_15px_rgba(212,168,84,0.15)] transition-all duration-300
               placeholder-cream/10
             `}
             placeholder="-"

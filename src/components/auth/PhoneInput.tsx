@@ -34,7 +34,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
       <label className="text-sm font-cinzel text-cream mb-2 tracking-wide text-left uppercase">
         Phone Number
       </label>
-      <div className="flex border border-border-light bg-black/60 focus-within:border-gold transition-all duration-300">
+      <div className="flex border border-border-light bg-black/60 focus-within:border-gold focus-within:shadow-[0_0_15px_rgba(212,168,84,0.15)] transition-all duration-300">
         <div className="flex items-center border-r border-border-light">
           <select
             value={countryCode}

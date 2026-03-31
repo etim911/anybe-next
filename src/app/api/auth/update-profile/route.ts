@@ -7,8 +7,8 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function POST(request: Request) {
   try {
-    const { phone, firstName, lastName, dob, email } = await request.json();
-    if (!phone || !firstName || !lastName || !dob) {
+    const { phone, firstName, lastName, email } = await request.json();
+    if (!phone || !firstName || !lastName) {
       return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
     }
 
@@ -16,7 +16,7 @@ export async function POST(request: Request) {
 
     const { data, error } = await supabase
       .from('guests')
-      .update({ first_name: firstName, last_name: lastName, dob, email: email || null })
+      .update({ first_name: firstName, last_name: lastName, email: email || null })
       .eq('phone', normalizedPhone)
       .select()
       .single();

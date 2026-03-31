@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { setStoredGuest } from '@/lib/auth';
 import { PhoneInput } from '@/components/auth/PhoneInput';
 import { OTPInput } from '@/components/auth/OTPInput';
@@ -28,14 +29,11 @@ export default function AuthPage() {
   // Step 3 State
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [dobMonth, setDobMonth] = useState('');
-  const [dobDay, setDobDay] = useState('');
-  const [dobYear, setDobYear] = useState('');
   const [isLoadingComplete, setIsLoadingComplete] = useState(false);
 
   // Derived
   const fullPhone = countryCode + phoneInput.replace(/\D/g, '');
-  const isProfileValid = firstName.trim().length > 0 && lastName.trim().length > 0 && dobMonth && dobDay && dobYear;
+  const isProfileValid = firstName.trim().length > 0 && lastName.trim().length > 0;
   const isOtpValid = otp.length === 6;
 
   useEffect(() => {
@@ -126,20 +124,13 @@ export default function AuthPage() {
     setIsLoadingComplete(true);
 
     try {
-      const dob = `${dobYear}-${dobMonth.padStart(2, '0')}-${dobDay.padStart(2, '0')}`;
-      const age = new Date().getFullYear() - parseInt(dobYear);
-      if (age < 21) {
-        throw new Error('Must be 21+ to register.');
-      }
-
       const res = await fetch('/api/auth/update-profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           phone: fullPhone,
           firstName: firstName.trim(),
-          lastName: lastName.trim(),
-          dob
+          lastName: lastName.trim()
         })
       });
       const data = await res.json();
@@ -160,7 +151,7 @@ export default function AuthPage() {
 
   return (
     <OrnateFrame>
-      <div className="auth-page max-w-[520px] mx-auto px-4 py-12 flex flex-col justify-center min-h-screen">
+      <div className="auth-page max-w-[520px] mx-auto px-4 py-6 flex flex-col justify-center min-h-[80vh]">
         <div className="logo-area text-center mb-8">
           <div className="logo-title font-decorative text-3xl text-cream tracking-widest mb-2">Anybe Night</div>
           <div className="logo-divider text-silver-dim text-sm tracking-widest opacity-60">- ✦ -</div>
@@ -177,7 +168,7 @@ export default function AuthPage() {
         {errorMsg && <div className="error-msg bg-red-900/20 border border-red-900/50 text-red-200 p-3 text-center mb-6 text-sm">{errorMsg}</div>}
 
         {currentStep === 1 && (
-          <div className="text-center">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="text-center">
             <div className="step-heading font-cinzel text-xs tracking-[5px] uppercase text-gold mb-2">Step One</div>
             <div className="step-title font-decorative text-2xl text-cream mb-6">Sign In or Register</div>
 
@@ -211,11 +202,11 @@ export default function AuthPage() {
             <div className="mt-4 text-[10px] text-silver-dim/60 leading-relaxed text-center">
               By continuing, you agree to our <a href="/terms" className="text-gold underline underline-offset-2">Terms & Privacy Policy</a> and consent to SMS verification (msg/data rates may apply).
             </div>
-          </div>
+          </motion.div>
         )}
 
         {currentStep === 2 && (
-          <div className="text-center">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="text-center">
             <div className="step-heading font-cinzel text-xs tracking-[5px] uppercase text-gold mb-2">Step Two</div>
             <div className="step-title font-decorative text-2xl text-cream mb-6">Enter Code</div>
             
@@ -237,11 +228,11 @@ export default function AuthPage() {
                 {resendCountdown > 0 ? `Resend in ${resendCountdown}s` : 'Resend code'}
               </button>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {currentStep === 3 && (
-          <div className="text-center">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="text-center">
             <div className="step-heading font-cinzel text-xs tracking-[5px] uppercase text-gold mb-2">Step Three</div>
             <div className="step-title font-decorative text-2xl text-cream mb-6">We Want to Know You</div>
 
@@ -254,14 +245,6 @@ export default function AuthPage() {
                 <label className="block font-cinzel text-[10px] tracking-[3px] uppercase text-silver-dim mb-2">Last Name</label>
                 <input type="text" className="w-full p-3.5 bg-black/60 border border-border-light text-cream font-serif text-lg focus:border-gold outline-none" value={lastName} onChange={e => setLastName(e.target.value)} />
               </div>
-              <div>
-                <label className="block font-cinzel text-[10px] tracking-[3px] uppercase text-silver-dim mb-2">Date of Birth</label>
-                <div className="flex gap-2">
-                  <input type="text" placeholder="MM" maxLength={2} className="w-1/3 p-3.5 bg-black/60 border border-border-light text-cream text-center font-serif text-lg focus:border-gold outline-none" value={dobMonth} onChange={e => setDobMonth(e.target.value)} />
-                  <input type="text" placeholder="DD" maxLength={2} className="w-1/3 p-3.5 bg-black/60 border border-border-light text-cream text-center font-serif text-lg focus:border-gold outline-none" value={dobDay} onChange={e => setDobDay(e.target.value)} />
-                  <input type="text" placeholder="YYYY" maxLength={4} className="w-1/3 p-3.5 bg-black/60 border border-border-light text-cream text-center font-serif text-lg focus:border-gold outline-none" value={dobYear} onChange={e => setDobYear(e.target.value)} />
-                </div>
-              </div>
             </div>
 
             <Button 
@@ -272,18 +255,18 @@ export default function AuthPage() {
             >
               Enter
             </Button>
-          </div>
+          </motion.div>
         )}
 
         {currentStep === 4 && (
-          <div className="text-center py-8">
-            <h2 className="font-decorative text-4xl text-cream mb-4 tracking-wider">You Have Arrived</h2>
-            <p className="text-lg italic text-text-secondary mb-8">The Society has noted your arrival.</p>
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="text-center py-8">
+            <h2 className="font-decorative text-4xl text-cream mb-4 tracking-wider">Welcome</h2>
+            <p className="text-lg italic text-text-secondary mb-8">Enter the immersive experience. We hope you are ready to cross the threshold.</p>
             <div className="w-16 h-px bg-gold/50 mx-auto mb-8"></div>
             <Button onClick={() => router.push('/events')} fullWidth>
               Enter
             </Button>
-          </div>
+          </motion.div>
         )}
 
       </div>
