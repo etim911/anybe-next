@@ -41,9 +41,7 @@ export default function RootLayout({
             </svg>
             <span className="font-decorative text-cream tracking-[1px] text-base hidden sm:inline-block">Anybe</span>
           </Link>
-          <Link href="/events" className="font-display text-[11px] tracking-[4px] uppercase text-text-muted hover:text-gold transition-colors">
-            Portal
-          </Link>
+          
         </nav>
 
         <div className="flex-1 relative z-10 w-full pt-16">
