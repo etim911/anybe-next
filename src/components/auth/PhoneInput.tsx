@@ -37,13 +37,13 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
       <div className="flex border border-border-light bg-black/60 focus-within:border-gold transition-all duration-300">
         <div className="flex items-center border-r border-border-light">
           <select
-            value={countryCode}
-            onChange={(e) => onCountryCodeChange(e.target.value)}
+            value={countryCode === "+1" ? "+1-US" : countryCode}
+            onChange={(e) => onCountryCodeChange(e.target.value.split("-")[0])}
             className="bg-transparent text-cream font-serif focus:outline-none appearance-none py-3.5 pl-4 pr-6 text-lg cursor-pointer outline-none"
             style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'8\'%3E%3Cpath d=\'M1 1l5 5 5-5\' stroke=\'%236e6a61\' stroke-width=\'1.5\' fill=\'none\'/%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}
           >
-            <option value="+1">🇺🇸 +1</option>
-            
+            <option value="+1-US">🇺🇸 +1</option>
+            <option value="+1-CA">🇨🇦 +1</option>
             <option value="+44">🇬🇧 +44</option>
             <option value="+61">🇦🇺 +61</option>
             <option value="+64">🇳🇿 +64</option>
