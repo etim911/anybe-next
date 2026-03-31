@@ -1,6 +1,6 @@
+import { supabase } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
 import twilio from 'twilio';
-import { createClient } from '@supabase/supabase-js';
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -8,10 +8,7 @@ const verifySid = 'VA2f4c5bc238c2d60ca104e10d466b0e10';
 
 export async function POST(request: Request) {
   try {
-    const supabaseUrl = process.env.SUPABASE_URL || 'https://ekdxtohgrlzugluzmqpb.supabase.co';
-    const supabaseKey = process.env.SUPABASE_ANON_KEY || 'dummy_key';
-    const supabase = createClient(supabaseUrl, supabaseKey);
-
+            
     const body = await request.json();
     const { phone, code } = body;
     
