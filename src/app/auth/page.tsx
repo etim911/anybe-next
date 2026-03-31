@@ -160,7 +160,7 @@ export default function AuthPage() {
 
   return (
     <OrnateFrame>
-      <div className="auth-page max-w-[440px] mx-auto px-4 py-6 flex flex-col justify-center min-h-[85vh]">
+      <div className="auth-page max-w-[520px] mx-auto px-4 py-12 flex flex-col justify-center min-h-screen">
         <div className="logo-area text-center mb-8">
           <div className="logo-title font-decorative text-3xl text-cream tracking-widest mb-2">Anybe Night</div>
           <div className="logo-divider text-silver-dim text-sm tracking-widest opacity-60">- ✦ -</div>
@@ -178,7 +178,7 @@ export default function AuthPage() {
 
         {currentStep === 1 && (
           <div className="text-center">
-            
+            <div className="step-heading font-cinzel text-xs tracking-[5px] uppercase text-gold mb-2">Step One</div>
             <div className="step-title font-decorative text-2xl text-cream mb-6">Sign In or Register</div>
 
             <div className="mb-6 text-left">
@@ -194,9 +194,9 @@ export default function AuthPage() {
               
             </div>
 
-            <div className="checkbox-row flex items-center justify-center gap-2 mb-4 mt-2">
-              <input type="checkbox" id="ageCheck" checked={ageConfirmed} onChange={e => setAgeConfirmed(e.target.checked)} className="accent-gold w-3.5 h-3.5" />
-              <label htmlFor="ageCheck" className="text-xs text-cream/80 cursor-pointer">I confirm I am 21 years of age or older.</label>
+            <div className="checkbox-row flex items-center justify-center gap-2 mb-6">
+              <input type="checkbox" id="ageCheck" checked={ageConfirmed} onChange={e => setAgeConfirmed(e.target.checked)} className="accent-gold w-4 h-4" />
+              <label htmlFor="ageCheck" className="text-sm text-cream cursor-pointer">I confirm I am 21 years of age or older.</label>
             </div>
 
             
@@ -208,15 +208,15 @@ export default function AuthPage() {
             >
               Next
             </Button>
-            <div className="mt-4 text-[10px] text-silver-dim/50 leading-relaxed text-center px-4">
-              By continuing, you agree to our <a href="/terms" className="text-gold/80 hover:text-gold transition-colors">Terms of Service</a> and <a href="/privacy" className="text-gold/80 hover:text-gold transition-colors">Privacy Policy</a>.
+            <div className="mt-4 text-[10px] text-silver-dim/60 leading-relaxed text-center">
+              By continuing, you agree to our <a href="/terms" className="text-gold underline underline-offset-2">Terms & Privacy Policy</a> and consent to SMS verification (msg/data rates may apply).
             </div>
           </div>
         )}
 
         {currentStep === 2 && (
           <div className="text-center">
-            
+            <div className="step-heading font-cinzel text-xs tracking-[5px] uppercase text-gold mb-2">Step Two</div>
             <div className="step-title font-decorative text-2xl text-cream mb-6">Enter Code</div>
             
             <div className="mb-8">
@@ -242,7 +242,7 @@ export default function AuthPage() {
 
         {currentStep === 3 && (
           <div className="text-center">
-            
+            <div className="step-heading font-cinzel text-xs tracking-[5px] uppercase text-gold mb-2">Step Three</div>
             <div className="step-title font-decorative text-2xl text-cream mb-6">We Want to Know You</div>
 
             <div className="space-y-4 mb-6 text-left">
