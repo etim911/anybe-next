@@ -12,7 +12,7 @@ export const PageWrapper: React.FC<PageWrapperProps> = ({
   withPadding = true 
 }) => {
   return (
-    <div className="relative min-h-screen bg-[#0c0b0a] text-cream flex flex-col font-cormorant overflow-x-hidden selection:bg-gold/30 selection:text-white">
+    <div className="relative bg-[#0c0b0a] text-cream flex flex-col font-cormorant overflow-x-hidden selection:bg-gold/30 selection:text-white">
       {/* Background Noise Texture Overlay */}
       <div 
         className="pointer-events-none fixed inset-0 z-0 opacity-[0.03]"
