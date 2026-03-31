@@ -151,7 +151,7 @@ export default function AuthPage() {
 
   return (
     <OrnateFrame>
-      <div className="auth-page max-w-[520px] mx-auto px-4 py-6 flex flex-col justify-center min-h-[80vh]">
+      <div className="auth-page max-w-[520px] mx-auto px-4 py-6 pt-[60px] flex flex-col justify-center min-h-[80vh]">
         <div className="logo-area text-center mb-8">
           <div className="logo-title font-decorative text-3xl text-cream tracking-widest mb-2">Anybe Night</div>
           <div className="logo-divider text-silver-dim text-sm tracking-widest opacity-60">- ✦ -</div>
@@ -169,7 +169,6 @@ export default function AuthPage() {
 
         {currentStep === 1 && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="text-center">
-            <div className="step-heading font-cinzel text-xs tracking-[5px] uppercase text-gold mb-2">Step One</div>
             <div className="step-title font-decorative text-2xl text-cream mb-6">Sign In or Register</div>
 
             <div className="mb-6 text-left">
@@ -207,7 +206,6 @@ export default function AuthPage() {
 
         {currentStep === 2 && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="text-center">
-            <div className="step-heading font-cinzel text-xs tracking-[5px] uppercase text-gold mb-2">Step Two</div>
             <div className="step-title font-decorative text-2xl text-cream mb-6">Enter Code</div>
             
             <div className="mb-8">
@@ -233,7 +231,6 @@ export default function AuthPage() {
 
         {currentStep === 3 && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="text-center">
-            <div className="step-heading font-cinzel text-xs tracking-[5px] uppercase text-gold mb-2">Step Three</div>
             <div className="step-title font-decorative text-2xl text-cream mb-6">We Want to Know You</div>
 
             <div className="space-y-4 mb-6 text-left">
