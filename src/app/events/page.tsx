@@ -87,13 +87,6 @@ export default function EventsDashboard() {
           location="Secret Location"
           status="past"
         />
-      </div>
-
-      <div className="mt-12 text-center">
-        <Button onClick={() => window.location.href = '/'}>
-          Return Home
-        </Button>
-      </div>
     </main>
     </>
   );
