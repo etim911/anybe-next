@@ -13,7 +13,6 @@ export function ProfileDrawer() {
     firstName: '',
     lastName: '',
     email: '',
-    dob: '',
     phone: ''
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +27,6 @@ export function ProfileDrawer() {
         firstName: storedGuest.first_name || '',
         lastName: storedGuest.last_name || '',
         email: storedGuest.email || '',
-        dob: storedGuest.dob || '',
         phone: storedGuest.phone || ''
       });
     }
@@ -52,7 +50,6 @@ export function ProfileDrawer() {
           phone: formData.phone,
           firstName: formData.firstName,
           lastName: formData.lastName,
-          dob: formData.dob,
           email: formData.email
         }),
       });
@@ -73,10 +70,9 @@ export function ProfileDrawer() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     clearStoredGuest();
-    // Clear cookies if needed
-    document.cookie = 'guest-verified=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    await fetch('/api/auth/logout', { method: 'POST' });
     router.push('/auth');
   };
 
@@ -165,18 +161,6 @@ export function ProfileDrawer() {
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
                       className="w-full bg-transparent border-b border-[#2e2a24] text-[#ece6d8] py-2 focus:outline-none focus:border-[#b5a48a] transition-colors font-display text-sm tracking-wide"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[#6e6a61] text-[10px] tracking-[3px] uppercase mb-2">Date of Birth</label>
-                    <input
-                      type="date"
-                      required
-                      value={formData.dob}
-                      onChange={(e) => setFormData({...formData, dob: e.target.value})}
-                      className="w-full bg-transparent border-b border-[#2e2a24] text-[#ece6d8] py-2 focus:outline-none focus:border-[#b5a48a] transition-colors font-display text-sm tracking-wide"
-                      style={{ colorScheme: 'dark' }}
                     />
                   </div>
 

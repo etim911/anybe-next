@@ -13,6 +13,7 @@ export function middleware(request: NextRequest) {
     '/api/auth/send-otp',
     '/api/auth/verify-otp',
     '/api/auth/update-profile',
+    '/api/auth/logout',
   ]
   
   if (publicPaths.some(path => pathname.startsWith(path))) {

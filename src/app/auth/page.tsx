@@ -104,8 +104,9 @@ export default function AuthPage() {
       }
 
       const guest = data.guest;
+      setStoredGuest(guest);
+      
       if (guest.first_name) {
-        setStoredGuest(guest);
         router.push('/events');
       } else {
         setCurrentStep(3);
