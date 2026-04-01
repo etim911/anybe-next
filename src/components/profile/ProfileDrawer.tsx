@@ -83,7 +83,7 @@ export function ProfileDrawer() {
   return (
     <>
       {/* Trigger Avatar */}
-      <div className="fixed top-6 right-6 z-40">
+      <div className="relative z-40">
         <button
           onClick={() => setIsOpen(true)}
           className="w-12 h-12 rounded-full bg-[#1a1814] border border-[#b5a48a]/30 flex items-center justify-center text-[#b5a48a] font-display text-sm tracking-widest hover:border-[#b5a48a] transition-all duration-300 shadow-lg"
