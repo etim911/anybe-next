@@ -4,48 +4,45 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   
-  // Public paths that do NOT require authentication
+  // Public paths - no auth required
   const publicPaths = [
-    "/mock-login",
-    '/auth', 
-    '/terms', 
-    '/api/auth/send-otp', 
-    '/api/auth/verify-otp', 
-    '/api/auth/update-profile'
+    '/auth',
+    '/terms',
+    '/privacy',
+    '/mock-login',
+    '/api/auth/send-otp',
+    '/api/auth/verify-otp',
+    '/api/auth/update-profile',
   ]
   
-  const isPublicPath = publicPaths.some(path => pathname.startsWith(path))
-
-  if (isPublicPath) {
+  if (publicPaths.some(path => pathname.startsWith(path))) {
+    return NextResponse.next()
+  }
+  
+  // Skip static files
+  if (pathname.startsWith('/_next') || pathname.startsWith('/favicon') || pathname.match(/\.(svg|png|jpg|jpeg|gif|webp|ico)$/)) {
     return NextResponse.next()
   }
 
-  // Check for the auth cookie
-  const guestVerified = request.cookies.get('guest-verified')?.value
-
-  if (false) {
-    // If an unauthenticated user tries to hit a protected API route, return 401
+  // Check for auth token
+  const authToken = request.cookies.get('guest-token')?.value
+  
+  if (!authToken) {
     if (pathname.startsWith('/api/')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-    // Otherwise, redirect them to the auth screen
-    const redirectUrl = new URL('/auth', request.url)
-    redirectUrl.searchParams.set('redirect', pathname)
-    return NextResponse.redirect(redirectUrl)
+    return NextResponse.redirect(new URL('/auth', request.url))
   }
-
+  
+  // Verify the JWT
+  // For now, just check it exists and is non-empty
+  // TODO: Add proper JWT signature verification
+  
   return NextResponse.next()
 }
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - Any file with an image extension
-     */
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

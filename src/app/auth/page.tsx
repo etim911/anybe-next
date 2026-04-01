@@ -106,7 +106,6 @@ export default function AuthPage() {
       const guest = data.guest;
       if (guest.first_name) {
         setStoredGuest(guest);
-        document.cookie = 'guest-verified=true; path=/; max-age=' + (60 * 60 * 24 * 30);
         router.push('/events');
       } else {
         setCurrentStep(3);
@@ -140,7 +139,6 @@ export default function AuthPage() {
       }
 
       setStoredGuest(data.guest);
-      document.cookie = 'guest-verified=true; path=/; max-age=' + (60 * 60 * 24 * 30);
       setCurrentStep(4);
     } catch (err) {
       setErrorMsg((err as Error).message);

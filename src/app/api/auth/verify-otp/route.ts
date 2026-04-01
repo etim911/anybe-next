@@ -2,6 +2,7 @@ import { supabaseServer as supabase } from '@/lib/supabaseServer';
 import { NextResponse } from 'next/server';
 import twilio from 'twilio';
 import { normalizePhone } from '@/lib/phone';
+import jwt from 'jsonwebtoken';
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID!;
 const authToken = process.env.TWILIO_AUTH_TOKEN!;
@@ -9,7 +10,6 @@ const twilioClient = twilio(accountSid, authToken);
 
 export async function POST(request: Request) {
   try {
-            
     const body = await request.json();
     const { phone, code } = body;
     
@@ -40,12 +40,21 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: false, error: 'Failed to save guest record' }, { status: 500 });
       }
 
+      const JWT_SECRET = process.env.JWT_SECRET || 'anybe-dev-secret-change-in-prod';
+      
+      const token = jwt.sign(
+        { guestId: data.id, phone: normalizedPhone },
+        JWT_SECRET,
+        { expiresIn: '30d' }
+      );
+      
       const response = NextResponse.json({ success: true, guest: data });
-      response.cookies.set('guest-verified', 'true', {
-        httpOnly: false, // needs to be readable by client for UX
+      response.cookies.set('guest-token', token, {
+        httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        maxAge: 60 * 60 * 24 * 30 // 30 days
+        maxAge: 60 * 60 * 24 * 30, // 30 days
+        path: '/'
       });
       return response;
     } else {
