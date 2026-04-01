@@ -52,15 +52,15 @@ export const EventCard: React.FC<EventCardProps> = ({
 
         <div className={`p-6 flex-grow flex flex-col ${!imageUrl ? 'pt-8' : ''}`}>
           <div className="flex justify-between items-start mb-4">
-            <span className={`text-[10px] font-cinzel uppercase tracking-widest px-2 py-1 border ${statusColors[status]}`}>
+            <span className={`text-[10px] font-display uppercase tracking-widest px-2 py-1 border ${statusColors[status]}`}>
               {statusLabels[status]}
             </span>
             {price && status === 'upcoming' && (
-              <span className="font-cinzel text-sm text-gold tracking-wider">{price}</span>
+              <span className="font-display text-sm text-gold tracking-wider">{price}</span>
             )}
           </div>
           
-          <h3 className="font-cinzel text-xl md:text-2xl text-cream mb-2 group-hover:text-gold transition-colors duration-300">
+          <h3 className="font-display text-xl md:text-2xl text-cream mb-2 group-hover:text-gold transition-colors duration-300">
             {title}
           </h3>
           
@@ -79,7 +79,7 @@ export const EventCard: React.FC<EventCardProps> = ({
           </div>
 
           <div className="mt-auto pt-4 border-t border-gold/10 flex justify-between items-center group-hover:border-gold/30 transition-colors">
-            <span className="font-cinzel text-xs text-gold tracking-widest uppercase">
+            <span className="font-display text-xs text-gold tracking-widest uppercase">
               {status === 'upcoming' ? 'Request Invite' : 'View Details'}
             </span>
             <span className="text-gold transform translate-x-0 group-hover:translate-x-2 transition-transform duration-300">

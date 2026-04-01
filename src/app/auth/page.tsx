@@ -234,11 +234,11 @@ export default function AuthPage() {
 
             <div className="space-y-4 mb-6 text-left">
               <div>
-                <label className="block font-cinzel text-[10px] tracking-[3px] uppercase text-silver-dim mb-2">First Name</label>
+                <label className="block font-display text-[10px] tracking-[3px] uppercase text-silver-dim mb-2">First Name</label>
                 <input type="text" className="w-full p-3.5 bg-black/60 border border-border-light text-cream font-serif text-lg focus:border-gold outline-none" value={firstName} onChange={e => setFirstName(e.target.value)} />
               </div>
               <div>
-                <label className="block font-cinzel text-[10px] tracking-[3px] uppercase text-silver-dim mb-2">Last Name</label>
+                <label className="block font-display text-[10px] tracking-[3px] uppercase text-silver-dim mb-2">Last Name</label>
                 <input type="text" className="w-full p-3.5 bg-black/60 border border-border-light text-cream font-serif text-lg focus:border-gold outline-none" value={lastName} onChange={e => setLastName(e.target.value)} />
               </div>
             </div>

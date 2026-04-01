@@ -1,5 +1,6 @@
 import { supabaseServer as supabase } from '@/lib/supabaseServer';
 import { NextResponse } from 'next/server';
+import { normalizePhone } from '@/lib/phone';
 
 export async function POST(request: Request) {
   try {
@@ -8,7 +9,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
     }
 
-    const normalizedPhone = phone.startsWith('+') ? phone : '+' + phone.replace(/\D/g, '');
+    const normalizedPhone = normalizePhone(phone);
 
     const { data, error } = await supabase
       .from('guests')

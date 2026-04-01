@@ -60,7 +60,7 @@ export default function EventsDashboard() {
         <div className="text-center text-[#6e6a61] text-sm mt-3 tracking-[4px] opacity-60">- ✦ -</div>
       </motion.div>
 
-      <h2 className="font-cinzel text-xl text-gold mb-4">Future Crossings</h2>
+      <h2 className="font-display text-xl text-gold mb-4">Future Crossings</h2>
       <div className="space-y-8">
         {events.map((event) => (
           <EventCard 
@@ -77,7 +77,7 @@ export default function EventsDashboard() {
         )}
       </div>
 
-      <h2 className="font-cinzel text-xl text-gold mt-12 mb-4">Past Crossings</h2>
+      <h2 className="font-display text-xl text-gold mt-12 mb-4">Past Crossings</h2>
       <div className="space-y-8">
         <EventCard 
           key="mock-past-1"
