@@ -98,7 +98,7 @@ export function ProfileDrawer() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200]"
             />
             
             {/* Drawer Panel */}
@@ -107,7 +107,7 @@ export function ProfileDrawer() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-[#0c0b0a]/95 border-l border-[#2e2a24] backdrop-blur-md z-50 overflow-y-auto"
+              className="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-[#0c0b0a]/95 border-l border-[#2e2a24] backdrop-blur-md z-[201] overflow-y-auto"
             >
               <div className="p-8">
                 <button 

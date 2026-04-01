@@ -1,10 +1,12 @@
 'use client';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { getStoredGuest } from '@/lib/auth';
 import { ProfileDrawer } from '@/components/profile/ProfileDrawer';
 
 export function Header() {
+  const pathname = usePathname();
   const [guest, setGuest] = useState<any>(null);
   
   useEffect(() => {
@@ -13,9 +15,11 @@ export function Header() {
   
   const initials = guest ? `${guest.first_name?.[0] || ''}${guest.last_name?.[0] || ''}`.toUpperCase() : null;
 
+  if (pathname === '/auth') return null;
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between py-4 px-6 bg-gradient-to-b from-bg-primary/95 to-bg-primary/0 backdrop-blur-[4px]">
-      <Link href="/" className="flex items-center gap-2.5 opacity-85 hover:opacity-100 transition-opacity">
+      <Link href="/events" className="flex items-center gap-2.5 opacity-85 hover:opacity-100 transition-opacity">
         <svg viewBox="0 0 100 80" className="w-8 h-8" xmlns="http://www.w3.org/2000/svg">
           <g fill="#c4bfb3">
             <rect x="28" y="2" width="44" height="24" rx="12" fill="none" stroke="#c4bfb3" strokeWidth="2.5"/>
