@@ -79,10 +79,10 @@ export function ProfileDrawer() {
   return (
     <>
       {/* Trigger Avatar */}
-      <div className="relative z-40">
+      <div className="relative">
         <button
           onClick={() => setIsOpen(true)}
-          className="w-12 h-12 rounded-full bg-[#1a1814] border border-[#b5a48a]/30 flex items-center justify-center text-[#b5a48a] font-display text-sm tracking-widest hover:border-[#b5a48a] transition-all duration-300 shadow-lg"
+          className="w-10 h-10 rounded-full bg-[#1a1814] border border-[#b5a48a]/30 flex items-center justify-center text-[#b5a48a] font-display text-sm tracking-widest hover:border-[#b5a48a] transition-all duration-300 shadow-lg"
           style={{ backgroundImage: 'radial-gradient(circle at center, #2a2620 0%, #1a1814 100%)' }}
         >
           {initials || '?'}
