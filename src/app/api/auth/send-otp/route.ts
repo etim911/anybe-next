@@ -1,28 +1,27 @@
 import { NextResponse } from 'next/server';
 import twilio from 'twilio';
+import { normalizePhone } from '@/lib/phone';
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const verifySid = 'VA2f4c5bc238c2d60ca104e10d466b0e10';
+const accountSid = process.env.TWILIO_ACCOUNT_SID!;
+const authToken = process.env.TWILIO_AUTH_TOKEN!;
+const twilioClient = twilio(accountSid, authToken);
 
 export async function POST(request: Request) {
   try {
     const { phone } = await request.json();
 
-    // Normalize phone to E.164
-    const normalizedPhone = phone.startsWith('+') ? phone : `+1${phone.replace(/\\D/g, '')}`;
-
     if (!phone) {
-      return NextResponse.json({ success: false, message: 'Phone is required' }, { status: 400 });
+      return NextResponse.json({ success: false, error: 'Phone number is required' }, { status: 400 });
     }
 
-    if (!accountSid || !authToken) {
-       console.error('Missing Twilio credentials');
-       return NextResponse.json({ success: false, message: 'Server configuration error' }, { status: 500 });
+    const verifySid = process.env.TWILIO_VERIFY_SID;
+    if (!verifySid) {
+      return NextResponse.json({ success: false, error: 'Server configuration error: missing TWILIO_VERIFY_SID' }, { status: 500 });
     }
 
-    const client = twilio(accountSid, authToken);
-    const verification = await client.verify.v2.services(verifySid)
+    const normalizedPhone = normalizePhone(phone);
+
+    const verification = await twilioClient.verify.v2.services(verifySid)
       .verifications
       .create({ to: normalizedPhone, channel: 'sms' });
 

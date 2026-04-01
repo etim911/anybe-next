@@ -1,10 +1,11 @@
 import { supabaseServer as supabase } from '@/lib/supabaseServer';
 import { NextResponse } from 'next/server';
 import twilio from 'twilio';
+import { normalizePhone } from '@/lib/phone';
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const verifySid = 'VA2f4c5bc238c2d60ca104e10d466b0e10';
+const accountSid = process.env.TWILIO_ACCOUNT_SID!;
+const authToken = process.env.TWILIO_AUTH_TOKEN!;
+const twilioClient = twilio(accountSid, authToken);
 
 export async function POST(request: Request) {
   try {
@@ -16,20 +17,18 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Phone and code are required' }, { status: 400 });
     }
 
-    if (!accountSid || !authToken) {
-      console.error('Missing Twilio credentials');
-      return NextResponse.json({ success: false, error: 'Server configuration error' }, { status: 500 });
+    const verifySid = process.env.TWILIO_VERIFY_SID;
+    if (!verifySid) {
+      return NextResponse.json({ success: false, error: 'Server configuration error: missing TWILIO_VERIFY_SID' }, { status: 500 });
     }
 
-    const client = twilio(accountSid, authToken);
+    const normalizedPhone = normalizePhone(phone);
     
-    const verificationCheck = await client.verify.v2.services(verifySid)
+    const verificationCheck = await twilioClient.verify.v2.services(verifySid)
       .verificationChecks
-      .create({ to: phone, code });
+      .create({ to: normalizedPhone, code });
 
     if (verificationCheck.status === 'approved') {
-      const normalizedPhone = phone.startsWith('+') ? phone : '+' + phone.replace(/\\D/g, '');
-      
       const { data, error } = await supabase
         .from('guests')
         .upsert({ phone: normalizedPhone }, { onConflict: 'phone' })
