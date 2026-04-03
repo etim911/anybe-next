@@ -1,69 +1,47 @@
+'use client';
 import React from 'react';
 import { motion, HTMLMotionProps } from 'framer-motion';
 
-export interface ButtonProps extends Omit<HTMLMotionProps<"button">, 'whileHover' | 'whileTap' | 'children'> {
-  variant?: 'primary' | 'ghost' | 'danger';
-  size?: 'sm' | 'md' | 'lg';
+export interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'ref'> {
+  variant?: 'primary' | 'secondary' | 'ghost';
   isLoading?: boolean;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-  children?: React.ReactNode;
   fullWidth?: boolean;
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      children,
-      variant = 'primary',
-      size = 'md',
-      isLoading = false,
-      leftIcon,
-      rightIcon,
-      className = '',
-      fullWidth = false,
-      disabled,
-      ...props
-    },
-    ref
-  ) => {
-    const baseStyles = "inline-flex items-center justify-center font-display uppercase transition-all duration-400 focus:outline-none focus:ring-2 focus:ring-gold/50 disabled:opacity-50 disabled:cursor-not-allowed";
+export const Button = React.forwardRef<any, ButtonProps>(
+  ({ className = '', variant = 'primary', isLoading, fullWidth, children, disabled, ...props }, ref) => {
     
-    // Original exact values
-    // padding: 18px 48px; font-size: 13px; letter-spacing: 5px;
+    const baseStyles = "relative inline-flex items-center justify-center font-display text-xs tracking-[4px] uppercase transition-all duration-300 ease-out focus:outline-none overflow-hidden group";
     
     const variants = {
-      primary: "border border-gold text-gold bg-transparent hover:bg-gold/10 hover:shadow-[0_0_32px_rgba(181,164,138,0.1)] hover:-translate-y-[1px]",
-      ghost: "text-cream hover:text-gold bg-transparent hover:bg-white/5 border border-transparent",
-      danger: "border border-red-900/50 text-red-500 hover:bg-red-900/20 hover:border-red-500/50 bg-transparent",
+      primary: "bg-transparent border border-brand-gold text-brand-gold hover:bg-brand-gold/10 hover:shadow-[0_0_20px_rgba(212,168,84,0.15)]",
+      secondary: "bg-transparent border border-border text-cream hover:border-silver hover:bg-white/5",
+      ghost: "bg-transparent text-silver-dim hover:text-cream hover:bg-white/5"
     };
 
-    const sizes = {
-      sm: "px-4 py-2 text-[11px] tracking-[4px]",
-      md: "px-[48px] py-[18px] text-[13px] tracking-[5px]",
-      lg: "px-[64px] py-[24px] text-[15px] tracking-[6px]",
-    };
+    const width = fullWidth ? "w-full" : "";
+    const opacity = disabled || isLoading ? "opacity-50 cursor-not-allowed" : "";
 
     return (
       <motion.button
         ref={ref}
-        className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
+        whileTap={disabled ? undefined : { scale: 0.97 }}
+        className={`${baseStyles} ${variants[variant]} ${width} ${opacity} px-8 py-4 ${className}`}
         disabled={disabled || isLoading}
-        whileTap={{ scale: disabled || isLoading ? 1 : 0.98 }}
         {...props}
       >
-        {isLoading && (
+        {/* Subtle hover gradient sweep */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-[150%] group-hover:animate-[sweep_1.5s_ease-in-out_infinite]" />
+        
+        {isLoading ? (
           <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-        )}
-        {!isLoading && leftIcon && <span className="mr-2">{leftIcon}</span>}
-        {children}
-        {!isLoading && rightIcon && <span className="ml-2">{rightIcon}</span>}
+        ) : null}
+        <span className="relative z-10">{children as React.ReactNode}</span>
       </motion.button>
     );
   }
 );
-
 Button.displayName = 'Button';
