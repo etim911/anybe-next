@@ -18,14 +18,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Unauthorized: missing token' }, { status: 401 });
     }
 
-    let decoded: any;
+    let decoded: string | jwt.JwtPayload;
     try {
       decoded = jwt.verify(token, process.env.JWT_SECRET || '');
-    } catch (err) {
+    } catch {
       return NextResponse.json({ success: false, error: 'Unauthorized: invalid token' }, { status: 401 });
     }
 
-    if (!decoded || !decoded.phone) {
+    if (!decoded || typeof decoded === 'string' || !decoded.phone) {
       return NextResponse.json({ success: false, error: 'Unauthorized: token missing phone number' }, { status: 401 });
     }
 

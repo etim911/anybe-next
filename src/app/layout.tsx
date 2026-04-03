@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Footer } from "@/components/layout/Footer";

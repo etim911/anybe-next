@@ -2,14 +2,15 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { getStoredGuest } from '@/lib/auth';
+import { getStoredGuest, Guest } from '@/lib/auth';
 import { ProfileDrawer } from '@/components/profile/ProfileDrawer';
 
 export function Header() {
   const pathname = usePathname();
-  const [guest, setGuest] = useState<any>(null);
+  const [guest, setGuest] = useState<Guest | null>(null);
   
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setGuest(getStoredGuest());
   }, []);
   

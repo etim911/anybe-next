@@ -41,7 +41,7 @@ export async function middleware(request: NextRequest) {
     const JWT_SECRET = process.env.JWT_SECRET || 'anybe-dev-secret-change-in-prod'
     const secret = new TextEncoder().encode(JWT_SECRET)
     await jwtVerify(authToken, secret)
-  } catch (error) {
+  } catch {
     if (pathname.startsWith('/api/')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }

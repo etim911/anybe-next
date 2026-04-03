@@ -3,12 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { getStoredGuest, clearStoredGuest } from '@/lib/auth';
+import { getStoredGuest, clearStoredGuest, Guest } from '@/lib/auth';
 import { Button } from '@/components/ui/Button';
 
 export function ProfileDrawer() {
   const [isOpen, setIsOpen] = useState(false);
-  const [guest, setGuest] = useState<any>(null);
+  const [guest, setGuest] = useState<Guest | null>(null);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',

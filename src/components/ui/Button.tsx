@@ -23,7 +23,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const opacity = disabled || isLoading ? "opacity-50 cursor-not-allowed" : "";
 
     // Cast motion.button to any to avoid Next.js 14 strict TS intrinsic element errors
-    const MotionButton = motion.button as any;
+    const MotionButton = motion.button as React.ElementType;
 
     return (
       <MotionButton

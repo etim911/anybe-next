@@ -31,7 +31,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     // Cast to any to avoid Next.js strict TS errors on intrinsic elements
-    const MotionDiv = motion.div as any;
+    const MotionDiv = motion.div as React.ElementType;
 
     return (
       <div className="flex flex-col mb-4 relative group">
