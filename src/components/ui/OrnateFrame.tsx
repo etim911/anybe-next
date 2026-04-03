@@ -6,9 +6,9 @@ export interface OrnateFrameProps {
   padding?: string;
 }
 
-export const OrnateFrame: React.FC<OrnateFrameProps> = ({ children, className = '', padding = 'pt-[52px] px-[36px] pb-[44px]' }) => {
+export const OrnateFrame: React.FC<OrnateFrameProps> = ({ children, className = '', padding = 'pt-[20px] px-[20px] pb-[20px]' }) => {
   return (
-    <div className={`relative ${padding} mb-12 border border-border bg-gradient-to-br from-[#1a181499] to-[#0e0c0acc] ${className}`}>
+    <div className={`relative ${padding} border border-border bg-gradient-to-br from-[#1a181499] to-[#0e0c0acc] ${className}`}>
       {/* Top/bottom ornament lines simulated with absolute divs since pseudo elements with background clip are tricky */}
       <div className="absolute top-[-8px] left-1/2 -translate-x-1/2 bg-bg-deep px-[12px] text-[11px] tracking-[4px] text-silver-dim opacity-60">
         · ✦ ·

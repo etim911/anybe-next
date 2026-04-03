@@ -150,14 +150,14 @@ export default function AuthPage() {
 
   return (
     <OrnateFrame>
-      <div className="auth-page max-w-[520px] mx-auto px-4 py-6 pt-[60px] flex flex-col justify-center min-h-[80vh]">
-        <div className="logo-area text-center mb-8">
+      <div className="auth-page max-w-[440px] mx-auto px-4 py-4 flex flex-col justify-center min-h-[100dvh]">
+        <div className="logo-area text-center mb-4">
           <div className="logo-title font-decorative text-3xl text-cream tracking-widest mb-2">Anybe Night</div>
           <div className="logo-divider text-silver-dim text-sm tracking-widest opacity-60">- ✦ -</div>
         </div>
 
         {currentStep < 4 && (
-          <div className="step-dots flex justify-center gap-3 mb-8">
+          <div className="step-dots flex justify-center gap-3 mb-4">
             <div className={`w-2.5 h-2.5 rounded-full transition-all ${currentStep === 1 ? 'bg-gold shadow-[0_0_8px_rgba(181,164,138,0.4)]' : 'bg-gold/50'}`}></div>
             <div className={`w-2.5 h-2.5 rounded-full transition-all ${currentStep === 2 ? 'bg-gold shadow-[0_0_8px_rgba(181,164,138,0.4)]' : currentStep > 2 ? 'bg-gold/50' : 'bg-border-light'}`}></div>
             <div className={`w-2.5 h-2.5 rounded-full transition-all ${currentStep === 3 ? 'bg-gold shadow-[0_0_8px_rgba(181,164,138,0.4)]' : 'bg-border-light'}`}></div>
