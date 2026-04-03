@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { jwtVerify } from 'jose'
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   
   // Public paths - no auth required
@@ -36,8 +37,16 @@ export function middleware(request: NextRequest) {
   }
   
   // Verify the JWT
-  // For now, just check it exists and is non-empty
-  // TODO: Add proper JWT signature verification
+  try {
+    const JWT_SECRET = process.env.JWT_SECRET || 'anybe-dev-secret-change-in-prod'
+    const secret = new TextEncoder().encode(JWT_SECRET)
+    await jwtVerify(authToken, secret)
+  } catch (error) {
+    if (pathname.startsWith('/api/')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return NextResponse.redirect(new URL('/auth', request.url))
+  }
   
   return NextResponse.next()
 }
