@@ -40,22 +40,22 @@ export default function EventsDashboard() {
   if (loading) {
     return (
       <div className="fixed inset-0 z-50 bg-bg-primary flex items-center justify-center">
-        <div className="text-[28px] text-[#6e6a61] opacity-50 animate-pulse">✦</div>
+        <div className="text-[28px] text-silver-dim opacity-50 animate-pulse">✦</div>
       </div>
     );
   }
 
   return (
-    <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-24 pb-16 min-h-screen">
+    <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-24 pb-16 min-h-[100dvh]">
       <motion.div
         className="text-center mb-10"
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <div className="font-display text-[10px] tracking-[5px] uppercase text-[#6e6a61] mb-2">Your Crossings</div>
+        <div className="font-display text-[10px] tracking-[5px] uppercase text-silver-dim mb-2">Your Crossings</div>
         <div className="font-decorative text-[28px] font-normal text-cream tracking-[2px] drop-shadow-sm">Events</div>
-        <div className="text-center text-[#6e6a61] text-sm mt-3 tracking-[4px] opacity-60">- ✦ -</div>
+        <div className="text-center text-silver-dim text-sm mt-3 tracking-[4px] opacity-60">- ✦ -</div>
       </motion.div>
 
       <h2 className="font-display text-xl text-gold mb-4">Future Crossings</h2>

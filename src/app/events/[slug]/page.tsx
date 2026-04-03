@@ -61,7 +61,7 @@ export default function EventPage({ params }: PageProps) {
   if (isLoading) {
     return (
       <div className="fixed inset-0 z-50 bg-bg-primary flex items-center justify-center">
-        <div className="text-[28px] text-[#6e6a61] opacity-50 animate-pulse">✦</div>
+        <div className="text-[28px] text-silver-dim opacity-50 animate-pulse">✦</div>
       </div>
     );
   }
@@ -102,38 +102,38 @@ export default function EventPage({ params }: PageProps) {
 
   return (
     <>
-      <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-24 pb-16 min-h-screen">
-      <div className="relative border border-[#2e2a24] p-10 md:p-12 mb-12 bg-gradient-to-br from-[rgba(26,24,20,0.6)] to-[rgba(14,12,10,0.8)]">
+      <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-24 pb-16 min-h-[100dvh]">
+      <div className="relative border border-border p-10 md:p-12 mb-12 bg-gradient-to-br from-[rgba(26,24,20,0.6)] to-[rgba(14,12,10,0.8)]">
         
         {/* Corner ornaments */}
-        <div className="absolute top-2 left-2 w-7 h-7 opacity-40"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3" /></svg></div>
-        <div className="absolute top-2 right-2 w-7 h-7 opacity-40 scale-x-[-1]"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3" /></svg></div>
-        <div className="absolute bottom-2 left-2 w-7 h-7 opacity-40 scale-y-[-1]"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3" /></svg></div>
-        <div className="absolute bottom-2 right-2 w-7 h-7 opacity-40 scale-[-1]"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="#c4bfb3" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="#c4bfb3" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="#c4bfb3" opacity="0.3" /></svg></div>
+        <div className="absolute top-2 left-2 w-7 h-7 opacity-40"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3" /></svg></div>
+        <div className="absolute top-2 right-2 w-7 h-7 opacity-40 scale-x-[-1]"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3" /></svg></div>
+        <div className="absolute bottom-2 left-2 w-7 h-7 opacity-40 scale-y-[-1]"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3" /></svg></div>
+        <div className="absolute bottom-2 right-2 w-7 h-7 opacity-40 scale-[-1]"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3" /></svg></div>
 
-        <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-[#0c0b0a] px-3 text-[11px] tracking-[4px] text-[#6e6a61] opacity-60">·  ✦  ·</div>
-        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#0c0b0a] px-3 text-[11px] tracking-[4px] text-[#6e6a61] opacity-60">·  ✦  ·</div>
+        <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-bg-deep px-3 text-[11px] tracking-[4px] text-silver-dim opacity-60">·  ✦  ·</div>
+        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-bg-deep px-3 text-[11px] tracking-[4px] text-silver-dim opacity-60">·  ✦  ·</div>
 
-        <div className="font-display text-[10px] tracking-[5px] uppercase text-[#6e6a61] text-center mb-6">Anybe Event</div>
-        <h1 className="font-decorative text-[32px] md:text-[38px] font-normal text-[#ece6d8] text-center tracking-[2px] mb-4">{event.title}</h1>
+        <div className="font-display text-[10px] tracking-[5px] uppercase text-silver-dim text-center mb-6">Anybe Event</div>
+        <h1 className="font-decorative text-[32px] md:text-[38px] font-normal text-cream text-center tracking-[2px] mb-4">{event.title}</h1>
 
         {event.description && (
-          <p className="text-[17px] text-[#c4bfb3] leading-relaxed text-center mb-6 max-w-[480px] mx-auto">{event.description}</p>
+          <p className="text-[17px] text-silver leading-relaxed text-center mb-6 max-w-[480px] mx-auto">{event.description}</p>
         )}
 
         <div className="grid grid-cols-2 gap-6 max-w-[400px] mx-auto mb-8">
           <div className="text-center">
-            <div className="text-[9px] tracking-[3px] uppercase text-[#6e6a61] mb-1.5">Date</div>
-            <div className="font-display text-[15px] text-[#ece6d8] tracking-wide">{formattedDate}</div>
+            <div className="text-[9px] tracking-[3px] uppercase text-silver-dim mb-1.5">Date</div>
+            <div className="font-display text-[15px] text-cream tracking-wide">{formattedDate}</div>
           </div>
           <div className="text-center">
-            <div className="text-[9px] tracking-[3px] uppercase text-[#6e6a61] mb-1.5">Location</div>
-            <div className="font-display text-[15px] text-[#ece6d8] tracking-wide">{event.location}</div>
+            <div className="text-[9px] tracking-[3px] uppercase text-silver-dim mb-1.5">Location</div>
+            <div className="font-display text-[15px] text-cream tracking-wide">{event.location}</div>
           </div>
           {event.capacity && (
             <div className="text-center col-span-2">
-              <div className="text-[9px] tracking-[3px] uppercase text-[#6e6a61] mb-1.5">Capacity</div>
-              <div className="font-display text-[15px] text-[#ece6d8] tracking-wide">{event.capacity} Guests</div>
+              <div className="text-[9px] tracking-[3px] uppercase text-silver-dim mb-1.5">Capacity</div>
+              <div className="font-display text-[15px] text-cream tracking-wide">{event.capacity} Guests</div>
             </div>
           )}
         </div>
@@ -150,8 +150,8 @@ export default function EventPage({ params }: PageProps) {
               Sign In to Register
             </Button>
           )}
-          <p className="text-[13px] text-[#6e6a61] italic mt-3.5">
-            <Link href="/" className="text-[#6e6a61] hover:text-[#b5a48a] underline">Back to Home</Link>
+          <p className="text-[13px] text-silver-dim italic mt-3.5">
+            <Link href="/" className="text-silver-dim hover:text-gold underline">Back to Home</Link>
           </p>
         </div>
       </div>
