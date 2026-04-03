@@ -24,9 +24,9 @@ export const EventCard: React.FC<EventCardProps> = ({
   imageUrl,
 }) => {
   const statusColors = {
-    'upcoming': 'text-gold border-gold/50 bg-gold/10',
-    'sold-out': 'text-red-400 border-red-500/30 bg-red-900/20',
-    'past': 'text-cream/50 border-cream/20 bg-cream/5',
+    'upcoming': 'text-brand-gold border-brand-gold/50 bg-brand-gold/10',
+    'sold-out': 'text-status-error border-status-error/30 bg-status-error/20',
+    'past': 'text-brand-cream/50 border-brand-cream/20 bg-brand-cream/5',
   };
 
   const statusLabels = {
@@ -41,12 +41,12 @@ export const EventCard: React.FC<EventCardProps> = ({
         
         {/* Optional Event Image / Background Header */}
         {imageUrl && (
-          <div className="h-48 w-full bg-[#1c1a18] relative overflow-hidden border-b border-gold/10">
+          <div className="h-48 w-full bg-bg-tertiary relative overflow-hidden border-b border-brand-gold/10">
             <div 
               className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 opacity-60 mix-blend-luminosity group-hover:mix-blend-normal group-hover:opacity-100"
               style={{ backgroundImage: `url(${imageUrl})` }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#141210] to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-bg-secondary to-transparent pointer-events-none" />
           </div>
         )}
 
@@ -56,33 +56,33 @@ export const EventCard: React.FC<EventCardProps> = ({
               {statusLabels[status]}
             </span>
             {price && status === 'upcoming' && (
-              <span className="font-display text-sm text-gold tracking-wider">{price}</span>
+              <span className="font-display text-sm text-brand-gold tracking-wider">{price}</span>
             )}
           </div>
           
-          <h3 className="font-display text-xl md:text-2xl text-cream mb-2 group-hover:text-gold transition-colors duration-300">
+          <h3 className="font-display text-xl md:text-2xl text-brand-cream mb-2 group-hover:text-brand-gold transition-colors duration-300">
             {title}
           </h3>
           
-          <div className="font-cormorant text-cream/70 space-y-1 mb-6 flex-grow">
+          <div className="font-serif text-brand-cream/70 space-y-1 mb-6 flex-grow">
             <p className="flex items-center">
-              <span className="text-gold/50 mr-2">✦</span> {new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+              <span className="text-brand-gold/50 mr-2">✦</span> {new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
             </p>
             <p className="flex items-center">
-              <span className="text-gold/50 mr-2">✦</span> {location}
+              <span className="text-brand-gold/50 mr-2">✦</span> {location}
             </p>
             {capacity && (
               <p className="flex items-center">
-                <span className="text-gold/50 mr-2">✦</span> {capacity} spots
+                <span className="text-brand-gold/50 mr-2">✦</span> {capacity} spots
               </p>
             )}
           </div>
 
-          <div className="mt-auto pt-4 border-t border-gold/10 flex justify-between items-center group-hover:border-gold/30 transition-colors">
-            <span className="font-display text-xs text-gold tracking-widest uppercase">
+          <div className="mt-auto pt-4 border-t border-brand-gold/10 flex justify-between items-center group-hover:border-brand-gold/30 transition-colors">
+            <span className="font-display text-xs text-brand-gold tracking-widest uppercase">
               {status === 'upcoming' ? 'Request Invite' : 'View Details'}
             </span>
-            <span className="text-gold transform translate-x-0 group-hover:translate-x-2 transition-transform duration-300">
+            <span className="text-brand-gold transform translate-x-0 group-hover:translate-x-2 transition-transform duration-300">
               →
             </span>
           </div>
