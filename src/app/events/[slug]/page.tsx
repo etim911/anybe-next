@@ -88,7 +88,7 @@ export default function EventPage({ params }: PageProps) {
       const res = await fetch(`/api/events/${event.slug}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ guestId: guest.id })
+        body: JSON.stringify({ guestId: guest.id, eventId: event.id })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to register');
