@@ -5,31 +5,25 @@
 @tailwind utilities;
 
 :root {
-  --bg-deep: #0c0b0a;
-  --bg-leather: #141210;
-  --bg-card: #1a1816;
-  --bg-card-hover: #211f1b;
-  --silver: #c4bfb3;
-  --silver-light: #ddd8cc;
-  --silver-dim: #6e6a61;
-  --gold: #b5a48a;
-  --cream: #ece6d8;
-  --parchment: #d4c9b0;
-  --text-primary: #ddd8cc;
-  --text-secondary: #8a857a;
-  --border: #2e2a24;
-  --border-light: #3d3830;
-  --success: #6b8f6b;
-  --error: #8f5050;
+  /* Removed outdated vars that contradict strict semantic palette */
 }
 
 body {
-  background-color: var(--bg-deep);
-  color: var(--text-primary);
+  background-color: #0c0b0a;
+  color: #ece6d8;
   font-family: 'Cormorant Garamond', serif;
   scroll-behavior: smooth;
   position: relative;
   min-height: 100vh;
+}
+
+/* Enforce 16px minimum rule for inputs to prevent iOS zoom */
+input[type="text"], 
+input[type="tel"], 
+input[type="email"], 
+input[type="number"],
+input[type="password"] {
+  font-size: 16px !important;
 }
 
 /* Dark leather texture */

@@ -10,38 +10,43 @@ const config: Config = {
     extend: {
       colors: {
         bg: {
-          deep: 'var(--bg-deep)',
-          leather: 'var(--bg-leather)',
-          card: 'var(--bg-card)',
-          'card-hover': 'var(--bg-card-hover)',
+          primary: '#0c0b0a',
+          secondary: '#141210',
+          tertiary: '#1a1814',
+          card: 'rgba(20, 18, 16, 0.95)',
         },
+        brand: {
+          gold: '#b5a48a',
+          goldLight: '#c9b99f',
+          goldDark: '#9a8a72',
+          goldBright: '#d4c4a0',
+          cream: '#ece6d8',
+          creamMuted: '#c4bfb3',
+          creamDark: '#a09890',
+          ember: '#e8572a',
+        },
+        status: {
+          error: '#8b3a3a',
+        },
+        // Legacy mappings to prevent immediate build failure if components still use them
         silver: {
-          DEFAULT: 'var(--silver)',
-          light: 'var(--silver-light)',
-          dim: 'var(--silver-dim)',
+          DEFAULT: '#c4bfb3',
+          light: '#ece6d8',
+          dim: '#a09890',
         },
         gold: {
-          DEFAULT: 'var(--gold)',
+          DEFAULT: '#b5a48a',
         },
         cream: {
-          DEFAULT: 'var(--cream)',
-        },
-        parchment: {
-          DEFAULT: 'var(--parchment)',
+          DEFAULT: '#ece6d8',
         },
         text: {
-          primary: 'var(--text-primary)',
-          secondary: 'var(--text-secondary)',
+          primary: '#ece6d8',
+          secondary: '#c4bfb3',
         },
         border: {
-          DEFAULT: 'var(--border)',
-          light: 'var(--border-light)',
-        },
-        success: {
-          DEFAULT: 'var(--success)',
-        },
-        error: {
-          DEFAULT: 'var(--error)',
+          DEFAULT: '#1a1814',
+          light: 'rgba(181, 164, 138, 0.3)',
         }
       },
       fontFamily: {
