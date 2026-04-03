@@ -1,15 +1,35 @@
 import { supabaseServer as supabase } from '@/lib/supabaseServer';
 import { NextResponse } from 'next/server';
 import { normalizePhone } from '@/lib/phone';
+import { cookies } from 'next/headers';
+import * as jwt from 'jsonwebtoken';
 
 export async function POST(request: Request) {
   try {
-    const { phone, firstName, lastName, email } = await request.json();
-    if (!phone || !firstName || !lastName) {
+    const { firstName, lastName, email } = await request.json();
+    if (!firstName || !lastName) {
       return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
     }
 
-    const normalizedPhone = normalizePhone(phone);
+    const cookieStore = cookies();
+    const token = cookieStore.get('guest-token')?.value;
+
+    if (!token) {
+      return NextResponse.json({ success: false, error: 'Unauthorized: missing token' }, { status: 401 });
+    }
+
+    let decoded: any;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET || '');
+    } catch (err) {
+      return NextResponse.json({ success: false, error: 'Unauthorized: invalid token' }, { status: 401 });
+    }
+
+    if (!decoded || !decoded.phone) {
+      return NextResponse.json({ success: false, error: 'Unauthorized: token missing phone number' }, { status: 401 });
+    }
+
+    const normalizedPhone = normalizePhone(decoded.phone);
 
     const { data, error } = await supabase
       .from('guests')
