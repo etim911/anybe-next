@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { motion, HTMLMotionProps } from 'framer-motion';
 
@@ -8,12 +10,12 @@ export interface CardProps extends Omit<HTMLMotionProps<"div">, 'children'> {
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ children, variant = 'default', className = '', ...props }, ref) => {
-    const baseStyles = "bg-[#141210]/95 border border-gold/20 backdrop-blur-sm transition-all duration-500 overflow-hidden";
+    const baseStyles = "bg-bg-card border border-brand-gold/20 backdrop-blur-sm transition-all duration-500 overflow-hidden";
     
     const variants = {
-      default: "rounded-sm p-6 hover:border-gold/50 hover:shadow-[0_8px_30px_rgba(181,164,138,0.08)]",
-      event: "rounded-md hover:border-gold hover:shadow-[0_8px_30px_rgba(181,164,138,0.12)] cursor-pointer group",
-      featured: "rounded-md border-gold/50 shadow-[0_0_20px_rgba(181,164,138,0.1)] p-8 relative isolate",
+      default: "rounded-sm p-6 hover:border-brand-gold/50 hover:shadow-[0_8px_30px_rgba(181,164,138,0.08)]",
+      event: "rounded-md hover:border-brand-gold hover:shadow-[0_8px_30px_rgba(181,164,138,0.12)] cursor-pointer group",
+      featured: "rounded-md border-brand-gold/50 shadow-[0_0_20px_rgba(181,164,138,0.1)] p-8 relative isolate",
     };
 
     return (
@@ -24,7 +26,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
         {...props}
       >
         {variant === 'featured' && (
-          <div className="absolute inset-0 bg-gradient-to-b from-gold/5 to-transparent -z-10 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-gold/5 to-transparent -z-10 pointer-events-none" />
         )}
         {children}
       </motion.div>

@@ -32,7 +32,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="fixed inset-0 overflow-hidden overscroll-none bg-[#0c0b0a] text-[#ece6d8] font-serif antialiased relative flex flex-col">
+      <body className="fixed inset-0 overflow-hidden overscroll-none bg-bg-primary text-text-primary font-serif antialiased relative flex flex-col">
         <NoiseOverlay />
         <LivingBackground />
         
