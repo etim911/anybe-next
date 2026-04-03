@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { supabase } from '@/lib/supabase';
 import { EventCard } from '@/components/events/EventCard';
-import { Button } from '@/components/ui/Button';
 
 interface Event {
   id: string;
@@ -47,8 +46,7 @@ export default function EventsDashboard() {
   }
 
   return (
-    <>
-      <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-24 pb-16 min-h-screen">
+    <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-24 pb-16 min-h-screen">
       <motion.div
         className="text-center mb-10"
         initial={{ opacity: 0, y: 24 }}
@@ -73,7 +71,7 @@ export default function EventsDashboard() {
           />
         ))}
         {events.length === 0 && (
-          <div className="text-center text-text-muted italic">No events found.</div>
+          <div className="text-center text-text-muted italic">No upcoming events.</div>
         )}
       </div>
 
@@ -87,7 +85,7 @@ export default function EventsDashboard() {
           location="Secret Location"
           status="past"
         />
+      </div>
     </main>
-    </>
   );
 }
