@@ -66,7 +66,7 @@ export const EventCard: React.FC<EventCardProps> = ({
           
           <div className="font-cormorant text-cream/70 space-y-1 mb-6 flex-grow">
             <p className="flex items-center">
-              <span className="text-gold/50 mr-2">✦</span> {date}
+              <span className="text-gold/50 mr-2">✦</span> {new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
             </p>
             <p className="flex items-center">
               <span className="text-gold/50 mr-2">✦</span> {location}
