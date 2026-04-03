@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import { Footer } from '@/components/layout/Footer';
+import { Footer } from "@/components/layout/Footer";
+import { LivingBackground } from "@/components/layout/LivingBackground";
 import { Header } from '@/components/layout/Header';
+import { NoiseOverlay } from '@/components/ui/NoiseOverlay';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -31,10 +33,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="fixed inset-0 overflow-hidden overscroll-none bg-[#0c0b0a] text-[#ece6d8] font-serif antialiased relative flex flex-col">
-        <div className="fixed inset-0 pointer-events-none z-0" style={{
-          background: 'radial-gradient(ellipse at 50% 0%, rgba(30, 27, 22, 0.5) 0%, transparent 60%), radial-gradient(ellipse at 50% 100%, rgba(20, 18, 14, 0.8) 0%, transparent 50%)'
-        }}></div>
-        <div className="noise-overlay"></div>
+        <NoiseOverlay />
+        <LivingBackground />
         
         <Header />
 

@@ -6,45 +6,54 @@ export interface OrnateFrameProps {
   padding?: string;
 }
 
-export const OrnateFrame: React.FC<OrnateFrameProps> = ({ children, className = '', padding = 'pt-[20px] px-[20px] pb-[20px]' }) => {
+export const OrnateFrame: React.FC<OrnateFrameProps> = ({ 
+  children, 
+  className = '', 
+  padding = 'px-6 py-10' 
+}) => {
   return (
-    <div className={`relative ${padding} border border-border bg-gradient-to-br from-[#1a181499] to-[#0e0c0acc] ${className}`}>
-      {/* Top/bottom ornament lines simulated with absolute divs since pseudo elements with background clip are tricky */}
-      <div className="absolute top-[-8px] left-1/2 -translate-x-1/2 bg-bg-deep px-[12px] text-[11px] tracking-[4px] text-silver-dim opacity-60">
-        · ✦ ·
-      </div>
-      <div className="absolute bottom-[-8px] left-1/2 -translate-x-1/2 bg-bg-deep px-[12px] text-[11px] tracking-[4px] text-silver-dim opacity-60">
-        · ✦ ·
-      </div>
+    <div className={`relative w-full max-w-[480px] mx-auto ${padding} ${className}`}>
+      {/* SVG Border overlay covering the exact dimensions of the content box */}
+      <svg 
+        className="absolute inset-0 w-full h-full pointer-events-none" 
+        preserveAspectRatio="none" 
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* Main Border Box */}
+        <rect x="0.5" y="0.5" width="calc(100% - 1px)" height="calc(100% - 1px)" fill="none" stroke="currentColor" className="text-border" strokeWidth="1" opacity="0.4"/>
+        
+        {/* Top/Bottom Ornaments */}
+        <text x="50%" y="0" dominantBaseline="middle" textAnchor="middle" className="fill-bg-primary text-[10px] tracking-[4px] font-display">
+          <tspan dx="-20">·</tspan><tspan dx="10" fill="currentColor" className="fill-silver-dim">✦</tspan><tspan dx="10">·</tspan>
+        </text>
+        <text x="50%" y="100%" dominantBaseline="middle" textAnchor="middle" className="fill-bg-primary text-[10px] tracking-[4px] font-display">
+          <tspan dx="-20">·</tspan><tspan dx="10" fill="currentColor" className="fill-silver-dim">✦</tspan><tspan dx="10">·</tspan>
+        </text>
 
-      {/* Top Left Corner */}
-      <div className="absolute top-[8px] left-[8px] w-[28px] h-[28px] opacity-40">
-        <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3"/></svg>
-      </div>
-      {/* Top Right Corner */}
-      <div className="absolute top-[8px] right-[8px] w-[28px] h-[28px] opacity-40 scale-x-[-1]">
-        <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3"/></svg>
-      </div>
-      {/* Bottom Left Corner */}
-      <div className="absolute bottom-[8px] left-[8px] w-[28px] h-[28px] opacity-40 scale-y-[-1]">
-        <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3"/></svg>
-      </div>
-      {/* Bottom Right Corner */}
-      <div className="absolute bottom-[8px] right-[8px] w-[28px] h-[28px] opacity-40 scale-x-[-1] scale-y-[-1]">
-        <svg viewBox="0 0 40 40" className="w-full h-full"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4"/><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3"/><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3"/></svg>
-      </div>
+        {/* Top Left Corner */}
+        <path d="M0 24 C0 10 10 0 24 0" fill="none" stroke="currentColor" className="text-silver" strokeWidth="1" opacity="0.4" />
+        <circle cx="1.5" cy="23" r="1.5" fill="currentColor" className="text-silver" opacity="0.4"/>
+        <circle cx="23" cy="1.5" r="1.5" fill="currentColor" className="text-silver" opacity="0.4"/>
 
-      <div className="relative z-10">
+        {/* Top Right Corner */}
+        <path d="Mcalc(100% - 24px) 0 Ccalc(100% - 10px) 0 100% 10px 100% 24" fill="none" stroke="currentColor" className="text-silver" strokeWidth="1" opacity="0.4" />
+        <circle cx="calc(100% - 23px)" cy="1.5" r="1.5" fill="currentColor" className="text-silver" opacity="0.4"/>
+        <circle cx="calc(100% - 1.5px)" cy="23" r="1.5" fill="currentColor" className="text-silver" opacity="0.4"/>
+
+        {/* Bottom Left Corner */}
+        <path d="M0 calc(100% - 24px) C0 calc(100% - 10px) 10 100% 24 100%" fill="none" stroke="currentColor" className="text-silver" strokeWidth="1" opacity="0.4" />
+        <circle cx="1.5" cy="calc(100% - 23px)" r="1.5" fill="currentColor" className="text-silver" opacity="0.4"/>
+        <circle cx="23" cy="calc(100% - 1.5px)" r="1.5" fill="currentColor" className="text-silver" opacity="0.4"/>
+
+        {/* Bottom Right Corner */}
+        <path d="Mcalc(100% - 24px) 100% Ccalc(100% - 10px) 100% 100% calc(100% - 10px) 100% calc(100% - 24px)" fill="none" stroke="currentColor" className="text-silver" strokeWidth="1" opacity="0.4" />
+        <circle cx="calc(100% - 23px)" cy="calc(100% - 1.5px)" r="1.5" fill="currentColor" className="text-silver" opacity="0.4"/>
+        <circle cx="calc(100% - 1.5px)" cy="calc(100% - 23px)" r="1.5" fill="currentColor" className="text-silver" opacity="0.4"/>
+      </svg>
+
+      <div className="relative z-10 w-full">
         {children}
       </div>
-    </div>
-  );
-};
-
-export const Divider: React.FC<{ className?: string }> = ({ className = '' }) => {
-  return (
-    <div className={`text-center text-silver-dim text-[14px] tracking-[4px] opacity-60 my-[18px] ${className}`}>
-      - ✦ -
     </div>
   );
 };
