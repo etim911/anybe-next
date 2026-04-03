@@ -13,7 +13,6 @@ export async function middleware(request: NextRequest) {
     '/mock-login',
     '/api/auth/send-otp',
     '/api/auth/verify-otp',
-    '/api/auth/update-profile',
     '/api/auth/logout',
   ]
   
@@ -38,10 +37,13 @@ export async function middleware(request: NextRequest) {
   
   // Verify the JWT
   try {
-    const JWT_SECRET = process.env.JWT_SECRET || 'anybe-dev-secret-change-in-prod'
-    const secret = new TextEncoder().encode(JWT_SECRET)
+    if (!process.env.JWT_SECRET) {
+      throw new Error('JWT_SECRET is missing')
+    }
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET)
     await jwtVerify(authToken, secret)
-  } catch {
+  } catch (error) {
+    console.error('JWT Verification error:', error);
     if (pathname.startsWith('/api/')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }

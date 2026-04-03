@@ -18,9 +18,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Unauthorized: missing token' }, { status: 401 });
     }
 
+    if (!process.env.JWT_SECRET) {
+      return NextResponse.json({ success: false, error: 'Server configuration error' }, { status: 500 });
+    }
+
     let decoded: string | jwt.JwtPayload;
     try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET || '');
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch {
       return NextResponse.json({ success: false, error: 'Unauthorized: invalid token' }, { status: 401 });
     }

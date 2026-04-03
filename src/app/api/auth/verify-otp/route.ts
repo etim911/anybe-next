@@ -40,11 +40,13 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: false, error: 'Failed to save guest record' }, { status: 500 });
       }
 
-      const JWT_SECRET = process.env.JWT_SECRET || 'anybe-dev-secret-change-in-prod';
+      if (!process.env.JWT_SECRET) {
+        throw new Error('Server configuration error: missing JWT_SECRET');
+      }
       
       const token = jwt.sign(
         { guestId: data.id, phone: normalizedPhone },
-        JWT_SECRET,
+        process.env.JWT_SECRET,
         { expiresIn: '30d' }
       );
       
