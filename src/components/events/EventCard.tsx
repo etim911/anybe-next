@@ -41,7 +41,7 @@ export const EventCard: React.FC<EventCardProps> = ({
         
         {/* Optional Event Image / Background Header */}
         {imageUrl && (
-          <div className="h-48 w-full bg-bg-tertiary relative overflow-hidden border-b border-brand-gold/10">
+          <div className="h-40 sm:h-48 w-full bg-bg-tertiary relative overflow-hidden border-b border-brand-gold/10">
             <div 
               className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 opacity-60 mix-blend-luminosity group-hover:mix-blend-normal group-hover:opacity-100"
               style={{ backgroundImage: `url(${imageUrl})` }}
@@ -50,7 +50,7 @@ export const EventCard: React.FC<EventCardProps> = ({
           </div>
         )}
 
-        <div className={`p-6 flex-grow flex flex-col ${!imageUrl ? 'pt-8' : ''}`}>
+        <div className={`p-4 sm:p-6 flex-grow flex flex-col ${!imageUrl ? 'pt-4 sm:pt-8' : ''}`}>
           <div className="flex justify-between items-start mb-4">
             <span className={`text-xs font-display uppercase tracking-widest px-2 py-1 border ${statusColors[status]}`}>
               {statusLabels[status]}
@@ -60,11 +60,11 @@ export const EventCard: React.FC<EventCardProps> = ({
             )}
           </div>
           
-          <h3 className="font-display text-xl md:text-2xl text-brand-cream mb-2 group-hover:text-brand-gold transition-colors duration-300">
+          <h3 className="font-display text-lg sm:text-xl md:text-2xl text-brand-cream mb-2 group-hover:text-brand-gold transition-colors duration-300">
             {title}
           </h3>
           
-          <div className="font-serif text-brand-cream/70 space-y-1 mb-6 flex-grow">
+          <div className="font-serif text-brand-cream/70 space-y-1 mb-4 sm:mb-6 flex-grow">
             <p className="flex items-center">
               <span className="text-brand-gold/50 mr-2">✦</span> {new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
             </p>
@@ -78,7 +78,7 @@ export const EventCard: React.FC<EventCardProps> = ({
             )}
           </div>
 
-          <div className="mt-auto pt-4 border-t border-brand-gold/10 flex justify-between items-center group-hover:border-brand-gold/30 transition-colors">
+          <div className="mt-auto py-3 sm:py-4 border-t border-brand-gold/10 flex justify-between items-center group-hover:border-brand-gold/30 transition-colors">
             <span className="font-display text-xs text-brand-gold tracking-widest uppercase">
               {status === 'upcoming' ? 'Request Invite' : 'View Details'}
             </span>

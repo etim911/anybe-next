@@ -20,9 +20,19 @@ export function Header() {
     return () => window.removeEventListener('auth-change', handleAuthChange);
   }, []);
   
-  const initials = guest ? `${guest.first_name?.[0] || ''}${guest.last_name?.[0] || ''}`.toUpperCase() : null;
+  const hasInitials = guest?.first_name || guest?.last_name;
+  const initials = hasInitials ? `${guest.first_name?.[0] || ''}${guest.last_name?.[0] || ''}`.toUpperCase() : null;
 
-  if (pathname === '/auth') return null;
+  const renderAvatar = () => {
+    if (initials) return initials;
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+        <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
+      </svg>
+    );
+  };
+
+  // if (pathname === '/auth') return null;
 
   return (
     <>
@@ -41,20 +51,20 @@ export function Header() {
           <span className="font-decorative text-cream tracking-wide text-base hidden sm:inline-block">Anybe</span>
         </Link>
         
-        {initials && (
+        {guest && (
           <button
             id="profile-trigger"
             className="w-10 h-10 rounded-full bg-[#1a1814] border border-[#b5a48a]/30 flex items-center justify-center text-[#b5a48a] font-display text-sm tracking-widest hover:border-[#b5a48a] transition-all duration-300 shadow-lg"
             style={{ backgroundImage: 'radial-gradient(circle at center, #2a2620 0%, #1a1814 100%)' }}
             onClick={() => document.dispatchEvent(new CustomEvent('toggle-profile-drawer'))}
           >
-            {initials}
+            {renderAvatar()}
           </button>
         )}
       </nav>
       
       {/* ProfileDrawer rendered OUTSIDE the nav to avoid z-index stacking context trap */}
-      {initials && <ProfileDrawer />}
+      {guest && <ProfileDrawer />}
     </>
   );
 }
