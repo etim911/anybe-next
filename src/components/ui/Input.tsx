@@ -35,19 +35,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div className="flex flex-col mb-6 relative group">
-        <MotionDiv
-          className={`relative rounded-none border transition-colors duration-300 bg-[#141210] ${
-            error
-              ? 'border-red-500/50'
-              : isFocused
-                ? 'border-[#d4a854] shadow-[0_0_15px_rgba(212,168,84,0.15)]'
-                : 'border-[#d4a854]/30 hover:border-[#d4a854]/50'
-          }`}
-          animate={{
-            boxShadow: isFocused && !error ? '0 0 15px rgba(212,168,84,0.25)' : '0 0 0px rgba(212,168,84,0)',
-          }}
-          transition={{ duration: 0.3 }}
-        >
+        <div className={`relative rounded-none border transition-all duration-300 bg-[#141210] focus-within:shadow-[0_0_15px_rgba(212,168,84,0.15)] ${error ? 'border-red-500/50' : isFocused ? 'border-[#d4a854]' : 'border-[#d4a854]/30 hover:border-[#d4a854]/50'}`}>
           {label && (
             <label
               className={`absolute left-4 font-display tracking-wide transition-all duration-300 pointer-events-none z-10
@@ -88,7 +76,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               </div>
             )}
           </div>
-        </MotionDiv>
+        </div>
         {error && (
           <div className="text-red-500 text-xs mt-2 font-serif">{error}</div>
         )}

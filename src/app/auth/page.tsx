@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { setStoredGuest } from '@/lib/auth';
+import { setStoredGuest, clearStoredGuest } from '@/lib/auth';
 import { PhoneInput } from '@/components/auth/PhoneInput';
 import { OTPInput } from '@/components/auth/OTPInput';
 import { Button } from '@/components/ui/Button';
@@ -25,9 +25,9 @@ const variants = {
 };
 
 const transition = {
-  type: 'spring',
-  stiffness: 400,
-  damping: 25
+  type: "spring",
+  stiffness: 320,
+  damping: 30
 };
 
 export default function AuthPage() {
@@ -43,7 +43,6 @@ export default function AuthPage() {
   
   // Step 1 State
   const [phoneInput, setPhoneInput] = useState('');
-  const [countryCode, setCountryCode] = useState('+1-US');
   const [isPhoneValid, setIsPhoneValid] = useState(false);
   const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [isLoadingSend, setIsLoadingSend] = useState(false);
@@ -59,10 +58,13 @@ export default function AuthPage() {
   const [isLoadingComplete, setIsLoadingComplete] = useState(false);
 
   // Derived
-  const prefix = countryCode.split('-')[0]; // Extract just the +1 part from +1-US
-  const fullPhone = prefix + phoneInput.replace(/\D/g, '');
+  const fullPhone = '+1' + phoneInput.replace(/\D/g, '');
   const isProfileValid = firstName.trim().length > 0 && lastName.trim().length > 0;
   const isOtpValid = otp.length === 6;
+
+  useEffect(() => {
+    clearStoredGuest();
+  }, []);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -210,14 +212,12 @@ export default function AuthPage() {
                         setPhoneInput(val);
                         setIsPhoneValid(val.replace(/\D/g, '').length === 10);
                       }}
-                      countryCode={countryCode}
-                      onCountryCodeChange={setCountryCode}
                     />
                   </div>
 
-                  <div className="checkbox-row flex items-center justify-center gap-2 mb-6">
-                    <input type="checkbox" id="ageCheck" checked={ageConfirmed} onChange={e => setAgeConfirmed(e.target.checked)} className="accent-brand-gold w-4 h-4" />
-                    <label htmlFor="ageCheck" className="text-base text-brand-cream cursor-pointer leading-snug">I confirm I am 21 years of age or older.</label>
+                  <div className="checkbox-row flex items-start justify-center gap-3 mb-6 text-left">
+                    <input type="checkbox" id="ageCheck" checked={ageConfirmed} onChange={e => setAgeConfirmed(e.target.checked)} className="accent-brand-gold w-4 h-4 mt-1 flex-shrink-0" />
+                    <label htmlFor="ageCheck" className="text-[13px] sm:text-sm text-brand-cream cursor-pointer leading-tight sm:leading-snug">I confirm I am 21+, agree to the Terms & Privacy Policy, and consent to receive marketing updates.</label>
                   </div>
 
                   <Button
@@ -228,9 +228,6 @@ export default function AuthPage() {
                   >
                     Next
                   </Button>
-                  <div className="mt-4 text-sm text-brand-creamMuted leading-relaxed text-center">
-                    By continuing, you agree to our <a href="/terms" className="text-brand-gold underline underline-offset-2">Terms & Privacy Policy</a> and consent to SMS verification (msg/data rates may apply).
-                  </div>
                 </form>
               </motion.div>
             )}

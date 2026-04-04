@@ -103,7 +103,7 @@ export default function EventPage({ params }: PageProps) {
   return (
     <>
       <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-24 pb-16 min-h-[100dvh]">
-      <div className="relative border border-border p-10 md:p-12 mb-12 bg-gradient-to-br from-[rgba(26,24,20,0.6)] to-[rgba(14,12,10,0.8)]">
+      <div className="relative backdrop-blur-md bg-black/40 border border-white/10 p-10 md:p-12 mb-12">
         
         {/* Corner ornaments */}
         <div className="absolute top-2 left-2 w-7 h-7 opacity-40"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3" /></svg></div>
@@ -118,21 +118,42 @@ export default function EventPage({ params }: PageProps) {
         <h1 className="font-decorative text-[32px] md:text-[38px] font-normal text-cream text-center tracking-widest mb-4">{event.title}</h1>
 
         {event.description && (
-          <p className="text-[17px] text-silver leading-relaxed text-left mb-6 max-w-[480px] mx-auto">{event.description}</p>
+          <p className="text-[17px] text-silver leading-[1.8] text-left mb-6 max-w-[480px] mx-auto" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>{event.description}</p>
         )}
 
         <div className="grid grid-cols-2 gap-6 max-w-[400px] mx-auto mb-8">
           <div className="text-center">
-            <div className="text-xs tracking-widest uppercase text-silver-dim mb-1.5">Date</div>
+            <div className="text-xs tracking-widest uppercase text-silver-dim mb-1.5 flex items-center justify-center gap-2">
+              <svg className="w-3 h-3 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              Date
+            </div>
             <div className="font-display text-sm text-cream tracking-wide">{formattedDate}</div>
           </div>
           <div className="text-center">
-            <div className="text-xs tracking-widest uppercase text-silver-dim mb-1.5">Location</div>
+            <div className="text-xs tracking-widest uppercase text-silver-dim mb-1.5 flex items-center justify-center gap-2">
+              <svg className="w-3 h-3 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              Location
+            </div>
             <div className="font-display text-sm text-cream tracking-wide">{event.location}</div>
           </div>
           {event.capacity && (
             <div className="text-center col-span-2">
-              <div className="text-xs tracking-widest uppercase text-silver-dim mb-1.5">Capacity</div>
+              <div className="text-xs tracking-widest uppercase text-silver-dim mb-1.5 flex items-center justify-center gap-2">
+                <svg className="w-3 h-3 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+                </svg>
+                Capacity
+              </div>
               <div className="font-display text-sm text-cream tracking-wide">{event.capacity} Guests</div>
             </div>
           )}
@@ -142,11 +163,11 @@ export default function EventPage({ params }: PageProps) {
 
         <div className="text-center">
           {isAuthenticated ? (
-            <Button onClick={handleRegister} isLoading={isRegistering}>
+            <Button onClick={handleRegister} isLoading={isRegistering} className="tracking-[0.12em]">
               Secure My Spot
             </Button>
           ) : (
-            <Button onClick={() => router.push(`/auth?redirect=/events/${event.slug}`)}>
+            <Button onClick={() => router.push(`/auth?redirect=/events/${event.slug}`)} className="tracking-[0.12em]">
               Sign In to Secure Spot
             </Button>
           )}

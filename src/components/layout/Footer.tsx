@@ -3,7 +3,13 @@ import Link from 'next/link';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="w-full relative z-10 pt-6 pb-2 border-t border-white/5 bg-transparent mt-14">
+    <footer className="w-full relative z-10 pt-6 pb-2 bg-transparent mt-14">
+      {/* Gradient border effect */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+      {/* Frosted glass vignette at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/80 via-black/40 to-transparent backdrop-blur-md pointer-events-none -z-10" />
+
       <div className="max-w-7xl mx-auto pl-[max(1.5rem,env(safe-area-inset-left))] pr-[max(1.5rem,env(safe-area-inset-right))] flex flex-col md:flex-row justify-between items-center text-sm tracking-widest font-display text-cream/40 uppercase">
         
         <div className="flex flex-wrap items-center justify-center gap-x-6 mb-4 md:mb-0">

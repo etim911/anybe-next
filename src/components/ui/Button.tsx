@@ -48,7 +48,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               hover: {
                 x: '200%',
                 opacity: 1,
-                transition: { repeat: Infinity, duration: 2.5, ease: [0.16, 1, 0.3, 1] }
+                transition: { repeat: Infinity, duration: 1.8, ease: [0.16, 1, 0.3, 1] }
               }
             }}
             className="absolute inset-0 z-0 w-1/2 bg-gradient-to-r from-transparent via-brand-gold/30 to-transparent skew-x-[-20deg]"

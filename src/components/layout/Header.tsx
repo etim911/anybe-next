@@ -34,7 +34,7 @@ export function Header() {
     );
   };
 
-  // if (pathname === '/auth') return null;
+  if (pathname === '/auth') return null;
 
   return (
     <>

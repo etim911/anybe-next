@@ -106,11 +106,10 @@ export function ProfileDrawer() {
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 400 }}
-            className="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-[#0c0b0a]/95 border-l border-[#2e2a24] overflow-y-auto [-webkit-overflow-scrolling:touch]"
+            transition={{ type: "spring", stiffness: 280, damping: 32, mass: 1.2 }}
+            className="fixed top-0 right-0 h-full w-full sm:w-[400px] backdrop-blur-md bg-black/40 border-l border-white/10 overflow-y-auto [-webkit-overflow-scrolling:touch]"
             style={{ zIndex: 9999 }}
           >
-            <div className="absolute inset-0 backdrop-blur-md pointer-events-none" style={{ zIndex: -1 }} />
             <div className="p-8 relative">
               <button 
                 onClick={() => setIsOpen(false)}
