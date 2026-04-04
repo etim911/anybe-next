@@ -29,12 +29,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         whileTap={!disabled && !isLoading ? "tap" : "initial"}
         variants={{
           initial: { scale: 1, boxShadow: '0px 0px 0px rgba(212,168,84,0)' },
-          hover: { 
-            scale: 1.02, 
+          hover: {
+            scale: 1.02,
             boxShadow: '0px 0px 20px rgba(212,168,84,0.3)',
-            transition: { duration: 0.3 }
+            transition: { type: 'spring', stiffness: 400, damping: 25, mass: 0.8 }
           },
-          tap: { scale: 0.97 }
+          tap: { scale: 0.97, transition: { type: 'spring', stiffness: 400, damping: 25, mass: 0.8 } }
         }}
         className={`${baseStyles} ${variants[variant]} ${fullWidth ? 'w-full' : ''} ${disabled || isLoading ? 'opacity-50 cursor-not-allowed' : ''} px-8 py-4 ${className}`}
         disabled={disabled || isLoading}
@@ -45,10 +45,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           <motion.div
             variants={{
               initial: { x: '-100%', opacity: 0 },
-              hover: { 
-                x: '200%', 
-                opacity: 1, 
-                transition: { repeat: Infinity, duration: 1.5, ease: "easeInOut" }
+              hover: {
+                x: '200%',
+                opacity: 1,
+                transition: { repeat: Infinity, duration: 2.5, ease: [0.16, 1, 0.3, 1] }
               }
             }}
             className="absolute inset-0 z-0 w-1/2 bg-gradient-to-r from-transparent via-brand-gold/30 to-transparent skew-x-[-20deg]"

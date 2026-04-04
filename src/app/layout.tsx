@@ -1,9 +1,34 @@
 import type { Metadata, Viewport } from 'next';
+import { Cormorant_Garamond, Cinzel, Cinzel_Decorative } from 'next/font/google';
 import './globals.css';
 import { Footer } from "@/components/layout/Footer";
 import { LivingBackground } from "@/components/layout/LivingBackground";
 import { Header } from '@/components/layout/Header';
 import { NoiseOverlay } from '@/components/ui/NoiseOverlay';
+
+const cormorant = Cormorant_Garamond({
+  weight: ['300', '400', '500', '600'],
+  subsets: ['latin'],
+  variable: '--font-cormorant',
+  display: 'swap',
+  adjustFontFallback: true,
+});
+
+const cinzel = Cinzel({
+  weight: ['400', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-cinzel',
+  display: 'swap',
+  adjustFontFallback: true,
+});
+
+const cinzelDecorative = Cinzel_Decorative({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+  variable: '--font-cinzel-decorative',
+  display: 'swap',
+  adjustFontFallback: true,
+});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -30,8 +55,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="bg-bg-primary text-text-primary font-serif antialiased relative flex flex-col">
+    <html lang="en" className={`overscroll-none ${cormorant.variable} ${cinzel.variable} ${cinzelDecorative.variable}`}>
+      <body className="bg-bg-primary text-text-primary font-serif antialiased relative flex flex-col overscroll-none">
         <NoiseOverlay />
         <LivingBackground />
         

@@ -50,9 +50,9 @@ const config: Config = {
         }
       },
       fontFamily: {
-        serif: ['Cormorant Garamond', 'serif'],
-        display: ['Cinzel', 'serif'],
-        decorative: ['Cinzel Decorative', 'serif'],
+        serif: ['var(--font-cormorant)', 'Cormorant Garamond', 'serif'],
+        display: ['var(--font-cinzel)', 'Cinzel', 'serif'],
+        decorative: ['var(--font-cinzel-decorative)', 'Cinzel Decorative', 'serif'],
       },
       fontSize: {
         'xs': ['0.875rem', { lineHeight: '1.25rem' }],
@@ -60,6 +60,11 @@ const config: Config = {
         'base': ['1.125rem', { lineHeight: '1.75rem' }],
         'lg': ['1.25rem', { lineHeight: '1.75rem' }],
         'xl': ['1.5rem', { lineHeight: '2rem' }],
+      },
+      letterSpacing: {
+        display: '0.15em',
+        wide: '0.2em',
+        decorative: '0.25em',
       },
     },
   },

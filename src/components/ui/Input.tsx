@@ -34,13 +34,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const MotionDiv = motion.div as React.ElementType;
 
     return (
-      <div className="flex flex-col mb-4 relative group">
+      <div className="flex flex-col mb-6 relative group">
         <MotionDiv
           className={`relative rounded-none border transition-colors duration-300 bg-[#141210] ${
-            error 
-              ? 'border-red-500/50' 
-              : isFocused 
-                ? 'border-[#d4a854] shadow-[0_0_15px_rgba(212,168,84,0.15)]' 
+            error
+              ? 'border-red-500/50'
+              : isFocused
+                ? 'border-[#d4a854] shadow-[0_0_15px_rgba(212,168,84,0.15)]'
                 : 'border-[#d4a854]/30 hover:border-[#d4a854]/50'
           }`}
           animate={{
@@ -49,9 +49,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           transition={{ duration: 0.3 }}
         >
           {label && (
-            <label 
+            <label
               className={`absolute left-4 font-display tracking-wide transition-all duration-300 pointer-events-none z-10
-                ${isFloating ? '-top-2.5 text-xs bg-[#141210] px-1 text-[#d4a854]' : 'top-3.5 text-sm text-cream/50'}
+                ${isFloating ? '-top-2 text-xs bg-[#141210] px-1 text-[#d4a854]' : 'top-4 text-sm text-cream/50'}
                 ${leftElement && !isFloating ? 'left-10' : ''}
               `}
             >

@@ -36,7 +36,7 @@ export function Header() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between py-4 px-6 bg-gradient-to-b from-bg-primary/95 to-bg-primary/0 backdrop-blur-[4px]">
+      <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between pt-[max(env(safe-area-inset-top),1rem)] pb-4 px-6 bg-gradient-to-b from-bg-primary/95 to-bg-primary/0 backdrop-blur-[4px]">
         <Link href="/events" className="flex items-center gap-2.5 opacity-85 hover:opacity-100 transition-opacity">
           <svg viewBox="0 0 100 80" className="w-8 h-8" xmlns="http://www.w3.org/2000/svg">
             <g fill="#c4bfb3">

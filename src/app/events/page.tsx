@@ -46,7 +46,7 @@ export default function EventsDashboard() {
   }
 
   return (
-    <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-24 pb-16 min-h-[100dvh]">
+    <main className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-16 min-h-[100dvh]">
       <motion.div
         className="text-center mb-10"
         initial={{ opacity: 0, y: 24 }}
@@ -59,9 +59,9 @@ export default function EventsDashboard() {
       </motion.div>
 
       <h2 className="font-display text-xl text-gold mb-4">Future Crossings</h2>
-      <div className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {events.map((event) => (
-          <EventCard 
+          <EventCard
             key={event.id}
             slug={event.slug}
             title={event.title}
@@ -71,13 +71,13 @@ export default function EventsDashboard() {
           />
         ))}
         {events.length === 0 && (
-          <div className="text-center text-text-muted italic">No upcoming events.</div>
+          <div className="col-span-full text-center text-text-muted italic">No upcoming events.</div>
         )}
       </div>
 
       <h2 className="font-display text-xl text-gold mt-12 mb-4">Past Crossings</h2>
-      <div className="space-y-8">
-        <EventCard 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <EventCard
           key="mock-past-1"
           slug="the-library"
           title="The Library"

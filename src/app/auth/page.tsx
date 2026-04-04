@@ -24,6 +24,13 @@ const variants = {
   })
 };
 
+const transition = {
+  type: 'spring',
+  stiffness: 250,
+  damping: 28,
+  mass: 0.9
+};
+
 export default function AuthPage() {
   const router = useRouter();
   const [currentStep, setCurrentStepState] = useState(1);
@@ -37,7 +44,7 @@ export default function AuthPage() {
   
   // Step 1 State
   const [phoneInput, setPhoneInput] = useState('');
-  const [countryCode, setCountryCode] = useState('+1');
+  const [countryCode, setCountryCode] = useState('+1-US');
   const [isPhoneValid, setIsPhoneValid] = useState(false);
   const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [isLoadingSend, setIsLoadingSend] = useState(false);
@@ -53,7 +60,8 @@ export default function AuthPage() {
   const [isLoadingComplete, setIsLoadingComplete] = useState(false);
 
   // Derived
-  const fullPhone = countryCode + phoneInput.replace(/\D/g, '');
+  const prefix = countryCode.split('-')[0]; // Extract just the +1 part from +1-US
+  const fullPhone = prefix + phoneInput.replace(/\D/g, '');
   const isProfileValid = firstName.trim().length > 0 && lastName.trim().length > 0;
   const isOtpValid = otp.length === 6;
 
@@ -140,7 +148,7 @@ export default function AuthPage() {
       }
     } catch (err) {
       setErrorMsg((err as Error).message);
-      setOtp('');
+      // Keep OTP visible so user can see and fix their mistake
     } finally {
       setIsLoadingVerify(false);
     }
@@ -193,49 +201,51 @@ export default function AuthPage() {
       {errorMsg && <div className="error-msg bg-red-900/20 border border-red-900/50 text-red-200 p-3 text-center mb-6 text-sm">{errorMsg}</div>}
 
       <Card variant="featured">
-        <div className="py-6 px-2 overflow-hidden">
+        <motion.div layout className="py-6 px-2 overflow-hidden">
           <AnimatePresence mode="wait" custom={direction}>
             {currentStep === 1 && (
-              <motion.div key="step1" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }} className="text-center w-full">
-                <div className="step-title font-decorative text-2xl text-brand-cream mb-6">Join the Inner Circle</div>
+              <motion.div key="step1" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={transition} className="text-center w-full">
+                <form onSubmit={(e) => { e.preventDefault(); handleSendCode(); }}>
+                  <div className="step-title font-decorative text-2xl text-brand-cream mb-6">Join the Inner Circle</div>
 
-                <div className="mb-6 text-left">
-                  <PhoneInput 
-                    value={phoneInput} 
-                    onChange={(val) => {
-                      setPhoneInput(val);
-                      setIsPhoneValid(val.replace(/\D/g, '').length === 10);
-                    }}
-                    countryCode={countryCode} 
-                    onCountryCodeChange={setCountryCode} 
-                  />
-                </div>
+                  <div className="mb-6 text-left">
+                    <PhoneInput
+                      value={phoneInput}
+                      onChange={(val) => {
+                        setPhoneInput(val);
+                        setIsPhoneValid(val.replace(/\D/g, '').length === 10);
+                      }}
+                      countryCode={countryCode}
+                      onCountryCodeChange={setCountryCode}
+                    />
+                  </div>
 
-                <div className="checkbox-row flex items-center justify-center gap-2 mb-6">
-                  <input type="checkbox" id="ageCheck" checked={ageConfirmed} onChange={e => setAgeConfirmed(e.target.checked)} className="accent-brand-gold w-4 h-4" />
-                  <label htmlFor="ageCheck" className="text-base text-brand-cream cursor-pointer">I confirm I am 21 years of age or older.</label>
-                </div>
+                  <div className="checkbox-row flex items-center justify-center gap-2 mb-6">
+                    <input type="checkbox" id="ageCheck" checked={ageConfirmed} onChange={e => setAgeConfirmed(e.target.checked)} className="accent-brand-gold w-4 h-4" />
+                    <label htmlFor="ageCheck" className="text-base text-brand-cream cursor-pointer">I confirm I am 21 years of age or older.</label>
+                  </div>
 
-                <Button 
-                  onClick={handleSendCode} 
-                  isLoading={isLoadingSend} 
-                  disabled={!isPhoneValid || !ageConfirmed || isLoadingSend} 
-                  fullWidth
-                >
-                  Next
-                </Button>
-                <div className="mt-4 text-sm text-brand-creamDark/60 leading-relaxed text-center">
-                  By continuing, you agree to our <a href="/terms" className="text-brand-gold underline underline-offset-2">Terms & Privacy Policy</a> and consent to SMS verification (msg/data rates may apply).
-                </div>
+                  <Button
+                    type="submit"
+                    isLoading={isLoadingSend}
+                    disabled={!isPhoneValid || !ageConfirmed || isLoadingSend}
+                    fullWidth
+                  >
+                    Next
+                  </Button>
+                  <div className="mt-4 text-sm text-brand-creamDark/60 leading-relaxed text-center">
+                    By continuing, you agree to our <a href="/terms" className="text-brand-gold underline underline-offset-2">Terms & Privacy Policy</a> and consent to SMS verification (msg/data rates may apply).
+                  </div>
+                </form>
               </motion.div>
             )}
 
             {currentStep === 2 && (
-              <motion.div key="step2" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }} className="text-center w-full">
+              <motion.div key="step2" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={transition} className="text-center w-full">
                 <div className="step-title font-decorative text-2xl text-brand-cream mb-6">Enter Code</div>
                 
                 <div className="mb-8">
-                  <OTPInput value={otp} onChange={setOtp} length={6} />
+                  <OTPInput value={otp} onChange={setOtp} length={6} error={errorMsg} />
                 </div>
 
                 <div className="mt-6">
@@ -247,33 +257,35 @@ export default function AuthPage() {
             )}
 
             {currentStep === 3 && (
-              <motion.div key="step3" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }} className="text-center w-full">
-                <div className="step-title font-decorative text-2xl text-brand-cream mb-6">Your Name for the Guest List</div>
+              <motion.div key="step3" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={transition} className="text-center w-full">
+                <form onSubmit={(e) => { e.preventDefault(); handleCompleteProfile(); }}>
+                  <div className="step-title font-decorative text-2xl text-brand-cream mb-6">Your Name for the Guest List</div>
 
-                <div className="space-y-4 mb-6 text-left">
-                  <div>
-                    <label className="block font-display text-xs tracking-widest uppercase text-brand-creamDark mb-2">First Name</label>
-                    <input type="text" className="w-full p-3.5 bg-brand-gold/5 border border-brand-gold/20 text-brand-cream font-serif text-lg focus:border-brand-gold outline-none" value={firstName} onChange={e => setFirstName(e.target.value)} />
+                  <div className="space-y-4 mb-6 text-left">
+                    <div>
+                      <label className="block font-display text-xs tracking-widest uppercase text-brand-creamDark mb-2">First Name</label>
+                      <input type="text" className="w-full p-4 bg-brand-gold/5 border border-brand-gold/20 text-brand-cream font-serif text-lg focus:border-brand-gold outline-none" value={firstName} onChange={e => setFirstName(e.target.value)} />
+                    </div>
+                    <div>
+                      <label className="block font-display text-xs tracking-widest uppercase text-brand-creamDark mb-2">Last Name</label>
+                      <input type="text" className="w-full p-4 bg-brand-gold/5 border border-brand-gold/20 text-brand-cream font-serif text-lg focus:border-brand-gold outline-none" value={lastName} onChange={e => setLastName(e.target.value)} />
+                    </div>
                   </div>
-                  <div>
-                    <label className="block font-display text-xs tracking-widest uppercase text-brand-creamDark mb-2">Last Name</label>
-                    <input type="text" className="w-full p-3.5 bg-brand-gold/5 border border-brand-gold/20 text-brand-cream font-serif text-lg focus:border-brand-gold outline-none" value={lastName} onChange={e => setLastName(e.target.value)} />
-                  </div>
-                </div>
 
-                <Button 
-                  onClick={handleCompleteProfile} 
-                  isLoading={isLoadingComplete} 
-                  disabled={!isProfileValid || isLoadingComplete} 
-                  fullWidth
-                >
-                  Secure My Spot
-                </Button>
+                  <Button
+                    type="submit"
+                    isLoading={isLoadingComplete}
+                    disabled={!isProfileValid || isLoadingComplete}
+                    fullWidth
+                  >
+                    Secure My Spot
+                  </Button>
+                </form>
               </motion.div>
             )}
 
             {currentStep === 4 && (
-              <motion.div key="step4" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }} className="text-center py-8 w-full">
+              <motion.div key="step4" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={transition} className="text-center py-8 w-full">
                 <h2 className="font-decorative text-4xl text-brand-cream mb-4 tracking-wider">Welcome</h2>
                 <p className="text-lg italic text-brand-creamMuted mb-8">Enter the immersive experience. We hope you are ready to cross the threshold.</p>
                 <div className="w-16 h-px bg-brand-gold/50 mx-auto mb-8"></div>
@@ -283,7 +295,7 @@ export default function AuthPage() {
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
+        </motion.div>
       </Card>
     </div>
   );

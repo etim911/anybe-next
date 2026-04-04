@@ -41,8 +41,8 @@ export const EventCard: React.FC<EventCardProps> = ({
         
         {/* Optional Event Image / Background Header */}
         {imageUrl && (
-          <div className="h-40 sm:h-48 w-full bg-bg-tertiary relative overflow-hidden border-b border-brand-gold/10">
-            <div 
+          <div className="w-full aspect-video bg-bg-tertiary relative overflow-hidden border-b border-brand-gold/10">
+            <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 opacity-60 mix-blend-luminosity group-hover:mix-blend-normal group-hover:opacity-100"
               style={{ backgroundImage: `url(${imageUrl})` }}
             />
@@ -60,7 +60,7 @@ export const EventCard: React.FC<EventCardProps> = ({
             )}
           </div>
           
-          <h3 className="font-display text-lg sm:text-xl md:text-2xl text-brand-cream mb-2 group-hover:text-brand-gold transition-colors duration-300">
+          <h3 className="font-display text-lg sm:text-xl md:text-2xl text-brand-cream mb-2 group-hover:text-brand-gold transition-colors duration-300 line-clamp-2 break-words">
             {title}
           </h3>
           
@@ -71,10 +71,12 @@ export const EventCard: React.FC<EventCardProps> = ({
             <p className="flex items-center">
               <span className="text-brand-gold/50 mr-2">✦</span> {location}
             </p>
-            {capacity && (
-              <p className="flex items-center text-brand-gold">
-                <span className="text-brand-gold/50 mr-2">✦</span> Only 3 spots left
-              </p>
+            {capacity && capacity > 0 && (
+              <div className="inline-flex items-center mt-2">
+                <span className="bg-brand-gold/20 px-3 py-1 rounded-full font-bold text-brand-gold text-sm tracking-wide border border-brand-gold/30">
+                  Only {capacity} spots left
+                </span>
+              </div>
             )}
           </div>
 

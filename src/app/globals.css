@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,7 +9,7 @@
 body {
   background-color: #0c0b0a;
   color: #ece6d8;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
   scroll-behavior: smooth;
   position: relative;
   min-height: 100dvh;
