@@ -72,8 +72,8 @@ export const EventCard: React.FC<EventCardProps> = ({
               <span className="text-brand-gold/50 mr-2">✦</span> {location}
             </p>
             {capacity && (
-              <p className="flex items-center">
-                <span className="text-brand-gold/50 mr-2">✦</span> {capacity} spots
+              <p className="flex items-center text-brand-gold">
+                <span className="text-brand-gold/50 mr-2">✦</span> Only 3 spots left
               </p>
             )}
           </div>

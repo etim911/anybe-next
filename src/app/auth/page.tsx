@@ -67,6 +67,12 @@ export default function AuthPage() {
     return () => clearInterval(timer);
   }, [resendCountdown]);
 
+  useEffect(() => {
+    if (otp.length === 6 && currentStep === 2 && !isLoadingVerify) {
+      handleVerifyCode();
+    }
+  }, [otp]);
+
   const handleSendCode = async () => {
     setErrorMsg('');
     setIsLoadingSend(true);
@@ -170,7 +176,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="auth-page max-w-[440px] mx-auto px-4 py-4 flex flex-col justify-center min-h-[100dvh]">
+    <div className="auth-page max-w-[440px] mx-auto px-4 pt-24 pb-4 flex flex-col justify-center min-h-[100dvh]">
       <div className="logo-area text-center mb-4">
         <div className="logo-title font-decorative text-3xl text-brand-cream tracking-widest mb-2">Anybe Night</div>
         <div className="logo-divider text-brand-creamDark text-sm tracking-widest opacity-60">- ✦ -</div>
@@ -191,7 +197,7 @@ export default function AuthPage() {
           <AnimatePresence mode="wait" custom={direction}>
             {currentStep === 1 && (
               <motion.div key="step1" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }} className="text-center w-full">
-                <div className="step-title font-decorative text-2xl text-brand-cream mb-6">Sign In or Register</div>
+                <div className="step-title font-decorative text-2xl text-brand-cream mb-6">Join the Inner Circle</div>
 
                 <div className="mb-6 text-left">
                   <PhoneInput 
@@ -232,15 +238,6 @@ export default function AuthPage() {
                   <OTPInput value={otp} onChange={setOtp} length={6} />
                 </div>
 
-                <Button 
-                  onClick={handleVerifyCode} 
-                  isLoading={isLoadingVerify} 
-                  disabled={!isOtpValid || isLoadingVerify} 
-                  fullWidth
-                >
-                  Verify
-                </Button>
-
                 <div className="mt-6">
                   <button className="text-sm italic text-brand-creamMuted hover:text-brand-cream underline underline-offset-4" disabled={resendCountdown > 0} onClick={handleResend}>
                     {resendCountdown > 0 ? `Resend in ${resendCountdown}s` : 'Resend code'}
@@ -251,7 +248,7 @@ export default function AuthPage() {
 
             {currentStep === 3 && (
               <motion.div key="step3" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }} className="text-center w-full">
-                <div className="step-title font-decorative text-2xl text-brand-cream mb-6">We Want to Know You</div>
+                <div className="step-title font-decorative text-2xl text-brand-cream mb-6">Your Name for the Guest List</div>
 
                 <div className="space-y-4 mb-6 text-left">
                   <div>
@@ -270,7 +267,7 @@ export default function AuthPage() {
                   disabled={!isProfileValid || isLoadingComplete} 
                   fullWidth
                 >
-                  Enter
+                  Secure My Spot
                 </Button>
               </motion.div>
             )}
@@ -281,7 +278,7 @@ export default function AuthPage() {
                 <p className="text-lg italic text-brand-creamMuted mb-8">Enter the immersive experience. We hope you are ready to cross the threshold.</p>
                 <div className="w-16 h-px bg-brand-gold/50 mx-auto mb-8"></div>
                 <Button onClick={() => router.push('/events')} fullWidth>
-                  Enter
+                  View Upcoming Events
                 </Button>
               </motion.div>
             )}
