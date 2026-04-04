@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -15,7 +14,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     ref
   ) => {
     const [isFocused, setIsFocused] = useState(false);
-    
+
     // Determine if label should float
     const hasValue = (value !== undefined && value !== '') || (defaultValue !== undefined && defaultValue !== '');
     const isFloating = isFocused || hasValue || !!placeholder;
@@ -29,9 +28,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       setIsFocused(false);
       if (onBlur) onBlur(e);
     };
-
-    // Cast to any to avoid Next.js strict TS errors on intrinsic elements
-    const MotionDiv = motion.div as React.ElementType;
 
     return (
       <div className="flex flex-col mb-6 relative group">

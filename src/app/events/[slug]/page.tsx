@@ -111,8 +111,8 @@ export default function EventPage({ params }: PageProps) {
         <div className="absolute bottom-2 left-2 w-7 h-7 opacity-40 scale-y-[-1]"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3" /></svg></div>
         <div className="absolute bottom-2 right-2 w-7 h-7 opacity-40 scale-[-1]"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3" /></svg></div>
 
-        <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-bg-deep px-3 text-sm tracking-widest text-silver-dim opacity-60">·  ✦  ·</div>
-        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-bg-deep px-3 text-sm tracking-widest text-silver-dim opacity-60">·  ✦  ·</div>
+        <div className="absolute -top-2 left-1/2 -translate-x-1/2 backdrop-blur-sm bg-black/40 rounded-full border border-white/5 px-3 text-sm tracking-widest text-silver-dim opacity-60">·  ✦  ·</div>
+        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 backdrop-blur-sm bg-black/40 rounded-full border border-white/5 px-3 text-sm tracking-widest text-silver-dim opacity-60">·  ✦  ·</div>
 
         <div className="font-display text-xs tracking-widest uppercase text-silver-dim text-center mb-6">Anybe Event</div>
         <h1 className="font-decorative text-[32px] md:text-[38px] font-normal text-cream text-center tracking-widest mb-4">{event.title}</h1>
@@ -163,13 +163,9 @@ export default function EventPage({ params }: PageProps) {
 
         <div className="text-center">
           {isAuthenticated ? (
-            <Button onClick={handleRegister} isLoading={isRegistering} className="tracking-[0.12em]">
-              Secure My Spot
-            </Button>
+            <Button onClick={handleRegister} isLoading={isRegistering} className="tracking-[0.08em]">SECURE MY SPOT</Button>
           ) : (
-            <Button onClick={() => router.push(`/auth?redirect=/events/${event.slug}`)} className="tracking-[0.12em]">
-              Sign In to Secure Spot
-            </Button>
+            <Button onClick={() => router.push(`/auth?redirect=/events/${event.slug}`)} className="tracking-[0.08em]">SIGN IN TO SECURE SPOT</Button>
           )}
           <p className="text-sm text-silver-dim italic mt-3.5">
             <Link href="/" className="text-silver-dim hover:text-gold underline">Back to Home</Link>

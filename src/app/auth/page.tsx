@@ -217,7 +217,7 @@ export default function AuthPage() {
 
                   <div className="checkbox-row flex items-start justify-center gap-3 mb-6 text-left">
                     <input type="checkbox" id="ageCheck" checked={ageConfirmed} onChange={e => setAgeConfirmed(e.target.checked)} className="accent-brand-gold w-4 h-4 mt-1 flex-shrink-0" />
-                    <label htmlFor="ageCheck" className="text-[13px] sm:text-sm text-brand-cream cursor-pointer leading-tight sm:leading-snug">I confirm I am 21+, agree to the Terms & Privacy Policy, and consent to receive marketing updates.</label>
+                    <label htmlFor="ageCheck" className="text-[12px] sm:text-[13px] text-brand-cream cursor-pointer leading-snug sm:leading-relaxed">I confirm I am 21+, agree to the Terms & Privacy Policy, and consent to receive marketing updates.</label>
                   </div>
 
                   <Button
