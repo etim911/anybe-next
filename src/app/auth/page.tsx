@@ -75,11 +75,7 @@ export default function AuthPage() {
     return () => clearInterval(timer);
   }, [resendCountdown]);
 
-  useEffect(() => {
-    if (otp.length === 6 && currentStep === 2 && !isLoadingVerify) {
-      handleVerifyCode();
-    }
-  }, [otp]);
+  
 
   const handleSendCode = async () => {
     setErrorMsg('');
@@ -242,17 +238,28 @@ export default function AuthPage() {
 
             {currentStep === 2 && (
               <motion.div key="step2" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={transition} className="text-center w-full">
-                <div className="step-title font-decorative text-2xl text-brand-cream mb-6">Enter Code</div>
-                
-                <div className="mb-8">
-                  <OTPInput value={otp} onChange={setOtp} length={6} error={errorMsg} />
-                </div>
+                <form onSubmit={(e) => { e.preventDefault(); handleVerifyCode(); }}>
+                  <div className="step-title font-decorative text-2xl text-brand-cream mb-6">Enter Code</div>
+                  
+                  <div className="mb-8">
+                    <OTPInput value={otp} onChange={setOtp} length={6} error={errorMsg} />
+                  </div>
 
-                <div className="mt-6">
-                  <button className="text-sm italic text-brand-creamMuted hover:text-brand-cream underline underline-offset-4" disabled={resendCountdown > 0} onClick={handleResend}>
-                    {resendCountdown > 0 ? `Resend in ${resendCountdown}s` : 'Resend code'}
-                  </button>
-                </div>
+                  <Button
+                    type="submit"
+                    isLoading={isLoadingVerify}
+                    disabled={otp.length !== 6 || isLoadingVerify}
+                    fullWidth
+                  >
+                    Verify
+                  </Button>
+
+                  <div className="mt-6">
+                    <button type="button" className="text-sm italic text-brand-creamMuted hover:text-brand-cream underline underline-offset-4" disabled={resendCountdown > 0} onClick={handleResend}>
+                      {resendCountdown > 0 ? `Resend in ${resendCountdown}s` : 'Resend code'}
+                    </button>
+                  </div>
+                </form>
               </motion.div>
             )}
 
