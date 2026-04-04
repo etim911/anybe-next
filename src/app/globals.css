@@ -14,7 +14,7 @@ body {
   font-family: 'Cormorant Garamond', serif;
   scroll-behavior: smooth;
   position: relative;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 /* Enforce 16px minimum rule for inputs to prevent iOS zoom */
@@ -23,7 +23,7 @@ input[type="tel"],
 input[type="email"], 
 input[type="number"],
 input[type="password"] {
-  font-size: 16px !important;
+  /* removed !important hack as font sizes have been globally increased in tailwind */
 }
 
 /* Dark leather texture */

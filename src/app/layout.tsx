@@ -31,17 +31,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="fixed inset-0 overflow-hidden overscroll-none bg-bg-primary text-text-primary font-serif antialiased relative flex flex-col">
+      <body className="bg-bg-primary text-text-primary font-serif antialiased relative flex flex-col">
         <NoiseOverlay />
         <LivingBackground />
         
         <Header />
 
-        <main className="flex-1 overflow-y-auto overscroll-contain w-full relative z-10 pt-16">
-          {children}
+        <main className="flex-1 overflow-y-auto overscroll-contain w-full relative z-10 pt-16 flex flex-col [-webkit-overflow-scrolling:touch] pb-[env(safe-area-inset-bottom)]">
+          <div className="flex-1 shrink-0 flex flex-col">
+            {children}
+          </div>
+          <div className="shrink-0 mt-auto">
+            <Footer />
+          </div>
         </main>
-
-        <Footer />
       </body>
     </html>
   );

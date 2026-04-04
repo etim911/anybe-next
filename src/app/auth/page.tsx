@@ -7,7 +7,7 @@ import { setStoredGuest } from '@/lib/auth';
 import { PhoneInput } from '@/components/auth/PhoneInput';
 import { OTPInput } from '@/components/auth/OTPInput';
 import { Button } from '@/components/ui/Button';
-import { OrnateFrame } from '@/components/ui/OrnateFrame';
+import { Card } from '@/components/ui/Card';
 
 const variants = {
   enter: (direction: number) => ({
@@ -172,26 +172,26 @@ export default function AuthPage() {
   return (
     <div className="auth-page max-w-[440px] mx-auto px-4 py-4 flex flex-col justify-center min-h-[100dvh]">
       <div className="logo-area text-center mb-4">
-        <div className="logo-title font-decorative text-3xl text-cream tracking-widest mb-2">Anybe Night</div>
-        <div className="logo-divider text-silver-dim text-sm tracking-widest opacity-60">- ✦ -</div>
+        <div className="logo-title font-decorative text-3xl text-brand-cream tracking-widest mb-2">Anybe Night</div>
+        <div className="logo-divider text-brand-creamDark text-sm tracking-widest opacity-60">- ✦ -</div>
       </div>
 
       {currentStep < 4 && (
         <div className="step-dots flex justify-center gap-3 mb-4">
-          <div className={`w-2.5 h-2.5 rounded-full transition-all ${currentStep === 1 ? 'bg-gold shadow-[0_0_8px_rgba(181,164,138,0.4)]' : 'bg-gold/50'}`}></div>
-          <div className={`w-2.5 h-2.5 rounded-full transition-all ${currentStep === 2 ? 'bg-gold shadow-[0_0_8px_rgba(181,164,138,0.4)]' : currentStep > 2 ? 'bg-gold/50' : 'bg-border-light'}`}></div>
-          <div className={`w-2.5 h-2.5 rounded-full transition-all ${currentStep === 3 ? 'bg-gold shadow-[0_0_8px_rgba(181,164,138,0.4)]' : 'bg-border-light'}`}></div>
+          <div className={`w-2.5 h-2.5 rounded-full transition-all ${currentStep === 1 ? 'bg-brand-gold shadow-[0_0_8px_rgba(181,164,138,0.4)]' : 'bg-brand-gold/50'}`}></div>
+          <div className={`w-2.5 h-2.5 rounded-full transition-all ${currentStep === 2 ? 'bg-brand-gold shadow-[0_0_8px_rgba(181,164,138,0.4)]' : currentStep > 2 ? 'bg-brand-gold/50' : 'bg-brand-gold/20'}`}></div>
+          <div className={`w-2.5 h-2.5 rounded-full transition-all ${currentStep === 3 ? 'bg-brand-gold shadow-[0_0_8px_rgba(181,164,138,0.4)]' : 'bg-brand-gold/20'}`}></div>
         </div>
       )}
 
       {errorMsg && <div className="error-msg bg-red-900/20 border border-red-900/50 text-red-200 p-3 text-center mb-6 text-sm">{errorMsg}</div>}
 
-      <OrnateFrame>
+      <Card variant="featured">
         <div className="py-6 px-2 overflow-hidden">
           <AnimatePresence mode="wait" custom={direction}>
             {currentStep === 1 && (
               <motion.div key="step1" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }} className="text-center w-full">
-                <div className="step-title font-decorative text-2xl text-cream mb-6">Sign In or Register</div>
+                <div className="step-title font-decorative text-2xl text-brand-cream mb-6">Sign In or Register</div>
 
                 <div className="mb-6 text-left">
                   <PhoneInput 
@@ -206,8 +206,8 @@ export default function AuthPage() {
                 </div>
 
                 <div className="checkbox-row flex items-center justify-center gap-2 mb-6">
-                  <input type="checkbox" id="ageCheck" checked={ageConfirmed} onChange={e => setAgeConfirmed(e.target.checked)} className="accent-gold w-4 h-4" />
-                  <label htmlFor="ageCheck" className="text-base text-cream cursor-pointer">I confirm I am 21 years of age or older.</label>
+                  <input type="checkbox" id="ageCheck" checked={ageConfirmed} onChange={e => setAgeConfirmed(e.target.checked)} className="accent-brand-gold w-4 h-4" />
+                  <label htmlFor="ageCheck" className="text-base text-brand-cream cursor-pointer">I confirm I am 21 years of age or older.</label>
                 </div>
 
                 <Button 
@@ -218,15 +218,15 @@ export default function AuthPage() {
                 >
                   Next
                 </Button>
-                <div className="mt-4 text-sm text-silver-dim/60 leading-relaxed text-center">
-                  By continuing, you agree to our <a href="/terms" className="text-gold underline underline-offset-2">Terms & Privacy Policy</a> and consent to SMS verification (msg/data rates may apply).
+                <div className="mt-4 text-sm text-brand-creamDark/60 leading-relaxed text-center">
+                  By continuing, you agree to our <a href="/terms" className="text-brand-gold underline underline-offset-2">Terms & Privacy Policy</a> and consent to SMS verification (msg/data rates may apply).
                 </div>
               </motion.div>
             )}
 
             {currentStep === 2 && (
               <motion.div key="step2" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }} className="text-center w-full">
-                <div className="step-title font-decorative text-2xl text-cream mb-6">Enter Code</div>
+                <div className="step-title font-decorative text-2xl text-brand-cream mb-6">Enter Code</div>
                 
                 <div className="mb-8">
                   <OTPInput value={otp} onChange={setOtp} length={6} />
@@ -242,7 +242,7 @@ export default function AuthPage() {
                 </Button>
 
                 <div className="mt-6">
-                  <button className="text-sm italic text-text-secondary hover:text-silver-light underline underline-offset-4" disabled={resendCountdown > 0} onClick={handleResend}>
+                  <button className="text-sm italic text-brand-creamMuted hover:text-brand-cream underline underline-offset-4" disabled={resendCountdown > 0} onClick={handleResend}>
                     {resendCountdown > 0 ? `Resend in ${resendCountdown}s` : 'Resend code'}
                   </button>
                 </div>
@@ -251,16 +251,16 @@ export default function AuthPage() {
 
             {currentStep === 3 && (
               <motion.div key="step3" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }} className="text-center w-full">
-                <div className="step-title font-decorative text-2xl text-cream mb-6">We Want to Know You</div>
+                <div className="step-title font-decorative text-2xl text-brand-cream mb-6">We Want to Know You</div>
 
                 <div className="space-y-4 mb-6 text-left">
                   <div>
-                    <label className="block font-display text-xs tracking-widest uppercase text-silver-dim mb-2">First Name</label>
-                    <input type="text" className="w-full p-3.5 bg-black/60 border border-border-light text-cream font-serif text-lg focus:border-gold outline-none" value={firstName} onChange={e => setFirstName(e.target.value)} />
+                    <label className="block font-display text-xs tracking-widest uppercase text-brand-creamDark mb-2">First Name</label>
+                    <input type="text" className="w-full p-3.5 bg-brand-gold/5 border border-brand-gold/20 text-brand-cream font-serif text-lg focus:border-brand-gold outline-none" value={firstName} onChange={e => setFirstName(e.target.value)} />
                   </div>
                   <div>
-                    <label className="block font-display text-xs tracking-widest uppercase text-silver-dim mb-2">Last Name</label>
-                    <input type="text" className="w-full p-3.5 bg-black/60 border border-border-light text-cream font-serif text-lg focus:border-gold outline-none" value={lastName} onChange={e => setLastName(e.target.value)} />
+                    <label className="block font-display text-xs tracking-widest uppercase text-brand-creamDark mb-2">Last Name</label>
+                    <input type="text" className="w-full p-3.5 bg-brand-gold/5 border border-brand-gold/20 text-brand-cream font-serif text-lg focus:border-brand-gold outline-none" value={lastName} onChange={e => setLastName(e.target.value)} />
                   </div>
                 </div>
 
@@ -277,9 +277,9 @@ export default function AuthPage() {
 
             {currentStep === 4 && (
               <motion.div key="step4" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }} className="text-center py-8 w-full">
-                <h2 className="font-decorative text-4xl text-cream mb-4 tracking-wider">Welcome</h2>
-                <p className="text-lg italic text-text-secondary mb-8">Enter the immersive experience. We hope you are ready to cross the threshold.</p>
-                <div className="w-16 h-px bg-gold/50 mx-auto mb-8"></div>
+                <h2 className="font-decorative text-4xl text-brand-cream mb-4 tracking-wider">Welcome</h2>
+                <p className="text-lg italic text-brand-creamMuted mb-8">Enter the immersive experience. We hope you are ready to cross the threshold.</p>
+                <div className="w-16 h-px bg-brand-gold/50 mx-auto mb-8"></div>
                 <Button onClick={() => router.push('/events')} fullWidth>
                   Enter
                 </Button>
@@ -287,7 +287,7 @@ export default function AuthPage() {
             )}
           </AnimatePresence>
         </div>
-      </OrnateFrame>
+      </Card>
     </div>
   );
 }

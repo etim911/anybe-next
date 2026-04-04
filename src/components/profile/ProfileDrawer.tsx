@@ -42,6 +42,15 @@ export function ProfileDrawer() {
   const initials = `${guest.first_name?.[0] || ''}${guest.last_name?.[0] || ''}`.toUpperCase();
   const memberSince = guest.created_at ? new Date(guest.created_at).toLocaleDateString("en-US", { month: "short", year: "numeric" }) : '';
 
+  const renderAvatar = () => {
+    if (initials) return initials;
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
+        <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
+      </svg>
+    );
+  };
+
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -98,7 +107,7 @@ export function ProfileDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-[#0c0b0a]/95 border-l border-[#2e2a24] backdrop-blur-md overflow-y-auto"
+            className="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-[#0c0b0a]/95 border-l border-[#2e2a24] backdrop-blur-md overflow-y-auto [-webkit-overflow-scrolling:touch]"
             style={{ zIndex: 9999 }}
           >
             <div className="p-8">
@@ -116,7 +125,7 @@ export function ProfileDrawer() {
                   className="w-24 h-24 rounded-full bg-[#1a1814] border border-[#b5a48a]/30 flex items-center justify-center text-[#b5a48a] font-display text-2xl tracking-widest mb-4 shadow-xl"
                   style={{ backgroundImage: 'radial-gradient(circle at center, #2a2620 0%, #1a1814 100%)' }}
                 >
-                  {initials || '?'}
+                  {renderAvatar()}
                 </div>
                 <div className="text-[#6e6a61] text-xs tracking-widest uppercase">
                   Member Since: {memberSince}
