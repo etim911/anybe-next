@@ -4,7 +4,7 @@ import Link from 'next/link';
 export const Footer: React.FC = () => {
   return (
     <footer className="w-full relative z-10 pt-6 pb-2 border-t border-white/5 bg-transparent mt-14">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-[10px] tracking-[2px] font-display text-cream/40 uppercase">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-sm tracking-widest font-display text-cream/40 uppercase">
         
         <div className="flex items-center space-x-6 mb-4 md:mb-0">
           <span>&copy; {new Date().getFullYear()} ANYBE</span>

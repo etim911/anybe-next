@@ -111,11 +111,11 @@ export default function EventPage({ params }: PageProps) {
         <div className="absolute bottom-2 left-2 w-7 h-7 opacity-40 scale-y-[-1]"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3" /></svg></div>
         <div className="absolute bottom-2 right-2 w-7 h-7 opacity-40 scale-[-1]"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3" /></svg></div>
 
-        <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-bg-deep px-3 text-[11px] tracking-[4px] text-silver-dim opacity-60">·  ✦  ·</div>
-        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-bg-deep px-3 text-[11px] tracking-[4px] text-silver-dim opacity-60">·  ✦  ·</div>
+        <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-bg-deep px-3 text-sm tracking-widest text-silver-dim opacity-60">·  ✦  ·</div>
+        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-bg-deep px-3 text-sm tracking-widest text-silver-dim opacity-60">·  ✦  ·</div>
 
-        <div className="font-display text-[10px] tracking-[5px] uppercase text-silver-dim text-center mb-6">Anybe Event</div>
-        <h1 className="font-decorative text-[32px] md:text-[38px] font-normal text-cream text-center tracking-[2px] mb-4">{event.title}</h1>
+        <div className="font-display text-xs tracking-widest uppercase text-silver-dim text-center mb-6">Anybe Event</div>
+        <h1 className="font-decorative text-[32px] md:text-[38px] font-normal text-cream text-center tracking-widest mb-4">{event.title}</h1>
 
         {event.description && (
           <p className="text-[17px] text-silver leading-relaxed text-center mb-6 max-w-[480px] mx-auto">{event.description}</p>
@@ -123,17 +123,17 @@ export default function EventPage({ params }: PageProps) {
 
         <div className="grid grid-cols-2 gap-6 max-w-[400px] mx-auto mb-8">
           <div className="text-center">
-            <div className="text-[9px] tracking-[3px] uppercase text-silver-dim mb-1.5">Date</div>
-            <div className="font-display text-[15px] text-cream tracking-wide">{formattedDate}</div>
+            <div className="text-xs tracking-widest uppercase text-silver-dim mb-1.5">Date</div>
+            <div className="font-display text-sm text-cream tracking-wide">{formattedDate}</div>
           </div>
           <div className="text-center">
-            <div className="text-[9px] tracking-[3px] uppercase text-silver-dim mb-1.5">Location</div>
-            <div className="font-display text-[15px] text-cream tracking-wide">{event.location}</div>
+            <div className="text-xs tracking-widest uppercase text-silver-dim mb-1.5">Location</div>
+            <div className="font-display text-sm text-cream tracking-wide">{event.location}</div>
           </div>
           {event.capacity && (
             <div className="text-center col-span-2">
-              <div className="text-[9px] tracking-[3px] uppercase text-silver-dim mb-1.5">Capacity</div>
-              <div className="font-display text-[15px] text-cream tracking-wide">{event.capacity} Guests</div>
+              <div className="text-xs tracking-widest uppercase text-silver-dim mb-1.5">Capacity</div>
+              <div className="font-display text-sm text-cream tracking-wide">{event.capacity} Guests</div>
             </div>
           )}
         </div>
@@ -150,7 +150,7 @@ export default function EventPage({ params }: PageProps) {
               Sign In to Register
             </Button>
           )}
-          <p className="text-[13px] text-silver-dim italic mt-3.5">
+          <p className="text-sm text-silver-dim italic mt-3.5">
             <Link href="/" className="text-silver-dim hover:text-gold underline">Back to Home</Link>
           </p>
         </div>

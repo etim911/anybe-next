@@ -53,9 +53,9 @@ export default function EventsDashboard() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <div className="font-display text-[10px] tracking-[5px] uppercase text-silver-dim mb-2">Your Crossings</div>
-        <div className="font-decorative text-[28px] font-normal text-cream tracking-[2px] drop-shadow-sm">Events</div>
-        <div className="text-center text-silver-dim text-sm mt-3 tracking-[4px] opacity-60">- ✦ -</div>
+        <div className="font-display text-xs tracking-widest uppercase text-silver-dim mb-2">Your Crossings</div>
+        <div className="font-decorative text-[28px] font-normal text-cream tracking-widest drop-shadow-sm">Events</div>
+        <div className="text-center text-silver-dim text-sm mt-3 tracking-widest opacity-60">- ✦ -</div>
       </motion.div>
 
       <h2 className="font-display text-xl text-gold mb-4">Future Crossings</h2>

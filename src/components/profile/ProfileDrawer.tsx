@@ -118,26 +118,26 @@ export function ProfileDrawer() {
                 >
                   {initials || '?'}
                 </div>
-                <div className="text-[#6e6a61] text-[10px] tracking-[3px] uppercase">
+                <div className="text-[#6e6a61] text-xs tracking-widest uppercase">
                   Member Since: {memberSince}
                 </div>
               </div>
 
               <form onSubmit={handleUpdate} className="space-y-6">
                 <div>
-                  <label className="block text-[#6e6a61] text-[10px] tracking-[3px] uppercase mb-2">First Name</label>
+                  <label className="block text-[#6e6a61] text-xs tracking-widest uppercase mb-2">First Name</label>
                   <input type="text" required value={formData.firstName} onChange={(e) => setFormData({...formData, firstName: e.target.value})} className="w-full bg-transparent border-b border-[#2e2a24] text-[#ece6d8] py-2 focus:outline-none focus:border-[#b5a48a] transition-colors font-display text-sm tracking-wide" />
                 </div>
                 <div>
-                  <label className="block text-[#6e6a61] text-[10px] tracking-[3px] uppercase mb-2">Last Name</label>
+                  <label className="block text-[#6e6a61] text-xs tracking-widest uppercase mb-2">Last Name</label>
                   <input type="text" required value={formData.lastName} onChange={(e) => setFormData({...formData, lastName: e.target.value})} className="w-full bg-transparent border-b border-[#2e2a24] text-[#ece6d8] py-2 focus:outline-none focus:border-[#b5a48a] transition-colors font-display text-sm tracking-wide" />
                 </div>
                 <div>
-                  <label className="block text-[#6e6a61] text-[10px] tracking-[3px] uppercase mb-2">Email (Optional)</label>
+                  <label className="block text-[#6e6a61] text-xs tracking-widest uppercase mb-2">Email (Optional)</label>
                   <input type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full bg-transparent border-b border-[#2e2a24] text-[#ece6d8] py-2 focus:outline-none focus:border-[#b5a48a] transition-colors font-display text-sm tracking-wide" />
                 </div>
                 <div>
-                  <label className="block text-[#6e6a61] text-[10px] tracking-[3px] uppercase mb-2">Phone Number</label>
+                  <label className="block text-[#6e6a61] text-xs tracking-widest uppercase mb-2">Phone Number</label>
                   <input type="text" readOnly value={formData.phone} className="w-full bg-transparent border-b border-[#2e2a24]/50 text-[#6e6a61] py-2 cursor-not-allowed font-display text-sm tracking-wide" />
                 </div>
 

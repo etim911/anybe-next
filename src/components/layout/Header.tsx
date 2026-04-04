@@ -32,7 +32,7 @@ export function Header() {
               <path d="M64 50 L64 70 M56 58 L72 58 M64 70 L56 80 M64 70 L72 80" stroke="#c4bfb3" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
             </g>
           </svg>
-          <span className="font-decorative text-cream tracking-[1px] text-base hidden sm:inline-block">Anybe</span>
+          <span className="font-decorative text-cream tracking-wide text-base hidden sm:inline-block">Anybe</span>
         </Link>
         
         {initials && (

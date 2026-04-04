@@ -52,7 +52,7 @@ export const EventCard: React.FC<EventCardProps> = ({
 
         <div className={`p-6 flex-grow flex flex-col ${!imageUrl ? 'pt-8' : ''}`}>
           <div className="flex justify-between items-start mb-4">
-            <span className={`text-[10px] font-display uppercase tracking-widest px-2 py-1 border ${statusColors[status]}`}>
+            <span className={`text-xs font-display uppercase tracking-widest px-2 py-1 border ${statusColors[status]}`}>
               {statusLabels[status]}
             </span>
             {price && status === 'upcoming' && (

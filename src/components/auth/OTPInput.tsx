@@ -75,7 +75,7 @@ export const OTPInput: React.FC<OTPInputProps> = ({ length = 6, value, onChange,
         ))}
       </div>
       {error && (
-        <span className="text-red-500 text-xs mt-4 font-cormorant">{error}</span>
+        <span className="text-red-500 text-xs mt-4 font-serif">{error}</span>
       )}
     </div>
   );

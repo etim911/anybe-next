@@ -23,10 +23,10 @@ export const OrnateFrame: React.FC<OrnateFrameProps> = ({
         <rect x="0.5" y="0.5" width="calc(100% - 1px)" height="calc(100% - 1px)" fill="none" stroke="currentColor" className="text-border" strokeWidth="1" opacity="0.4"/>
         
         {/* Top/Bottom Ornaments */}
-        <text x="50%" y="0" dominantBaseline="middle" textAnchor="middle" className="fill-bg-primary text-[10px] tracking-[4px] font-display">
+        <text x="50%" y="0" dominantBaseline="middle" textAnchor="middle" className="fill-bg-primary text-xs tracking-widest font-display">
           <tspan dx="-20">·</tspan><tspan dx="10" fill="currentColor" className="fill-silver-dim">✦</tspan><tspan dx="10">·</tspan>
         </text>
-        <text x="50%" y="100%" dominantBaseline="middle" textAnchor="middle" className="fill-bg-primary text-[10px] tracking-[4px] font-display">
+        <text x="50%" y="100%" dominantBaseline="middle" textAnchor="middle" className="fill-bg-primary text-xs tracking-widest font-display">
           <tspan dx="-20">·</tspan><tspan dx="10" fill="currentColor" className="fill-silver-dim">✦</tspan><tspan dx="10">·</tspan>
         </text>
 

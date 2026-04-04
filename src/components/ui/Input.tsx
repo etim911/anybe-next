@@ -51,7 +51,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {label && (
             <label 
               className={`absolute left-4 font-display tracking-wide transition-all duration-300 pointer-events-none z-10
-                ${isFloating ? '-top-2.5 text-[10px] bg-[#141210] px-1 text-[#d4a854]' : 'top-3.5 text-sm text-cream/50'}
+                ${isFloating ? '-top-2.5 text-xs bg-[#141210] px-1 text-[#d4a854]' : 'top-3.5 text-sm text-cream/50'}
                 ${leftElement && !isFloating ? 'left-10' : ''}
               `}
             >
@@ -73,7 +73,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               defaultValue={defaultValue}
               placeholder={placeholder}
               className={`
-                w-full bg-transparent text-cream font-cormorant placeholder-cream/30
+                w-full bg-transparent text-cream font-serif placeholder-cream/30
                 px-4 py-3 focus:outline-none transition-all duration-300
                 disabled:opacity-50 disabled:cursor-not-allowed
                 ${leftElement ? 'pl-10' : ''}
@@ -90,7 +90,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </div>
         </MotionDiv>
         {error && (
-          <span className="text-red-500 text-xs mt-1 font-cormorant absolute -bottom-5">{error}</span>
+          <span className="text-red-500 text-xs mt-1 font-serif absolute -bottom-5">{error}</span>
         )}
       </div>
     );
