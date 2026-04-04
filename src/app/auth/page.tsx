@@ -207,7 +207,7 @@ export default function AuthPage() {
 
                 <div className="checkbox-row flex items-center justify-center gap-2 mb-6">
                   <input type="checkbox" id="ageCheck" checked={ageConfirmed} onChange={e => setAgeConfirmed(e.target.checked)} className="accent-gold w-4 h-4" />
-                  <label htmlFor="ageCheck" className="text-sm text-cream cursor-pointer">I confirm I am 21 years of age or older.</label>
+                  <label htmlFor="ageCheck" className="text-base text-cream cursor-pointer">I confirm I am 21 years of age or older.</label>
                 </div>
 
                 <Button 
@@ -218,7 +218,7 @@ export default function AuthPage() {
                 >
                   Next
                 </Button>
-                <div className="mt-4 text-xs text-silver-dim/60 leading-relaxed text-center">
+                <div className="mt-4 text-sm text-silver-dim/60 leading-relaxed text-center">
                   By continuing, you agree to our <a href="/terms" className="text-gold underline underline-offset-2">Terms & Privacy Policy</a> and consent to SMS verification (msg/data rates may apply).
                 </div>
               </motion.div>

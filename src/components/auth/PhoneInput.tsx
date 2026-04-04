@@ -31,7 +31,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
 
   return (
     <div className="flex flex-col mb-4">
-      <label className="text-sm font-display text-cream mb-2 tracking-wide text-left uppercase">
+      <label className="text-base font-display text-cream mb-2 tracking-wide text-left uppercase">
         Phone Number
       </label>
       <div className="flex border border-border-light bg-black/60 focus-within:border-gold focus-within:shadow-[0_0_15px_rgba(212,168,84,0.15)] transition-all duration-300">
@@ -39,7 +39,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
           <select
             value={countryCode}
             onChange={(e) => onCountryCodeChange(e.target.value.split("-")[0])}
-            className="bg-transparent text-cream font-serif focus:outline-none appearance-none py-3.5 pl-4 pr-6 text-lg cursor-pointer outline-none"
+            className="bg-transparent text-cream font-serif focus:outline-none appearance-none py-3.5 pl-4 pr-6 text-xl cursor-pointer outline-none"
             style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'8\'%3E%3Cpath d=\'M1 1l5 5 5-5\' stroke=\'%236e6a61\' stroke-width=\'1.5\' fill=\'none\'/%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}
           >
             <option value="+1-US">🇺🇸 +1</option>
@@ -74,7 +74,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
           value={value}
           onChange={handleChange}
           placeholder="(555) 000-0000"
-          className="w-full bg-transparent text-cream font-serif placeholder-silver-dim px-4 py-3.5 focus:outline-none text-lg outline-none"
+          className="w-full bg-transparent text-cream font-serif placeholder-silver-dim px-4 py-3.5 focus:outline-none text-xl outline-none"
         />
       </div>
       {error && (
