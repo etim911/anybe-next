@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { supabase } from '@/lib/supabase';
-import { EventCard } from '@/components/events/EventCard';
+import { EventCard, EventCardSkeleton } from '@/components/events/EventCard';
 
 interface Event {
   id: string;
@@ -37,16 +37,8 @@ export default function EventsDashboard() {
     loadData();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="fixed inset-0 z-50 bg-bg-primary flex items-center justify-center">
-        <div className="text-[28px] text-silver-dim opacity-50 animate-pulse">✦</div>
-      </div>
-    );
-  }
-
   return (
-    <main className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-16 min-h-[100dvh]">
+    <main className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-16">
       <motion.div
         className="text-center mb-10"
         initial={{ opacity: 0, y: 24 }}
@@ -59,24 +51,29 @@ export default function EventsDashboard() {
       </motion.div>
 
       <h2 className="font-display text-xl text-gold mb-4">Future Crossings</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {events.map((event) => (
-          <EventCard
-            key={event.id}
-            slug={event.slug}
-            title={event.title}
-            date={event.date}
-            location={event.location}
-            status="upcoming"
-          />
-        ))}
-        {events.length === 0 && (
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        {loading ? (
+          Array.from({ length: 4 }).map((_, i) => (
+            <EventCardSkeleton key={`skeleton-${i}`} />
+          ))
+        ) : events.length > 0 ? (
+          events.map((event) => (
+            <EventCard
+              key={event.id}
+              slug={event.slug}
+              title={event.title}
+              date={event.date}
+              location={event.location}
+              status="upcoming"
+            />
+          ))
+        ) : (
           <div className="col-span-full text-center text-text-muted italic">No upcoming events.</div>
         )}
       </div>
 
       <h2 className="font-display text-xl text-gold mt-12 mb-4">Past Crossings</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         <EventCard
           key="mock-past-1"
           slug="the-library"

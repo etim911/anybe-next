@@ -90,7 +90,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </div>
         </MotionDiv>
         {error && (
-          <span className="text-red-500 text-xs mt-1 font-serif absolute -bottom-5">{error}</span>
+          <div className="text-red-500 text-xs mt-2 font-serif">{error}</div>
         )}
       </div>
     );

@@ -106,7 +106,7 @@ export function ProfileDrawer() {
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 400 }}
             className="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-[#0c0b0a]/95 border-l border-[#2e2a24] overflow-y-auto [-webkit-overflow-scrolling:touch]"
             style={{ zIndex: 9999 }}
           >
@@ -114,7 +114,7 @@ export function ProfileDrawer() {
             <div className="p-8 relative">
               <button 
                 onClick={() => setIsOpen(false)}
-                className="absolute top-6 right-6 text-[#6e6a61] hover:text-[#ece6d8] transition-colors"
+                className="absolute top-6 right-6 text-[#6e6a61] hover:text-[#ece6d8] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M18 6L6 18M6 6l12 12" />

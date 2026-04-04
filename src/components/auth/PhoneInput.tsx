@@ -17,16 +17,8 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let digits = e.target.value.replace(/\D/g, '');
-    if (digits.length > 10) digits = digits.slice(0, 10);
-    let formatted = digits;
-    if (digits.length > 6) {
-      formatted = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
-    } else if (digits.length > 3) {
-      formatted = `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
-    } else if (digits.length > 0) {
-      formatted = `(${digits}`;
-    }
-    onChange(formatted);
+    if (digits.length > 15) digits = digits.slice(0, 15);
+    onChange(digits);
   };
 
   return (
@@ -74,7 +66,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
           autoComplete="tel"
           value={value}
           onChange={handleChange}
-          placeholder="(555) 000-0000"
+          placeholder="Enter your phone number"
           className="w-full bg-transparent text-cream font-serif placeholder-silver-dim px-4 py-4 focus:outline-none text-xl outline-none"
         />
       </div>

@@ -73,7 +73,7 @@ export const EventCard: React.FC<EventCardProps> = ({
             </p>
             {capacity && capacity > 0 && (
               <div className="inline-flex items-center mt-2">
-                <span className="bg-brand-gold/20 px-3 py-1 rounded-full font-bold text-brand-gold text-sm tracking-wide border border-brand-gold/30">
+                <span className="bg-brand-gold/20 px-3 py-1 rounded-full font-display uppercase text-brand-gold text-xs tracking-widest border border-brand-gold/30">
                   Only {capacity} spots left
                 </span>
               </div>
@@ -93,3 +93,21 @@ export const EventCard: React.FC<EventCardProps> = ({
     </Link>
   );
 };
+
+export const EventCardSkeleton = () => (
+  <Card variant="event" className="h-full flex flex-col relative overflow-hidden animate-pulse">
+    <div className="p-4 sm:p-6 flex-grow flex flex-col pt-4 sm:pt-8">
+      <div className="flex justify-between items-start mb-4">
+        <div className="w-20 h-6 bg-brand-gold/10 border border-brand-gold/20" />
+      </div>
+      <div className="w-3/4 h-8 bg-brand-cream/10 mb-2" />
+      <div className="space-y-2 mb-4 sm:mb-6 flex-grow">
+        <div className="w-1/2 h-5 bg-brand-cream/5" />
+        <div className="w-2/3 h-5 bg-brand-cream/5" />
+      </div>
+      <div className="mt-auto py-3 sm:py-4 border-t border-brand-gold/10">
+        <div className="w-24 h-4 bg-brand-gold/10" />
+      </div>
+    </div>
+  </Card>
+);

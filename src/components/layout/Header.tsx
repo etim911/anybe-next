@@ -8,9 +8,11 @@ import { ProfileDrawer } from '@/components/profile/ProfileDrawer';
 export function Header() {
   const pathname = usePathname();
   const [guest, setGuest] = useState<Guest | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
   
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsMounted(true);
     setGuest(getStoredGuest());
 
     const handleAuthChange = () => {
@@ -36,8 +38,8 @@ export function Header() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between pt-[max(env(safe-area-inset-top),1rem)] pb-4 px-6 bg-gradient-to-b from-bg-primary/95 to-bg-primary/0 backdrop-blur-[4px]">
-        <Link href="/events" className="flex items-center gap-2.5 opacity-85 hover:opacity-100 transition-opacity">
+      <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between pt-[max(env(safe-area-inset-top),1rem)] pb-4 pl-[max(1.5rem,env(safe-area-inset-left))] pr-[max(1.5rem,env(safe-area-inset-right))] bg-gradient-to-b from-bg-primary/95 to-bg-primary/0 backdrop-blur-[4px]">
+        <Link href="/events" className="flex items-center gap-2.5 opacity-85 hover:opacity-100 transition-opacity min-h-[44px] min-w-[44px]">
           <svg viewBox="0 0 100 80" className="w-8 h-8" xmlns="http://www.w3.org/2000/svg">
             <g fill="#c4bfb3">
               <rect x="28" y="2" width="44" height="24" rx="12" fill="none" stroke="#c4bfb3" strokeWidth="2.5"/>
@@ -51,15 +53,19 @@ export function Header() {
           <span className="font-decorative text-cream tracking-wide text-base hidden sm:inline-block">Anybe</span>
         </Link>
         
-        {guest && (
+        {isMounted ? (
+          guest && (
           <button
             id="profile-trigger"
-            className="w-10 h-10 rounded-full bg-[#1a1814] border border-[#b5a48a]/30 flex items-center justify-center text-[#b5a48a] font-display text-sm tracking-widest hover:border-[#b5a48a] transition-all duration-300 shadow-lg"
+            className="w-[44px] h-[44px] rounded-full bg-[#1a1814] border border-[#b5a48a]/30 flex items-center justify-center text-[#b5a48a] font-display text-sm tracking-widest hover:border-[#b5a48a] transition-all duration-300 shadow-lg"
             style={{ backgroundImage: 'radial-gradient(circle at center, #2a2620 0%, #1a1814 100%)' }}
             onClick={() => document.dispatchEvent(new CustomEvent('toggle-profile-drawer'))}
           >
             {renderAvatar()}
           </button>
+          )
+        ) : (
+          <div className="w-10 h-10 rounded-full animate-pulse bg-white/10" />
         )}
       </nav>
       

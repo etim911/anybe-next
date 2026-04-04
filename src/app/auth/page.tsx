@@ -26,9 +26,8 @@ const variants = {
 
 const transition = {
   type: 'spring',
-  stiffness: 250,
-  damping: 28,
-  mass: 0.9
+  stiffness: 400,
+  damping: 25
 };
 
 export default function AuthPage() {
@@ -180,7 +179,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="auth-page max-w-[440px] mx-auto px-4 pt-24 pb-4 flex flex-col justify-center min-h-[100dvh]">
+    <div className="auth-page max-w-[440px] mx-auto px-4 pt-24 pb-4 flex flex-col justify-center">
       <div className="logo-area text-center mb-4">
         <div className="logo-title font-decorative text-3xl text-brand-cream tracking-widest mb-2">Anybe Night</div>
         <div className="logo-divider text-brand-creamDark text-sm tracking-widest opacity-60">- ✦ -</div>
@@ -197,7 +196,7 @@ export default function AuthPage() {
       {errorMsg && <div className="error-msg bg-red-900/20 border border-red-900/50 text-red-200 p-3 text-center mb-6 text-sm">{errorMsg}</div>}
 
       <Card variant="featured">
-        <motion.div layout className="py-6 px-2 overflow-hidden">
+        <motion.div layout transition={transition} className="py-6 px-2 overflow-hidden">
           <AnimatePresence mode="wait" custom={direction}>
             {currentStep === 1 && (
               <motion.div key="step1" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={transition} className="text-center w-full">
@@ -218,7 +217,7 @@ export default function AuthPage() {
 
                   <div className="checkbox-row flex items-center justify-center gap-2 mb-6">
                     <input type="checkbox" id="ageCheck" checked={ageConfirmed} onChange={e => setAgeConfirmed(e.target.checked)} className="accent-brand-gold w-4 h-4" />
-                    <label htmlFor="ageCheck" className="text-base text-brand-cream cursor-pointer">I confirm I am 21 years of age or older.</label>
+                    <label htmlFor="ageCheck" className="text-base text-brand-cream cursor-pointer leading-snug">I confirm I am 21 years of age or older.</label>
                   </div>
 
                   <Button
@@ -229,7 +228,7 @@ export default function AuthPage() {
                   >
                     Next
                   </Button>
-                  <div className="mt-4 text-sm text-brand-creamDark/60 leading-relaxed text-center">
+                  <div className="mt-4 text-sm text-brand-creamMuted leading-relaxed text-center">
                     By continuing, you agree to our <a href="/terms" className="text-brand-gold underline underline-offset-2">Terms & Privacy Policy</a> and consent to SMS verification (msg/data rates may apply).
                   </div>
                 </form>

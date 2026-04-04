@@ -118,7 +118,7 @@ export default function EventPage({ params }: PageProps) {
         <h1 className="font-decorative text-[32px] md:text-[38px] font-normal text-cream text-center tracking-widest mb-4">{event.title}</h1>
 
         {event.description && (
-          <p className="text-[17px] text-silver leading-relaxed text-center mb-6 max-w-[480px] mx-auto">{event.description}</p>
+          <p className="text-[17px] text-silver leading-relaxed text-left mb-6 max-w-[480px] mx-auto">{event.description}</p>
         )}
 
         <div className="grid grid-cols-2 gap-6 max-w-[400px] mx-auto mb-8">
@@ -143,11 +143,11 @@ export default function EventPage({ params }: PageProps) {
         <div className="text-center">
           {isAuthenticated ? (
             <Button onClick={handleRegister} isLoading={isRegistering}>
-              Register Now
+              Secure My Spot
             </Button>
           ) : (
             <Button onClick={() => router.push(`/auth?redirect=/events/${event.slug}`)}>
-              Sign In to Register
+              Sign In to Secure Spot
             </Button>
           )}
           <p className="text-sm text-silver-dim italic mt-3.5">
