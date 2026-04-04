@@ -24,9 +24,11 @@ export function getStoredGuest(): Guest | null {
 export function setStoredGuest(guest: Guest): void {
   if (typeof window === 'undefined') return;
   localStorage.setItem(GUEST_KEY, JSON.stringify(guest));
+  window.dispatchEvent(new Event('auth-change'));
 }
 
 export function clearStoredGuest(): void {
   if (typeof window === 'undefined') return;
   localStorage.removeItem(GUEST_KEY);
+  window.dispatchEvent(new Event('auth-change'));
 }
