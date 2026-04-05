@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { getStoredGuest } from '@/lib/auth';
 import { Button } from '@/components/ui/Button';
 import { formatEventDate, formatEventRelative } from '@/lib/dateUtils';
+import { motion } from 'framer-motion';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -91,10 +92,13 @@ export default function EventPage({ params }: PageProps) {
   const formattedDate = formatEventDate(event.date);
   const relativeDate = formatEventRelative(event.date);
 
-  const totalCapacity = event.ticket_tiers && event.ticket_tiers.length > 0
+const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
     ? event.ticket_tiers.reduce((sum, tier) => sum + (tier.quantity_available || 0), 0)
     : event.capacity || 0;
-  const isSoldOut = totalCapacity === 0;
+  const isSoldOut = totalRemaining === 0;
+
+  const totalCapacity = event.capacity || Math.max(totalRemaining, 1);
+  const fillPercentage = Math.max(0, Math.min(100, ((totalCapacity - totalRemaining) / totalCapacity) * 100));
 
 
   const handleRegister = async () => {
@@ -225,8 +229,18 @@ export default function EventPage({ params }: PageProps) {
                     </ul>
                   )}
                   {tier.quantity_available !== null && (
-                    <div className="relative z-10 mt-4 text-xs text-silver-dim uppercase tracking-widest">
-                      {tier.quantity_available} remaining
+                    <div className="relative z-10 mt-4">
+                      <div className="text-xs text-silver-dim uppercase tracking-widest mb-2">
+                        Only {tier.quantity_available} spots left
+                      </div>
+                      <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden border border-white/5 relative">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={{ width: `${fillPercentage}%` }}
+                          transition={{ duration: 1.5, ease: "easeOut" }}
+                          className="absolute top-0 left-0 h-full bg-gradient-to-r from-gold/50 to-gold rounded-full"
+                        />
+                      </div>
                     </div>
                   )}
                 </div>
