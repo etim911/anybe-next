@@ -18,9 +18,11 @@ interface Event {
   date: string;
   location: string;
   created_at: string;
+  capacity?: number;
   synopsis?: string;
   image_url?: string;
   roles?: Role[];
+  ticket_tiers?: { quantity_available: number }[];
 }
 
 export default function EventsDashboard() {
@@ -32,7 +34,7 @@ export default function EventsDashboard() {
       try {
         const { data } = await supabase
           .from('events')
-          .select('*, roles(*)')
+          .select('*, roles(*), ticket_tiers(quantity_available)')
           .order('created_at', { ascending: false });
 
         setEvents(data || []);
@@ -73,7 +75,18 @@ export default function EventsDashboard() {
               title={event.title}
               date={event.date}
               location={event.location}
-              status="upcoming"
+              capacity={
+                event.ticket_tiers && event.ticket_tiers.length > 0
+                  ? event.ticket_tiers.reduce((sum, tier) => sum + (tier.quantity_available || 0), 0)
+                  : event.capacity || 0
+              }
+              status={
+                (event.ticket_tiers && event.ticket_tiers.length > 0
+                  ? event.ticket_tiers.reduce((sum, tier) => sum + (tier.quantity_available || 0), 0)
+                  : event.capacity || 0) === 0
+                  ? 'sold-out'
+                  : 'upcoming'
+              }
               imageUrl={event.image_url}
             />
           ))

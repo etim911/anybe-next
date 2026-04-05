@@ -91,6 +91,12 @@ export default function EventPage({ params }: PageProps) {
   const formattedDate = formatEventDate(event.date);
   const relativeDate = formatEventRelative(event.date);
 
+  const totalCapacity = event.ticket_tiers && event.ticket_tiers.length > 0
+    ? event.ticket_tiers.reduce((sum, tier) => sum + (tier.quantity_available || 0), 0)
+    : event.capacity || 0;
+  const isSoldOut = totalCapacity === 0;
+
+
   const handleRegister = async () => {
     setIsRegistering(true);
     setErrorMsg('');
@@ -246,7 +252,11 @@ export default function EventPage({ params }: PageProps) {
         {errorMsg && <div className="text-red-500 text-sm text-center mb-4">{errorMsg}</div>}
 
         <div className="text-center">
-          {isAuthenticated ? (
+          {isSoldOut ? (
+            <button disabled className="bg-silver-dim/20 text-silver-dim cursor-not-allowed px-8 py-4 font-display text-base tracking-[0.2em] uppercase rounded-sm inline-flex items-center justify-center transition-none w-auto max-w-full">
+              SOLD OUT
+            </button>
+          ) : isAuthenticated ? (
             <Button onClick={handleRegister} isLoading={isRegistering} className="tracking-[0.08em]">SECURE MY SPOT</Button>
           ) : (
             <Button onClick={() => router.push(`/auth?redirect=/events/${event.slug}`)} className="tracking-[0.08em]">SIGN IN TO SECURE SPOT</Button>

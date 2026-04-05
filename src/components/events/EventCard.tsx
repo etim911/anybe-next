@@ -40,7 +40,7 @@ export const EventCard: React.FC<EventCardProps> = ({
     <Link href={`/events/${slug}`} className="block">
       <Card variant="event" className="h-full flex flex-col relative overflow-hidden group transition-all duration-300 hover:shadow-[0_0_10px_#d4a854]">
         
-        {/* Optional Event Image / Background Header */}
+                {/* Optional Event Image / Background Header */}
         {imageUrl && (
           <div className="w-full aspect-video bg-bg-tertiary relative overflow-hidden border-b border-brand-gold/10">
             <div
@@ -48,6 +48,11 @@ export const EventCard: React.FC<EventCardProps> = ({
               style={{ backgroundImage: `url(${imageUrl})` }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-bg-secondary to-transparent pointer-events-none" />
+            {capacity === 0 && (
+              <div className="absolute top-4 right-[-32px] bg-status-error/80 text-white font-display text-[10px] tracking-widest uppercase py-1 px-10 rotate-45 shadow-lg backdrop-blur-sm border-y border-status-error/30">
+                SOLD OUT
+              </div>
+            )}
           </div>
         )}
 
