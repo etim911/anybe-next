@@ -11,6 +11,12 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+interface Role {
+  id: string;
+  name: string;
+  description: string;
+}
+
 interface Event {
   id: string;
   title: string;
@@ -19,6 +25,9 @@ interface Event {
   date: string;
   location: string;
   capacity: number | null;
+  synopsis?: string;
+  image_url?: string;
+  roles?: Role[];
 }
 
 export default function EventPage({ params }: PageProps) {
@@ -39,7 +48,7 @@ export default function EventPage({ params }: PageProps) {
         const { slug } = await params;
         const { data, error } = await supabase
           .from('events')
-          .select('*')
+          .select('*, roles(*)')
           .eq('slug', slug)
           .single();
 
@@ -117,8 +126,33 @@ export default function EventPage({ params }: PageProps) {
         <div className="font-display text-xs tracking-widest uppercase text-silver-dim text-center mb-6">Anybe Event</div>
         <h1 className="font-decorative text-[32px] md:text-[38px] font-normal text-cream text-center tracking-widest mb-4">{event.title}</h1>
 
-        {event.description && (
-          <p className="text-[17px] text-silver leading-[1.8] text-left mb-6 max-w-[480px] mx-auto" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>{event.description}</p>
+                {event.image_url && (
+          <div className="w-full aspect-video mb-8 relative rounded-sm overflow-hidden border border-white/10">
+            <img src={event.image_url} alt={event.title} className="object-cover w-full h-full opacity-80" />
+          </div>
+        )}
+
+        {event.synopsis ? (
+          <div className="mb-8 max-w-[480px] mx-auto">
+            <h3 className="font-display text-sm text-gold mb-2 uppercase tracking-widest text-center">AI Synopsis</h3>
+            <p className="text-[16px] text-silver leading-[1.8] text-center italic">{event.synopsis}</p>
+          </div>
+        ) : event.description ? (
+          <p className="text-[17px] text-silver leading-[1.8] text-center mb-6 max-w-[480px] mx-auto">{event.description}</p>
+        ) : null}
+
+        {event.roles && event.roles.length > 0 && (
+          <div className="mb-8 max-w-[480px] mx-auto">
+            <h3 className="font-display text-sm text-gold mb-4 uppercase tracking-widest text-center">Available Roles</h3>
+            <div className="space-y-4">
+              {event.roles.map(role => (
+                <div key={role.id} className="p-4 border border-white/10 bg-white/5 rounded-sm">
+                  <div className="font-display text-md text-cream mb-1">{role.name}</div>
+                  <div className="text-sm text-silver-dim">{role.description}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         )}
 
         <div className="grid grid-cols-2 gap-6 max-w-[400px] mx-auto mb-8">

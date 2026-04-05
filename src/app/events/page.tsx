@@ -5,6 +5,12 @@ import { motion } from 'framer-motion';
 import { supabase } from '@/lib/supabase';
 import { EventCard, EventCardSkeleton } from '@/components/events/EventCard';
 
+interface Role {
+  id: string;
+  name: string;
+  description: string;
+}
+
 interface Event {
   id: string;
   title: string;
@@ -12,6 +18,9 @@ interface Event {
   date: string;
   location: string;
   created_at: string;
+  synopsis?: string;
+  image_url?: string;
+  roles?: Role[];
 }
 
 export default function EventsDashboard() {
@@ -23,7 +32,7 @@ export default function EventsDashboard() {
       try {
         const { data } = await supabase
           .from('events')
-          .select('*')
+          .select('*, roles(*)')
           .order('created_at', { ascending: false });
 
         setEvents(data || []);
@@ -65,6 +74,7 @@ export default function EventsDashboard() {
               date={event.date}
               location={event.location}
               status="upcoming"
+              imageUrl={event.image_url}
             />
           ))
         ) : (
