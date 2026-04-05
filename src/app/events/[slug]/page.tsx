@@ -49,6 +49,14 @@ export default function EventPage({ params }: PageProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
+  // Waitlist state
+  const [showWaitlistModal, setShowWaitlistModal] = useState(false);
+  const [waitlistName, setWaitlistName] = useState('');
+  const [waitlistEmail, setWaitlistEmail] = useState('');
+  const [isWaitlisting, setIsWaitlisting] = useState(false);
+  const [waitlistSuccess, setWaitlistSuccess] = useState(false);
+  const [waitlistError, setWaitlistError] = useState('');
+
   useEffect(() => {
     // Check if guest exists in localStorage
     const guest = getStoredGuest();
@@ -96,7 +104,6 @@ export default function EventPage({ params }: PageProps) {
     : event.capacity || 0;
   const isSoldOut = totalCapacity === 0;
 
-
   const handleRegister = async () => {
     setIsRegistering(true);
     setErrorMsg('');
@@ -119,6 +126,27 @@ export default function EventPage({ params }: PageProps) {
       setErrorMsg((err as Error).message);
     } finally {
       setIsRegistering(false);
+    }
+  };
+
+  const handleWaitlistSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsWaitlisting(true);
+    setWaitlistError('');
+
+    try {
+      const res = await fetch('/api/events/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ eventId: event.id, name: waitlistName, email: waitlistEmail })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to join waitlist');
+      setWaitlistSuccess(true);
+    } catch (err) {
+      setWaitlistError((err as Error).message);
+    } finally {
+      setIsWaitlisting(false);
     }
   };
 
@@ -253,9 +281,9 @@ export default function EventPage({ params }: PageProps) {
 
         <div className="text-center">
           {isSoldOut ? (
-            <button disabled className="bg-silver-dim/20 text-silver-dim cursor-not-allowed px-8 py-4 font-display text-base tracking-[0.2em] uppercase rounded-sm inline-flex items-center justify-center transition-none w-auto max-w-full">
-              SOLD OUT
-            </button>
+            <Button onClick={() => setShowWaitlistModal(true)} className="tracking-[0.08em]">
+              JOIN WAITLIST
+            </Button>
           ) : isAuthenticated ? (
             <Button onClick={handleRegister} isLoading={isRegistering} className="tracking-[0.08em]">SECURE MY SPOT</Button>
           ) : (
@@ -267,6 +295,59 @@ export default function EventPage({ params }: PageProps) {
         </div>
       </div>
     </main>
+
+    {/* Waitlist Modal */}
+    {showWaitlistModal && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-black/60">
+        <div className="relative w-full max-w-md p-8 backdrop-blur-xl bg-black/40 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+          <button 
+            onClick={() => setShowWaitlistModal(false)}
+            className="absolute top-4 right-4 text-silver-dim hover:text-white transition-colors text-xl"
+          >
+            ✕
+          </button>
+          
+          <h2 className="font-decorative text-2xl text-cream mb-2 text-center">Join Waitlist</h2>
+          <p className="text-silver-dim text-sm text-center mb-6">Leave your details and we'll notify you if a spot opens up.</p>
+
+          {waitlistSuccess ? (
+            <div className="text-center py-4">
+              <div className="text-gold mb-2 text-3xl">✦</div>
+              <p className="text-cream">You're on the list.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleWaitlistSubmit} className="space-y-4">
+              <div>
+                <input
+                  type="text"
+                  required
+                  placeholder="Your Name"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-cream placeholder-silver-dim focus:outline-none focus:border-gold/50 transition-colors"
+                  value={waitlistName}
+                  onChange={(e) => setWaitlistName(e.target.value)}
+                />
+              </div>
+              <div>
+                <input
+                  type="email"
+                  required
+                  placeholder="Your Email"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-cream placeholder-silver-dim focus:outline-none focus:border-gold/50 transition-colors"
+                  value={waitlistEmail}
+                  onChange={(e) => setWaitlistEmail(e.target.value)}
+                />
+              </div>
+              {waitlistError && <div className="text-red-500 text-sm text-center">{waitlistError}</div>}
+              <div className="pt-2">
+                <Button type="submit" isLoading={isWaitlisting} className="w-full tracking-[0.08em]">
+                  JOIN WAITLIST
+                </Button>
+              </div>
+            </form>
+          )}
+        </div>
+      </div>
+    )}
     </>
   );
 }
