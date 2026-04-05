@@ -10,6 +10,8 @@ import { getStoredGuest } from '@/lib/auth';
 import { Button } from '@/components/ui/Button';
 import { formatEventDate, formatEventRelative } from '@/lib/dateUtils';
 import { motion } from 'framer-motion';
+import { StripeProvider } from '@/components/checkout/StripeProvider';
+import { StripePaymentForm } from '@/components/checkout/StripePaymentForm';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -51,6 +53,8 @@ export default function EventPage({ params }: PageProps) {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [selectedTierId, setSelectedTierId] = useState<string | null>(null);
 
   // Waitlist state
   const [showWaitlistModal, setShowWaitlistModal] = useState(false);
@@ -109,6 +113,36 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
 
   const totalCapacity = event.capacity || Math.max(totalRemaining, 1);
   const fillPercentage = Math.max(0, Math.min(100, ((totalCapacity - totalRemaining) / totalCapacity) * 100));
+
+  const handleSecureSpot = async (tierId: string) => {
+    setSelectedTierId(tierId);
+    setIsRegistering(true);
+    setErrorMsg('');
+    const guest = getStoredGuest();
+    if (!guest) {
+      router.push(`/auth?redirect=/events/${event.slug}`);
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/checkout/reserve-ticket`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: guest.id, eventId: event.id, ticketTierId: tierId })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to reserve ticket');
+      
+      // Mock obtaining a client secret for Stripe Payment Intent
+      // In a real app, the API would return this.
+      setClientSecret('pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_B5Q9...mocked');
+    } catch (err) {
+      setErrorMsg((err as Error).message);
+      setSelectedTierId(null);
+    } finally {
+      setIsRegistering(false);
+    }
+  };
 
   const handleRegister = async () => {
     setIsRegistering(true);
@@ -248,6 +282,16 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
                     </div>
                     <div className="font-display text-xl text-gold">${tier.price}</div>
                   </div>
+                  <div className="relative z-10 mt-4 mb-2">
+                    <Button 
+                      onClick={() => handleSecureSpot(tier.id)} 
+                      isLoading={isRegistering && selectedTierId === tier.id}
+                      disabled={isRegistering && selectedTierId !== tier.id}
+                      className="w-full tracking-[0.08em]"
+                    >
+                      SECURE MY SPOT
+                    </Button>
+                  </div>
                   {tier.perks && tier.perks.length > 0 && (
                     <ul className="relative z-10 space-y-2 mt-4">
                       {tier.perks.map((perk, idx) => (
@@ -294,6 +338,22 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
         )}
 
         {errorMsg && <div className="text-red-500 text-sm text-center mb-4">{errorMsg}</div>}
+
+        {clientSecret && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-black/60">
+            <div className="relative w-full max-w-lg">
+              <StripeProvider clientSecret={clientSecret}>
+                <StripePaymentForm 
+                  onSuccess={() => {
+                    alert('Payment successful!');
+                    setClientSecret(null);
+                  }}
+                  onCancel={() => setClientSecret(null)}
+                />
+              </StripeProvider>
+            </div>
+          </div>
+        )}
 
         <div className="text-center">
           {isSoldOut ? (
