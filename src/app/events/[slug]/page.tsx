@@ -121,6 +121,15 @@ export default function EventPage({ params }: PageProps) {
 
   return (
     <>
+      {event.image_url && (
+        <div className="absolute top-0 left-0 w-full h-[80dvh] z-0 pointer-events-none">
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${event.image_url})` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/80 to-[#0c0b0a]" />
+        </div>
+      )}
       <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-24 pb-16 min-h-[100dvh]">
       <div className="relative backdrop-blur-md bg-black/40 border border-white/10 p-10 md:p-12 mb-12">
         
@@ -135,12 +144,6 @@ export default function EventPage({ params }: PageProps) {
 
         <div className="font-display text-xs tracking-widest uppercase text-silver-dim text-center mb-6">Anybe Event</div>
         <h1 className="font-decorative text-[32px] md:text-[38px] font-normal text-cream text-center tracking-widest mb-4">{event.title}</h1>
-
-        {event.image_url && (
-          <div className="w-full aspect-video mb-8 relative rounded-sm overflow-hidden border border-white/10">
-            <img src={event.image_url} alt={event.title} className="object-cover w-full h-full opacity-80" />
-          </div>
-        )}
 
         {event.synopsis ? (
           <div className="mb-8 max-w-[480px] mx-auto">
