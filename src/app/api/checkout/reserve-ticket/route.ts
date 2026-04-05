@@ -28,10 +28,11 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error('Supabase RPC Error:', error);
-      if (error.message.includes('sold out') || error.message.includes('Insufficient quantity')) {
+      const errMsg = error.message.toLowerCase();
+      if (errMsg.includes('sold out') || errMsg.includes('insufficient quantity') || errMsg.includes('capacity')) {
         return NextResponse.json({ error: 'This ticket tier is completely sold out.' }, { status: 409 });
       }
-      return NextResponse.json({ error: 'Failed to reserve ticket. Please try again.' }, { status: 500 });
+      return NextResponse.json({ error: error.message || 'Failed to reserve ticket. Please try again.' }, { status: 500 });
     }
 
     return NextResponse.json({

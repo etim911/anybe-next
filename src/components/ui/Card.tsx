@@ -15,7 +15,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
     const variants = {
       default: "rounded-sm p-6 hover:border-brand-gold/50 hover:shadow-[0_8px_30px_rgba(181,164,138,0.08)]",
       event: "rounded-md hover:border-white/20 hover:shadow-[0_8px_30px_rgba(255,255,255,0.05)] cursor-pointer group",
-      featured: "rounded-md border-white/10 shadow-[0_0_32px_rgba(0,0,0,0.5)] p-8 relative isolate",
+      featured: "rounded-md border-white/10 shadow-[0_0_32px_rgba(0,0,0,0.5)] p-4 sm:p-8 relative isolate",
     };
 
     return (

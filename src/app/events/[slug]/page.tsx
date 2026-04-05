@@ -201,8 +201,8 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/80 to-[#0c0b0a]" />
         </div>
       )}
-      <main className="relative z-10 max-w-[600px] mx-auto px-6 pt-24 pb-16 min-h-[100dvh]">
-      <div className="relative backdrop-blur-md bg-black/40 border border-white/10 p-10 md:p-12 mb-12">
+      <main className="relative z-10 max-w-[600px] mx-auto px-4 sm:px-6 pt-24 pb-16 min-h-[100dvh]">
+      <div className="relative backdrop-blur-md bg-black/40 border border-white/10 rounded-xl p-6 md:p-12 mb-12">
         
         {/* Corner ornaments */}
         <div className="absolute top-2 left-2 w-7 h-7 opacity-40"><svg viewBox="0 0 40 40"><path d="M2 38 C2 18 18 2 38 2" stroke="currentColor" className="text-silver" strokeWidth="1" fill="none" opacity="0.4" /><circle cx="4" cy="36" r="2" fill="currentColor" className="text-silver" opacity="0.3" /><circle cx="36" cy="4" r="2" fill="currentColor" className="text-silver" opacity="0.3" /></svg></div>
@@ -287,7 +287,7 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
                       onClick={() => handleSecureSpot(tier.id)} 
                       isLoading={isRegistering && selectedTierId === tier.id}
                       disabled={isRegistering && selectedTierId !== tier.id}
-                      className="w-full tracking-[0.08em]"
+                      className="w-full tracking-[0.08em] text-xs sm:text-sm"
                     >
                       SECURE MY SPOT
                     </Button>
@@ -357,13 +357,13 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
 
         <div className="text-center">
           {isSoldOut ? (
-            <Button onClick={() => setShowWaitlistModal(true)} className="tracking-[0.08em]">
+            <Button onClick={() => setShowWaitlistModal(true)} fullWidth className="tracking-[0.08em] text-xs sm:text-sm">
               JOIN WAITLIST
             </Button>
           ) : isAuthenticated ? (
-            <Button onClick={handleRegister} isLoading={isRegistering} className="tracking-[0.08em]">SECURE MY SPOT</Button>
+            <Button onClick={handleRegister} isLoading={isRegistering} fullWidth className="tracking-[0.08em] text-xs sm:text-sm">SECURE MY SPOT</Button>
           ) : (
-            <Button onClick={() => router.push(`/auth?redirect=/events/${event.slug}`)} className="tracking-[0.08em]">SIGN IN TO SECURE SPOT</Button>
+            <Button onClick={() => router.push(`/auth?redirect=/events/${event.slug}`)} fullWidth className="tracking-[0.08em] text-xs sm:text-sm">SIGN IN TO SECURE SPOT</Button>
           )}
           <p className="text-sm text-silver-dim italic mt-3.5">
             <Link href="/" className="text-silver-dim hover:text-gold underline">Back to Home</Link>
@@ -415,7 +415,7 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
               </div>
               {waitlistError && <div className="text-red-500 text-sm text-center">{waitlistError}</div>}
               <div className="pt-2">
-                <Button type="submit" isLoading={isWaitlisting} className="w-full tracking-[0.08em]">
+                <Button type="submit" isLoading={isWaitlisting} className="w-full tracking-[0.08em] text-xs sm:text-sm">
                   JOIN WAITLIST
                 </Button>
               </div>
