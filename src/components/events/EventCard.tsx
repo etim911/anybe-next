@@ -37,7 +37,7 @@ export const EventCard: React.FC<EventCardProps> = ({
 
   return (
     <Link href={`/events/${slug}`} className="block">
-      <Card variant="event" className="h-full flex flex-col relative overflow-hidden group">
+      <Card variant="event" className="h-full flex flex-col relative overflow-hidden group transition-all duration-300 hover:shadow-[0_0_10px_#d4a854]">
         
         {/* Optional Event Image / Background Header */}
         {imageUrl && (
