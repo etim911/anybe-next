@@ -181,7 +181,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="auth-page max-w-[440px] mx-auto px-4 pt-24 pb-4 flex flex-col justify-center">
+    <div className="auth-page flex-1 max-w-[440px] w-full mx-auto px-4 flex flex-col justify-center">
       <div className="logo-area text-center mb-4">
         <div className="logo-title font-decorative text-3xl text-brand-cream tracking-widest mb-2">Anybe Night</div>
         <div className="logo-divider text-brand-creamDark text-sm tracking-widest opacity-60">- ✦ -</div>
