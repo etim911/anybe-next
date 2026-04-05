@@ -17,6 +17,15 @@ interface Role {
   description: string;
 }
 
+interface TicketTier {
+  id: string;
+  name: string;
+  price: number;
+  description: string | null;
+  perks: string[] | null;
+  quantity_available: number | null;
+}
+
 interface Event {
   id: string;
   title: string;
@@ -28,6 +37,7 @@ interface Event {
   synopsis?: string;
   image_url?: string;
   roles?: Role[];
+  ticket_tiers?: TicketTier[];
 }
 
 export default function EventPage({ params }: PageProps) {
@@ -48,7 +58,7 @@ export default function EventPage({ params }: PageProps) {
         const { slug } = await params;
         const { data, error } = await supabase
           .from('events')
-          .select('*, roles(*)')
+          .select('*, roles(*), ticket_tiers(*)')
           .eq('slug', slug)
           .single();
 
@@ -126,7 +136,7 @@ export default function EventPage({ params }: PageProps) {
         <div className="font-display text-xs tracking-widest uppercase text-silver-dim text-center mb-6">Anybe Event</div>
         <h1 className="font-decorative text-[32px] md:text-[38px] font-normal text-cream text-center tracking-widest mb-4">{event.title}</h1>
 
-                {event.image_url && (
+        {event.image_url && (
           <div className="w-full aspect-video mb-8 relative rounded-sm overflow-hidden border border-white/10">
             <img src={event.image_url} alt={event.title} className="object-cover w-full h-full opacity-80" />
           </div>
@@ -140,20 +150,6 @@ export default function EventPage({ params }: PageProps) {
         ) : event.description ? (
           <p className="text-[17px] text-silver leading-[1.8] text-center mb-6 max-w-[480px] mx-auto">{event.description}</p>
         ) : null}
-
-        {event.roles && event.roles.length > 0 && (
-          <div className="mb-8 max-w-[480px] mx-auto">
-            <h3 className="font-display text-sm text-gold mb-4 uppercase tracking-widest text-center">Available Roles</h3>
-            <div className="space-y-4">
-              {event.roles.map(role => (
-                <div key={role.id} className="p-4 border border-white/10 bg-white/5 rounded-sm">
-                  <div className="font-display text-md text-cream mb-1">{role.name}</div>
-                  <div className="text-sm text-silver-dim">{role.description}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
 
         <div className="grid grid-cols-2 gap-6 max-w-[400px] mx-auto mb-8">
           <div className="text-center">
@@ -192,6 +188,55 @@ export default function EventPage({ params }: PageProps) {
             </div>
           )}
         </div>
+
+        {event.ticket_tiers && event.ticket_tiers.length > 0 && (
+          <div className="mb-8 max-w-[480px] mx-auto">
+            <h3 className="font-display text-sm text-gold mb-4 uppercase tracking-widest text-center">Ticket Tiers</h3>
+            <div className="space-y-4">
+              {event.ticket_tiers.map(tier => (
+                <div key={tier.id} className="relative p-6 backdrop-blur-md bg-white/5 border border-white/10 rounded-xl overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+                  <div className="relative z-10 flex justify-between items-start mb-3">
+                    <div>
+                      <div className="font-display text-lg text-cream tracking-wide">{tier.name}</div>
+                      {tier.description && <div className="text-sm text-silver mt-1">{tier.description}</div>}
+                    </div>
+                    <div className="font-display text-xl text-gold">${tier.price}</div>
+                  </div>
+                  {tier.perks && tier.perks.length > 0 && (
+                    <ul className="relative z-10 space-y-2 mt-4">
+                      {tier.perks.map((perk, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-sm text-silver-dim">
+                          <span className="text-gold mt-0.5">✦</span>
+                          <span>{perk}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {tier.quantity_available !== null && (
+                    <div className="relative z-10 mt-4 text-xs text-silver-dim uppercase tracking-widest">
+                      {tier.quantity_available} remaining
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {event.roles && event.roles.length > 0 && (
+          <div className="mb-8 max-w-[480px] mx-auto">
+            <h3 className="font-display text-sm text-gold mb-4 uppercase tracking-widest text-center">Available Roles</h3>
+            <div className="space-y-4">
+              {event.roles.map(role => (
+                <div key={role.id} className="p-4 border border-white/10 bg-white/5 rounded-sm">
+                  <div className="font-display text-md text-cream mb-1">{role.name}</div>
+                  <div className="text-sm text-silver-dim">{role.description}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {errorMsg && <div className="text-red-500 text-sm text-center mb-4">{errorMsg}</div>}
 
