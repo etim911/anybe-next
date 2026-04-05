@@ -1,5 +1,7 @@
 'use client';
 
+export const revalidate = 60;
+
 import React, { useEffect, useState } from 'react';
 import { notFound, useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
