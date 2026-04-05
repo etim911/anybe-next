@@ -52,6 +52,14 @@ export function StripeProvider({
     },
   };
 
+  if (!clientSecret || typeof clientSecret !== 'string' || !clientSecret.includes('_secret_')) {
+    return (
+      <div className="p-4 bg-status-error/10 border border-status-error/20 rounded-md text-status-error text-center">
+        Unable to initialize payment system (Invalid session). Please try again.
+      </div>
+    );
+  }
+
   return (
     <Elements stripe={stripePromise} options={options}>
       {children}

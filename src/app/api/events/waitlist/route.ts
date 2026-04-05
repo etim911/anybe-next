@@ -12,6 +12,13 @@ export async function POST(request: Request) {
       );
     }
 
+    if (typeof email !== 'string' || !email.includes('@') || email.length > 255) {
+      return NextResponse.json(
+        { error: 'Invalid email address' },
+        { status: 400 }
+      );
+    }
+
     const { error } = await supabaseServer
       .from('waitlist')
       .insert([

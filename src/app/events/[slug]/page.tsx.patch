@@ -1,0 +1,43 @@
+--- /tmp/anybe-next-integration/src/app/events/[slug]/page.tsx
++++ /tmp/anybe-next-integration/src/app/events/[slug]/page.tsx
+@@ -8,6 +8,7 @@
+ import { getStoredGuest } from '@/lib/auth';
+ import { Button } from '@/components/ui/Button';
+ import { formatEventDate, formatEventRelative } from '@/lib/dateUtils';
++import { motion } from 'framer-motion';
+ 
+ interface PageProps {
+   params: Promise<{ slug: string }>;
+@@ -79,12 +80,14 @@
+   const formattedDate = formatEventDate(event.date);
+   const relativeDate = formatEventRelative(event.date);
+ 
+-  const totalCapacity = event.ticket_tiers && event.ticket_tiers.length > 0
++  const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
+     ? event.ticket_tiers.reduce((sum, tier) => sum + (tier.quantity_available || 0), 0)
+     : event.capacity || 0;
+-  const isSoldOut = totalCapacity === 0;
++  const isSoldOut = totalRemaining === 0;
+ 
++  const totalCapacity = event.capacity || totalRemaining || 1;
++  const fillPercentage = Math.max(0, Math.min(100, ((totalCapacity - totalRemaining) / totalCapacity) * 100));
+ 
+   const handleRegister = async () => {
+     setIsRegistering(true);
+@@ -194,6 +197,18 @@
+                 </svg>
+                 Capacity
+               </div>
+-              <div className="font-display text-sm text-cream tracking-wide">{event.capacity} Guests</div>
++              <div className="font-display text-sm text-cream tracking-wide mb-2">Only {totalRemaining} spots left</div>
++              <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden border border-white/5 relative">
++                <motion.div
++                  initial={{ width: 0 }}
++                  animate={{ width: `${fillPercentage}%` }}
++                  transition={{ duration: 1.5, ease: "easeOut" }}
++                  className="absolute top-0 left-0 h-full bg-gradient-to-r from-gold/50 to-gold rounded-full"
++                />
++              </div>
+             </div>
+           )}
+         </div>

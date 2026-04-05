@@ -198,7 +198,7 @@ export default function AuthPage() {
       {errorMsg && <div className="error-msg bg-red-900/20 border border-red-900/50 text-red-200 p-3 text-center mb-6 text-sm">{errorMsg}</div>}
 
       <Card variant="featured">
-        <motion.div layout transition={transition} className="py-6 px-2 overflow-hidden">
+        <motion.div layout transition={transition} className="py-6 px-0 sm:px-2 overflow-hidden">
           <AnimatePresence mode="wait" custom={direction}>
             {currentStep === 1 && (
               <motion.div key="step1" custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={transition} className="text-center w-full">
