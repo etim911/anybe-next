@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Card } from '../ui/Card';
+import { formatEventDate, formatEventRelative } from '../../lib/dateUtils';
 
 export interface EventCardProps {
   slug: string;
@@ -66,7 +67,15 @@ export const EventCard: React.FC<EventCardProps> = ({
           
           <div className="font-serif text-brand-cream/70 space-y-1 mb-4 sm:mb-6 flex-grow">
             <p className="flex items-center">
-              <span className="text-brand-gold/50 mr-2">✦</span> {new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+              <span className="text-brand-gold/50 mr-2">✦</span> 
+              <span>
+                {formatEventDate(date)}
+                {formatEventRelative(date) && (
+                  <span className="ml-2 text-brand-gold/70 text-sm italic border-l border-brand-gold/30 pl-2">
+                    {formatEventRelative(date)}
+                  </span>
+                )}
+              </span>
             </p>
             <p className="flex items-center">
               <span className="text-brand-gold/50 mr-2">✦</span> {location}

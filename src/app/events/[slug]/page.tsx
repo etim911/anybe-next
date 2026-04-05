@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import { getStoredGuest } from '@/lib/auth';
 import { Button } from '@/components/ui/Button';
+import { formatEventDate, formatEventRelative } from '@/lib/dateUtils';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -87,12 +88,8 @@ export default function EventPage({ params }: PageProps) {
 
   if (!event) return null;
 
-  const eventDate = new Date(event.date);
-  const formattedDate = eventDate.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
+  const formattedDate = formatEventDate(event.date);
+  const relativeDate = formatEventRelative(event.date);
 
   const handleRegister = async () => {
     setIsRegistering(true);
@@ -165,7 +162,12 @@ export default function EventPage({ params }: PageProps) {
               </svg>
               Date
             </div>
-            <div className="font-display text-sm text-cream tracking-wide">{formattedDate}</div>
+            <div className="font-display text-sm text-cream tracking-wide">
+              {formattedDate}
+              {relativeDate && (
+                <div className="text-gold mt-1 text-xs">{relativeDate}</div>
+              )}
+            </div>
           </div>
           <div className="text-center">
             <div className="text-xs tracking-widest uppercase text-silver-dim mb-1.5 flex items-center justify-center gap-2">
