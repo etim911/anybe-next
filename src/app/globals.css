@@ -6,6 +6,12 @@
   /* Removed outdated vars that contradict strict semantic palette */
 }
 
+html {
+  background-color: #0c0b0a;
+  color: #ece6d8;
+  color-scheme: dark;
+}
+
 body {
   background-color: #0c0b0a;
   color: #ece6d8;

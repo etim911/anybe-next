@@ -56,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`overscroll-none ${cormorant.variable} ${cinzel.variable} ${cinzelDecorative.variable}`}>
+    <html lang="en" className={`dark overscroll-none ${cormorant.variable} ${cinzel.variable} ${cinzelDecorative.variable}`}>
       <body className="bg-bg-primary text-text-primary font-serif antialiased relative flex flex-col overscroll-none">
         <NoiseOverlay />
         <LivingBackground />
