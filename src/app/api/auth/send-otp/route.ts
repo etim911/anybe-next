@@ -2,9 +2,14 @@ import { NextResponse } from 'next/server';
 import twilio from 'twilio';
 import { normalizePhone } from '@/lib/phone';
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID!;
-const authToken = process.env.TWILIO_AUTH_TOKEN!;
-const twilioClient = twilio(accountSid, authToken);
+function getTwilioClient() {
+  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
+  if (!accountSid || !authToken) {
+    throw new Error('Server configuration error: missing Twilio credentials');
+  }
+  return twilio(accountSid, authToken);
+}
 
 export async function POST(request: Request) {
   try {
@@ -20,17 +25,19 @@ export async function POST(request: Request) {
     }
 
     const normalizedPhone = normalizePhone(phone);
+    const twilioClient = getTwilioClient();
 
     const verification = await twilioClient.verify.v2.services(verifySid)
       .verifications
       .create({ to: normalizedPhone, channel: 'sms' });
 
     return NextResponse.json({ success: true, message: verification.status });
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Send OTP Error:', error);
+    const errorMsg = error?.message || 'Failed to send verification code';
     return NextResponse.json(
-      { success: false, message: error instanceof Error ? error.message : "Server error" },
-      { status: 500 }
+      { success: false, message: errorMsg, error: errorMsg },
+      { status: error?.status || 500 }
     );
   }
 }

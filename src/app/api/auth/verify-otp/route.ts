@@ -4,9 +4,14 @@ import twilio from 'twilio';
 import { normalizePhone } from '@/lib/phone';
 import jwt from 'jsonwebtoken';
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID!;
-const authToken = process.env.TWILIO_AUTH_TOKEN!;
-const twilioClient = twilio(accountSid, authToken);
+function getTwilioClient() {
+  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
+  if (!accountSid || !authToken) {
+    throw new Error('Server configuration error: missing Twilio credentials');
+  }
+  return twilio(accountSid, authToken);
+}
 
 export async function POST(request: Request) {
   try {
@@ -23,10 +28,17 @@ export async function POST(request: Request) {
     }
 
     const normalizedPhone = normalizePhone(phone);
+    const twilioClient = getTwilioClient();
     
-    const verificationCheck = await twilioClient.verify.v2.services(verifySid)
-      .verificationChecks
-      .create({ to: normalizedPhone, code });
+    let verificationCheck;
+    try {
+      verificationCheck = await twilioClient.verify.v2.services(verifySid)
+        .verificationChecks
+        .create({ to: normalizedPhone, code });
+    } catch (twilioError: any) {
+      console.error('Twilio Verify Error:', twilioError);
+      return NextResponse.json({ success: false, error: twilioError?.message || 'Invalid or expired verification code' }, { status: 400 });
+    }
 
     if (verificationCheck.status === 'approved') {
       const { data, error } = await supabase
