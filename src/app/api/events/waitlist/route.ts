@@ -27,6 +27,13 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error('Waitlist insertion error:', error);
+      // Handle unique constraint violation (code 23505)
+      if (error.code === '23505') {
+        return NextResponse.json(
+          { error: 'You are already on the waitlist for this event' },
+          { status: 409 }
+        );
+      }
       return NextResponse.json(
         { error: 'Failed to join waitlist' },
         { status: 500 }
