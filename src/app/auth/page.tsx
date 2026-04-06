@@ -58,7 +58,7 @@ export default function AuthPage() {
   const [isLoadingComplete, setIsLoadingComplete] = useState(false);
 
   // Derived
-  const fullPhone = '+1' + phoneInput.replace(/\D/g, '');
+  const fullPhone = phoneInput; // PhoneInput already returns E.164 format with country code
   const isProfileValid = firstName.trim().length > 0 && lastName.trim().length > 0;
   const isOtpValid = otp.length === 6;
 
@@ -210,7 +210,7 @@ export default function AuthPage() {
                       value={phoneInput}
                       onChange={(val) => {
                         setPhoneInput(val);
-                        setIsPhoneValid(val.replace(/\D/g, '').length === 10);
+                        setIsPhoneValid(val && val.length >= 10);
                       }}
                     />
                   </div>
