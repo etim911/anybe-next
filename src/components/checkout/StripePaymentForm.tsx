@@ -67,7 +67,13 @@ export function StripePaymentForm({ onSuccess, onCancel }: CheckoutFormProps) {
   }
 
   return (
-    <div className="relative p-6 sm:p-8 bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_8px_30px_rgba(181,164,138,0.08)] rounded-md w-full max-w-[400px] sm:max-w-md mx-auto">
+    <div className="relative p-6 sm:p-8 bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_8px_30px_rgba(181,164,138,0.08)] rounded-md w-full max-w-[400px] sm:max-w-md mx-auto overflow-hidden">
+      {isProcessing && (
+        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/40 backdrop-blur-md">
+          <div className="w-12 h-12 border-2 border-brand-gold/30 border-t-brand-gold rounded-full animate-spin mb-4"></div>
+          <div className="text-brand-gold font-display tracking-widest text-sm animate-pulse">PROCESSING PAYMENT...</div>
+        </div>
+      )}
       <div className="absolute inset-0 bg-gradient-to-b from-brand-gold/5 to-transparent pointer-events-none rounded-md" />
       <div className="relative z-10">
         <h2 className="font-decorative text-xl sm:text-2xl text-brand-cream tracking-wide mb-6 text-center">

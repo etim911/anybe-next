@@ -142,9 +142,15 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
       }
       if (!res.ok) throw new Error(data?.error || 'Failed to reserve ticket');
       
-      // Mock obtaining a client secret for Stripe Payment Intent
-      // In a real app, the API would return this.
-      setClientSecret('pi_3MtwBwLkdIwHu7ix28a3tqPa_secret_B5Q9...mocked');
+      const intentRes = await fetch(`/api/checkout/create-payment-intent`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ eventId: event.id, ticketTierId: tierId })
+      });
+      const intentData = await intentRes.json();
+      if (!intentRes.ok) throw new Error(intentData.error || 'Failed to create payment intent');
+
+      setClientSecret(intentData.clientSecret);
     } catch (err) {
       setErrorMsg((err as Error).message);
       setSelectedTierId(null);
@@ -361,8 +367,8 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
               <StripeProvider clientSecret={clientSecret}>
                 <StripePaymentForm 
                   onSuccess={() => {
-                    alert('Payment successful!');
                     setClientSecret(null);
+                    router.push(`/checkout/success?eventId=${event.id}`);
                   }}
                   onCancel={() => setClientSecret(null)}
                 />
