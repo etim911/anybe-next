@@ -31,7 +31,7 @@ export function StripePaymentForm({ onSuccess, onCancel }: CheckoutFormProps) {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!stripe || !elements) {
+    if (!stripe || !elements || isProcessing) {
       return;
     }
 

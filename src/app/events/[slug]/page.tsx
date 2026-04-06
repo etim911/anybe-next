@@ -118,6 +118,7 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
   if (totalRemaining === 0) fillPercentage = 100;
 
   const handleSecureSpot = async (tierId: string) => {
+    if (isRegistering) return;
     setSelectedTierId(tierId);
     setIsRegistering(true);
     setErrorMsg('');
@@ -133,8 +134,13 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: guest.id, eventId: event.id, ticketTierId: tierId })
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to reserve ticket');
+      let data;
+      try {
+        data = await res.json();
+      } catch (e) {
+        data = { error: 'Network or server error' };
+      }
+      if (!res.ok) throw new Error(data?.error || 'Failed to reserve ticket');
       
       // Mock obtaining a client secret for Stripe Payment Intent
       // In a real app, the API would return this.
@@ -148,6 +154,7 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
   };
 
   const handleRegister = async () => {
+    if (isRegistering) return;
     setIsRegistering(true);
     setErrorMsg('');
     const guest = getStoredGuest();
@@ -162,8 +169,13 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ guestId: guest.id, eventId: event.id })
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to register');
+      let data;
+      try {
+        data = await res.json();
+      } catch (e) {
+        data = { error: 'Network or server error' };
+      }
+      if (!res.ok) throw new Error(data?.error || 'Failed to register');
       alert('Registration successful!');
     } catch (err) {
       setErrorMsg((err as Error).message);
