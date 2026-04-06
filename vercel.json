@@ -1,3 +1,11 @@
 {
-  "framework": "nextjs"
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "dev": false,
+      "qa/*": false,
+      "hotfix/*": false,
+      "polish/*": false
+    }
+  }
 }
