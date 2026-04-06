@@ -20,15 +20,23 @@ export async function POST(request: Request) {
 
     // Call the secure RPC function to prevent race conditions
     // This executes as a single PostgreSQL transaction
-    const { data, error } = await supabase.rpc('reserve_ticket_tier', {
-      p_user_id: userId,
-      p_event_id: eventId,
-      p_ticket_tier_id: ticketTierId
-    });
+    let data, error;
+    try {
+      const result = await supabase.rpc('reserve_ticket_tier', {
+        p_user_id: userId,
+        p_event_id: eventId,
+        p_ticket_tier_id: ticketTierId
+      });
+      data = result.data;
+      error = result.error;
+    } catch (rpcError: any) {
+      console.error('RPC direct exception:', rpcError);
+      error = rpcError;
+    }
 
     if (error) {
       console.error('Supabase RPC Error:', error);
-      const errMsg = error.message.toLowerCase();
+      const errMsg = (error.message || '').toLowerCase();
       if (errMsg.includes('sold out') || errMsg.includes('insufficient quantity') || errMsg.includes('capacity')) {
         return NextResponse.json({ error: 'This ticket tier is completely sold out.' }, { status: 409 });
       }
