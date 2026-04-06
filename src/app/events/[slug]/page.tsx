@@ -186,6 +186,7 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
 
   const handleWaitlistSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isWaitlisting) return;
     setIsWaitlisting(true);
     setWaitlistError('');
 
@@ -428,9 +429,9 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
                   onChange={(e) => setWaitlistEmail(e.target.value)}
                 />
               </div>
-              {waitlistError && <div className="text-red-500 text-sm text-center">{waitlistError}</div>}
+              {waitlistError && <div className="text-red-500 text-sm text-center bg-red-500/10 border border-red-500/20 p-3 rounded-lg">{waitlistError}</div>}
               <div className="pt-2">
-                <Button type="submit" isLoading={isWaitlisting} className="w-full tracking-[0.08em] text-xs sm:text-sm">
+                <Button type="submit" isLoading={isWaitlisting} disabled={isWaitlisting} className="w-full tracking-[0.08em] text-xs sm:text-sm">
                   JOIN WAITLIST
                 </Button>
               </div>
