@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   PaymentElement,
   useStripe,
@@ -18,6 +18,15 @@ export function StripePaymentForm({ onSuccess, onCancel }: CheckoutFormProps) {
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+  const [hasTimeout, setHasTimeout] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isReady) setHasTimeout(true);
+    }, 15000);
+    return () => clearTimeout(timer);
+  }, [isReady]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -28,62 +37,83 @@ export function StripePaymentForm({ onSuccess, onCancel }: CheckoutFormProps) {
 
     setIsProcessing(true);
 
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        // Typically, you redirect to a return_url, or use redirect: "if_required" for single-page experience
-        // We'll use redirect: 'if_required' to handle state cleanly
-      },
-      redirect: 'if_required',
-    });
+    try {
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {},
+        redirect: 'if_required',
+      });
 
-    if (error) {
-      setErrorMessage(error.message ?? 'An unknown error occurred');
+      if (error) {
+        setErrorMessage(error.message ?? 'An unknown error occurred');
+        setIsProcessing(false);
+      } else {
+        onSuccess();
+      }
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : 'An unexpected error occurred during payment processing.');
       setIsProcessing(false);
-    } else {
-      // Payment successful
-      onSuccess();
     }
   };
 
+  if (hasTimeout && !isReady) {
+    return (
+      <div className="relative p-6 sm:p-8 bg-black/80 backdrop-blur-md border border-red-500/30 rounded-md text-center">
+         <h3 className="text-red-400 font-display mb-2">Connection Timeout</h3>
+         <p className="text-silver-dim text-sm mb-4">The payment provider took too long to respond. Please try again.</p>
+         <Button onClick={onCancel} variant="outline" fullWidth>Close</Button>
+      </div>
+    );
+  }
+
   return (
-    <div className="relative p-8 bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_8px_30px_rgba(181,164,138,0.08)] rounded-md">
+    <div className="relative p-6 sm:p-8 bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_8px_30px_rgba(181,164,138,0.08)] rounded-md w-full max-w-[400px] sm:max-w-md mx-auto">
       <div className="absolute inset-0 bg-gradient-to-b from-brand-gold/5 to-transparent pointer-events-none rounded-md" />
       <div className="relative z-10">
-        <h2 className="font-decorative text-2xl text-brand-cream tracking-wide mb-6 text-center">
+        <h2 className="font-decorative text-xl sm:text-2xl text-brand-cream tracking-wide mb-6 text-center">
           Finalize Reservation
         </h2>
         
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="p-4 bg-[#141210]/80 rounded-md border border-white/5">
-            <PaymentElement 
-              options={{
-                layout: 'tabs',
-              }}
-            />
+          <div className="min-h-[200px] p-4 bg-[#141210]/80 rounded-md border border-white/5 relative">
+            {!isReady && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-brand-gold/50 animate-pulse text-sm tracking-widest uppercase">Loading Secure Payment...</div>
+              </div>
+            )}
+            <div className={!isReady ? 'invisible' : 'visible'}>
+              <PaymentElement 
+                onReady={() => setIsReady(true)}
+                options={{
+                  layout: 'tabs',
+                }}
+              />
+            </div>
           </div>
 
           {errorMessage && (
-            <div className="text-status-error text-sm text-center">
+            <div className="text-status-error text-sm text-center bg-status-error/10 border border-status-error/20 p-3 rounded">
               {errorMessage}
             </div>
           )}
 
-          <div className="flex gap-4 pt-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4">
             <Button
               type="button"
               variant="outline"
               onClick={onCancel}
               disabled={isProcessing}
               fullWidth
+              className="order-2 sm:order-1 text-xs sm:text-sm"
             >
               Cancel
             </Button>
             <Button
               type="submit"
-              disabled={!stripe || isProcessing}
+              disabled={!stripe || !isReady || isProcessing}
               isLoading={isProcessing}
               fullWidth
+              className="order-1 sm:order-2 text-xs sm:text-sm"
             >
               {isProcessing ? 'Processing...' : 'Pay Now'}
             </Button>

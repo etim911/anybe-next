@@ -112,7 +112,10 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
   const isSoldOut = totalRemaining === 0;
 
   const totalCapacity = event.capacity || Math.max(totalRemaining, 1);
-  const fillPercentage = Math.max(0, Math.min(100, ((totalCapacity - totalRemaining) / totalCapacity) * 100));
+  let fillPercentage = Math.max(0, Math.min(100, ((totalCapacity - totalRemaining) / totalCapacity) * 100));
+  if (!Number.isFinite(fillPercentage)) fillPercentage = 0;
+  // If totalRemaining is 0 (sold out), force 100% full bar
+  if (totalRemaining === 0) fillPercentage = 100;
 
   const handleSecureSpot = async (tierId: string) => {
     setSelectedTierId(tierId);
@@ -398,7 +401,7 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
                   type="text"
                   required
                   placeholder="Your Name"
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-cream placeholder-silver-dim focus:outline-none focus:border-gold/50 transition-colors"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-base text-cream placeholder-silver-dim focus:outline-none focus:border-gold/50 transition-colors"
                   value={waitlistName}
                   onChange={(e) => setWaitlistName(e.target.value)}
                 />
@@ -408,7 +411,7 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
                   type="email"
                   required
                   placeholder="Your Email"
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-cream placeholder-silver-dim focus:outline-none focus:border-gold/50 transition-colors"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-base text-cream placeholder-silver-dim focus:outline-none focus:border-gold/50 transition-colors"
                   value={waitlistEmail}
                   onChange={(e) => setWaitlistEmail(e.target.value)}
                 />

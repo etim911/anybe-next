@@ -66,7 +66,7 @@ export const EventCard: React.FC<EventCardProps> = ({
             )}
           </div>
           
-          <h3 className="font-display text-lg sm:text-xl md:text-2xl text-brand-cream mb-2 group-hover:text-brand-gold transition-colors duration-300 line-clamp-2 break-words">
+          <h3 className="font-display text-lg sm:text-xl md:text-2xl text-brand-cream mb-2 group-hover:text-brand-gold transition-colors duration-300 line-clamp-2 break-words hyphens-auto">
             {title}
           </h3>
           
