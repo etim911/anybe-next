@@ -15,14 +15,14 @@ interface Event {
   id: string;
   title: string;
   slug: string;
-  date: string;
-  location: string;
+  date?: string | null;
+  location?: string | null;
   created_at: string;
-  capacity?: number;
-  synopsis?: string;
-  image_url?: string;
+  capacity?: number | null;
+  synopsis?: string | null;
+  image_url?: string | null;
   roles?: Role[];
-  ticket_tiers?: { quantity_available: number }[];
+  ticket_tiers?: { quantity_available: number | null }[];
 }
 
 export default function EventsDashboard() {

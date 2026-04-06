@@ -37,11 +37,11 @@ interface Event {
   title: string;
   slug: string;
   description: string | null;
-  date: string;
-  location: string;
+  date?: string | null;
+  location?: string | null;
   capacity: number | null;
-  synopsis?: string;
-  image_url?: string;
+  synopsis?: string | null;
+  image_url?: string | null;
   roles?: Role[];
   ticket_tiers?: TicketTier[];
 }
@@ -103,8 +103,8 @@ export default function EventPage({ params }: PageProps) {
 
   if (!event) return null;
 
-  const formattedDate = formatEventDate(event.date);
-  const relativeDate = formatEventRelative(event.date);
+  const formattedDate = formatEventDate(event.date || null);
+  const relativeDate = formatEventRelative(event.date || null);
 
 const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
     ? event.ticket_tiers.reduce((sum, tier) => sum + (tier.quantity_available || 0), 0)
@@ -273,7 +273,7 @@ const totalRemaining = event.ticket_tiers && event.ticket_tiers.length > 0
               </svg>
               Location
             </div>
-            <div className="font-display text-sm text-cream tracking-wide">{event.location}</div>
+            <div className="font-display text-sm text-cream tracking-wide">{event.location || 'Secret Location'}</div>
           </div>
           {event.capacity && (
             <div className="text-center col-span-2">

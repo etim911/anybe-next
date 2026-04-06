@@ -6,8 +6,8 @@ import { formatEventDate, formatEventRelative } from '../../lib/dateUtils';
 export interface EventCardProps {
   slug: string;
   title: string;
-  date: string;
-  location: string;
+  date?: string | null;
+  location?: string | null;
   capacity?: number;
   price?: string;
   status: 'upcoming' | 'sold-out' | 'past';
@@ -83,7 +83,7 @@ export const EventCard: React.FC<EventCardProps> = ({
               </span>
             </p>
             <p className="flex items-center">
-              <span className="text-brand-gold/50 mr-2">✦</span> {location}
+              <span className="text-brand-gold/50 mr-2">✦</span> {location || 'Secret Location'}
             </p>
             {capacity && capacity > 0 && (
               <div className="inline-flex items-center mt-2">
