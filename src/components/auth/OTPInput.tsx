@@ -51,7 +51,7 @@ export const OTPInput: React.FC<OTPInputProps> = ({ length = 6, value, onChange,
       <label className="text-sm font-display text-cream mb-4 tracking-wide uppercase">
         Enter Security Code
       </label>
-      <div className="flex space-x-2 md:space-x-4">
+      <div className="flex gap-1 sm:gap-2 md:gap-4 justify-center">
         {otp.map((digit, index) => (
           <input
             key={index}
@@ -65,7 +65,7 @@ export const OTPInput: React.FC<OTPInputProps> = ({ length = 6, value, onChange,
             onKeyDown={(e) => handleKeyDown(index, e)}
             onPaste={handlePaste}
             className={`
-              w-11 h-12 md:w-14 md:h-16 text-center text-xl md:text-3xl font-display text-gold bg-[#141210] 
+              w-10 h-12 sm:w-12 sm:h-14 md:w-14 md:h-16 text-center text-xl md:text-3xl font-display text-gold bg-[#141210] 
               border-b-2 ${error ? 'border-red-500' : 'border-gold/30'}
               focus:outline-none focus:border-gold focus:bg-gold/5 focus:shadow-[0_0_15px_rgba(212,168,84,0.15)] transition-all duration-300
               placeholder-cream/10
