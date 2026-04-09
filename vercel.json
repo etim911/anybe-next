@@ -4,7 +4,7 @@
       "main": true,
       "dev": false,
       "qa/*": false,
-      "hotfix/*": false,
+      "hotfix/*": true,
       "polish/*": false
     }
   }
